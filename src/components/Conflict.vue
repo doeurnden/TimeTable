@@ -77,6 +77,7 @@
         padding-top: 10px;
         border-width: 3px;
         margin-left: 11px;
+        color: #dd4c39;
         
     }
     .bg{
