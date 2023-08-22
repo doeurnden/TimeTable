@@ -1,3 +1,3 @@
 <template>
-    <h1>I am Thearith</h1>
+    <h1>rith</h1>
 </template>
