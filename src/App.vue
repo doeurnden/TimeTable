@@ -4,6 +4,7 @@ import RightSideBar from './components/RightSideBar.vue';
 
 <template>
 <RightSideBar/>
+<h1>I am Sreypich</h1>
 </template>
 
 <style scoped>
