@@ -1,3 +1,3 @@
 <template>
-    <h1>Hello all Friends</h1>
+    <h1>Hello all Friends GIC</h1>
 </template>
