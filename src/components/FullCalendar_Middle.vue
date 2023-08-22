@@ -1,6 +1,5 @@
 <template>
     <div class="FullCalendar_Middle">
-
     </div>
 </template>
 
