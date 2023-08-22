@@ -1,3 +1,3 @@
 <template>
-    <h1>Hello all Friends GIC</h1>
+    <h1>I am Thearith</h1>
 </template>
