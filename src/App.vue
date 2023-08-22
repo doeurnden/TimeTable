@@ -8,7 +8,7 @@
   
   <script>
   import LeftSideBar from './components/LeftSideBar.vue'
-  import FullCalendar_Middle from './components/FullCalendar_Middle.vue'
+  import FullCalendar_Middle from './components/FullCalendarMiddle.vue'
   import RightSideBar from './components/RightSideBar.vue';
   
   export default {

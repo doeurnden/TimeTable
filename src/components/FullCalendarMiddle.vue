@@ -1,7 +1,6 @@
 <template>
     <div class="FullCalendar_Middle">
         <FullCalendar :options="calendarOptions" />
-        <h1>Hello</h1>
     </div>
 </template>
 
