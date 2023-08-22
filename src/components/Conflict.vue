@@ -28,6 +28,7 @@
 
 <style scoped>
     .container{
+        float:right;
         width: 50%;
         height: 260px;
         background-color: white;
