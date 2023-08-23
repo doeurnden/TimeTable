@@ -129,27 +129,45 @@
         width: 100%;
         border-top: 3px solid blue;
         position: absolute;
-        top: 70px;
+        top: 65px;
     }
     .select-group-week{
         width: 200px;
         height: 35px;
-        background-color: green;
+        /* background-color: green; */
         position: absolute;
         top: 20px;
-        right: 0px;
+        right: 5px;
         display: flex;
         justify-content: space-between;
     }
     .select-group-week .select-group{
         width: 96px;
-        height: 100%;
-        background-color: blue;
+        height: 35px;
+        /* background-color: blue; */
     }
-    .select-group-week .select-group{
+    .select-group-week .select-group select{
+        width: 100%;
+        height: 35px;
+        border-radius: 5px;
+        background-color: #3AA6B9;
+        color: white;
+        border: none;
+        font-size: 15px;
+    }
+    .select-group-week .select-week{
         width: 96px;
         height: 100%;
-        background-color: black;
+        /* background-color: black; */
+    }
+    .select-group-week .select-week select {
+        width: 100%;
+        height: 35px;
+        border-radius: 5px;
+        background-color: #3AA6B9;
+        color: white;
+        border: none;
+        font-size: 15px;
     }
     
 </style>
