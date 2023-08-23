@@ -87,18 +87,17 @@
                     },
                     allDaySlot: false,
                     businessHours: [ // specify an array instead
-                    {
-                        daysOfWeek: [ 1, 2, 3, 4, 5, 6 ],
-                        startTime: '7:00', 
-                        endTime: '11:00' 
-                    },
-                    {
-                        daysOfWeek: [1, 2, 3, 4, 5, 6 ],
-                        startTime: '13:00', 
-                        endTime: '18:00'
-                    }
+                        {
+                            daysOfWeek: [ 1, 2, 3, 4, 5, 6 ],
+                            startTime: '7:00', 
+                            endTime: '11:00' 
+                        },
+                        {
+                            daysOfWeek: [1, 2, 3, 4, 5, 6 ],
+                            startTime: '13:00', 
+                            endTime: '18:00'
+                        }
                     ]
-                    
                 }
             }
         },
@@ -125,6 +124,8 @@
     }
     .fullcalendar{
         margin-top: 60px;
+        padding-left: 10px;
+        padding-right: 10px;
     }
     .title-content{
         position: absolute;
@@ -133,11 +134,10 @@
     .title-content h1{
         font-size: 27px;
     }
-    .hori{
-        width: 100%;
-        border-top: 3px solid #3AA6B9;
+    .hori hr{
+        width: 97.7%;
+        border-top: 4px solid #3AA6B9;
         position: absolute;
-        top: 60px;
     }
     .select-group-week{
         width: 200px;
@@ -145,7 +145,7 @@
         /* background-color: green; */
         position: absolute;
         top: 17px;
-        right: 5px;
+        right: 8px;
         display: flex;
         justify-content: space-between;
     }
