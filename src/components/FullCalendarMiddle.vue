@@ -32,7 +32,11 @@
                 </form>
             </div>
         </div>
-            <FullCalendar :options="calendarOptions" />
+            <FullCalendar :options="calendarOptions">
+                <template v-slot:eventContent='arg'>
+                    <b>{{ arg.event.title }}</b>
+                </template>
+            </FullCalendar>
         </div>
     </div>
 </template>
@@ -75,6 +79,7 @@
                         omitZeroMinute: false,
                         meridiem: 'short'
                     },
+                    contentHeight: 'auto',
                     views:{
                     timeGridWeek: {
                         dayHeaderContent: this.customDayHeaderContent
@@ -123,20 +128,23 @@
     }
     .title-content{
         position: absolute;
-        top: 20px;
+        top: 20px;    
+    }
+    .title-content h1{
+        font-size: 27px;
     }
     .hori{
         width: 100%;
-        border-top: 3px solid blue;
+        border-top: 3px solid #3AA6B9;
         position: absolute;
-        top: 65px;
+        top: 60px;
     }
     .select-group-week{
         width: 200px;
         height: 35px;
         /* background-color: green; */
         position: absolute;
-        top: 20px;
+        top: 17px;
         right: 5px;
         display: flex;
         justify-content: space-between;
@@ -153,7 +161,10 @@
         background-color: #3AA6B9;
         color: white;
         border: none;
+        outline:0px;
         font-size: 15px;
+        padding: 3px;
+        transition: all 0.5s;
     }
     .select-group-week .select-week{
         width: 96px;
@@ -167,7 +178,15 @@
         background-color: #3AA6B9;
         color: white;
         border: none;
+        outline:0px;
         font-size: 15px;
+        padding: 3px;
+        transition: all 0.6s;
+    }
+    .select-group-week .select-group select:hover, .select-week select:hover{
+        cursor: pointer;
+        background-color: #0C356A;
+        transition: all 0.7s;
     }
     
 </style>
