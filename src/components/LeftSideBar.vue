@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar">
-    <h2><center>CONTENT</center></h2>
+    <h1><center>Content</center></h1>
     <hr>
     <!-- Academy Years -->
     <select v-model="selectedAcademyYear" class="form-select">
@@ -75,23 +75,34 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .sidebar {
   background-color: #3AA6B9;
-  padding: 20px;
   border-right: 1px solid black;
   width: 20%;
   height: 100vh;
+}
+.sidebar h1{
+  margin-top: 24px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 27px;
+}
+.sidebar hr{
+  width: 100%;
+  height: 4px;
+  background-color: white;
+  margin-top: 7px;
 }
 body{
   width: 100%;
   height: 100vh;
 }
-select {
+.sidebar select {
   width: 90%;
   height: 60px;
-  margin: 0px 0;
-  padding: 5px;
+  margin: 0px 16px;
+  margin-top: 10px;
+  padding-left: 15px;
   border-radius: 8px;
   border: #3AA6B9 solid #3AA6B9;
   /* border: solid #3AA6B9; */
@@ -102,18 +113,18 @@ select {
   color: white;
   border:0px;
   outline:0px;
+  transition: all 0.7s;
+  font-size: 17px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 select:hover{
   background-color: #d3e2e8;
   color: black;
+  transition: all 0.8s;
 }
 .form-select option{
   color: white;
   background-color: #3AA6B9;
-  padding-left: 20px;
   font-size: 15px;
-}
-option:checked{
-  border-bottom: 2px solid black;
 }
 </style>
