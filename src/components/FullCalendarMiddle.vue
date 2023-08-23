@@ -1,11 +1,45 @@
 <template>
     <div class="FullCalendar_Middle">
-        <FullCalendar :options="calendarOptions" />
+        
+        <div class="fullcalendar">
+            <div class="hori">
+            <hr>
+        </div>
+        <!-- @title -->
+        <div class="title-content">
+            <h1>Schedule Management</h1>
+        </div>
+        <!-- @button-select-group & week -->
+        <div class="select-group-week">
+            <!-- @button-group -->
+            <div class="select-group">
+                <form action="">
+                    <select name="group" id="">
+                        <option value="group A">Group A</option>
+                        <option value="group B">Group B</option>
+                        <option value="group C">Group C</option>
+                    </select>
+                </form>
+            </div>
+            <!-- @button-week -->
+            <div class="select-week">
+                <form action="">
+                    <select name="week" id="">
+                        <option value="week 1">Week 1</option>
+                        <option value="week 2">Week 2</option>
+                        <option value="week 3">Week 3</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+            <FullCalendar :options="calendarOptions" />
+        </div>
     </div>
 </template>
 
 <script>
     import FullCalendar from '@fullcalendar/vue3'
+    import timeGridPlugin from '@fullcalendar/timegrid'
     import dayGridPlugin from '@fullcalendar/daygrid'
     import interactionPlugin from '@fullcalendar/interaction'
 
@@ -16,20 +50,62 @@
         data() {
             return {
                 calendarOptions:{
-                    plugins: [dayGridPlugin, interactionPlugin],
-                    initialViews: 'dayGridPlugin, interactionPlugin',
+                    plugins: [
+                        timeGridPlugin, 
+                        interactionPlugin
+                    ],
+                    initialViews: 'weekGridPlugin, interactionPlugin',
                     dateClick: this.handleDateClick,
-                    events: [
-                        { title: 'event 1', date: '2019-04-01' },
-                        { title: 'event 2', date: '2019-04-02' }
+                    headerToolbar: {
+                    left: '',
+                    center: '',
+                    right: 'timeGridWeek'
+                    },
+                    headerToolbar: {
+                        start: '', // will normally be on the left. if RTL, will be on the right
+                        center: '',
+                        end: '' // will normally be on the right. if RTL, will be on the left  (timeGridWeek)
+                    },
+                    hiddenDays: [0],
+                    slotMinTime: '07:00:00 ',
+                    slotMaxTime: '18:00:00 ',
+                    slotLabelFormat: {
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        omitZeroMinute: false,
+                        meridiem: 'short'
+                    },
+                    views:{
+                    timeGridWeek: {
+                        dayHeaderContent: this.customDayHeaderContent
+                        }, 
+                    },
+                    allDaySlot: false,
+                    businessHours: [ // specify an array instead
+                    {
+                        daysOfWeek: [ 1, 2, 3, 4, 5, 6 ],
+                        startTime: '7:00', 
+                        endTime: '11:00' 
+                    },
+                    {
+                        daysOfWeek: [1, 2, 3, 4, 5, 6 ],
+                        startTime: '13:00', 
+                        endTime: '18:00'
+                    }
                     ]
+                    
                 }
             }
         },
         methods: {
             handleDateClick: function(arg) {
                 alert('date click! ' + arg.dateStr)
-            }
+            },
+            customDayHeaderContent(args) {
+                const date = new Date(args.date);
+                const day = date.toLocaleDateString('en-US', { weekday: 'long' }); // Change 'long' to 'short' if you prefer abbreviated names
+                return day;
+            },
         }
     }
 </script>
@@ -39,5 +115,41 @@
         width: 60%;
         height: 100%;
         /* background-color: blueviolet; */
+        font-family: Arial, Helvetica, sans-serif;
+        position: relative;
     }
+    .fullcalendar{
+        margin-top: 60px;
+    }
+    .title-content{
+        position: absolute;
+        top: 20px;
+    }
+    .hori{
+        width: 100%;
+        border-top: 3px solid blue;
+        position: absolute;
+        top: 70px;
+    }
+    .select-group-week{
+        width: 200px;
+        height: 35px;
+        background-color: green;
+        position: absolute;
+        top: 20px;
+        right: 0px;
+        display: flex;
+        justify-content: space-between;
+    }
+    .select-group-week .select-group{
+        width: 96px;
+        height: 100%;
+        background-color: blue;
+    }
+    .select-group-week .select-group{
+        width: 96px;
+        height: 100%;
+        background-color: black;
+    }
+    
 </style>
