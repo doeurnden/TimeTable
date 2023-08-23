@@ -11,6 +11,7 @@
     "@fullcalendar/core": "^6.1.8",
     "@fullcalendar/vue3": "^6.1.8",
     "fullcalendar": "^6.1.8",
+    "primeicons": "^6.0.1",
     "vue": "^3.3.4"
   },
   "devDependencies": {
