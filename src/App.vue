@@ -19,3 +19,19 @@ export default {
   }
 };
 </script>
+<style scoped>
+  *{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+  }
+  body{
+    width: 100%;
+    height: 100vh;
+  }
+  .container{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+  }
+</style>
