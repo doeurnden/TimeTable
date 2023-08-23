@@ -25,9 +25,23 @@
             <div class="select-week">
                 <form action="">
                     <select name="week" id="">
+                        <option class="optionGroup" value="week">Week</option>
                         <option value="week 1">Week 1</option>
                         <option value="week 2">Week 2</option>
                         <option value="week 3">Week 3</option>
+                        <option value="week 4">Week 4</option>
+                        <option value="week 5">Week 5</option>
+                        <option value="week 6">Week 6</option>
+                        <option value="week 7">Week 7</option>
+                        <option value="week 8">Week 8</option>
+                        <option value="week 9">Week 9</option>
+                        <option value="week 10">Week 10</option>
+                        <option value="week 11">Week 11</option>
+                        <option value="week 12">Week 12</option>
+                        <option value="week 13">Week 13</option>
+                        <option value="week 14">Week 14</option>
+                        <option value="week 15">Week 15</option>
+                        <option value="week 16">Week 16</option>
                     </select>
                 </form>
             </div>
@@ -149,6 +163,11 @@
         display: flex;
         justify-content: space-between;
     }
+    .optionGroup {
+        font-weight: bold;
+        font-style: italic;
+    }
+
     .select-group-week .select-group{
         width: 96px;
         height: 35px;
