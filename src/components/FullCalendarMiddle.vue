@@ -3,7 +3,7 @@
         <div class="fullcalendar">
             <div class="hori">
             <hr>
-        </div>
+            </div>
         <!-- @title -->
         <div class="title-content">
             <h1>Schedule Management</h1>
@@ -44,11 +44,13 @@
                 </form>
             </div>
         </div>
+        <div class="calendar-container">
             <FullCalendar :options="calendarOptions">
                 <template v-slot:eventContent='arg'>
                     <b>{{ arg.event.title }}</b>
                 </template>
             </FullCalendar>
+        </div>     
         </div>
     </div>
 </template>
@@ -78,6 +80,8 @@
                         end: ''
                     },
                     hiddenDays: [0],
+                    // slotHeight: '40px',
+                    height: 700,
                     slotMinTime: '07:00:00 ',
                     slotMaxTime: '18:00:00 ',
                     slotLabelFormat: {
