@@ -1,10 +1,9 @@
 <template>
     <div class="FullCalendar_Middle">
-        
         <div class="fullcalendar">
             <div class="hori">
             <hr>
-        </div>
+            </div>
         <!-- @title -->
         <div class="title-content">
             <h1>Schedule Management</h1>
@@ -28,15 +27,30 @@
                         <option value="week 1">Week 1</option>
                         <option value="week 2">Week 2</option>
                         <option value="week 3">Week 3</option>
+                        <option value="week 4">Week 4</option>
+                        <option value="week 5">Week 5</option>
+                        <option value="week 6">Week 6</option>
+                        <option value="week 7">Week 7</option>
+                        <option value="week 8">Week 8</option>
+                        <option value="week 9">Week 9</option>
+                        <option value="week 10">Week 10</option>
+                        <option value="week 11">Week 11</option>
+                        <option value="week 12">Week 12</option>
+                        <option value="week 13">Week 13</option>
+                        <option value="week 14">Week 14</option>
+                        <option value="week 15">Week 15</option>
+                        <option value="week 16">Week 16</option>
                     </select>
                 </form>
             </div>
         </div>
+        <div class="calendar-container">
             <FullCalendar :options="calendarOptions">
                 <template v-slot:eventContent='arg'>
                     <b>{{ arg.event.title }}</b>
                 </template>
             </FullCalendar>
+        </div>     
         </div>
     </div>
 </template>
@@ -61,16 +75,13 @@
                     initialViews: 'weekGridPlugin, interactionPlugin',
                     dateClick: this.handleDateClick,
                     headerToolbar: {
-                    left: '',
-                    center: '',
-                    right: 'timeGridWeek'
-                    },
-                    headerToolbar: {
-                        start: '', // will normally be on the left. if RTL, will be on the right
+                        start: '',
                         center: '',
-                        end: '' // will normally be on the right. if RTL, will be on the left  (timeGridWeek)
+                        end: ''
                     },
                     hiddenDays: [0],
+                    // slotHeight: '40px',
+                    height: 700,
                     slotMinTime: '07:00:00 ',
                     slotMaxTime: '18:00:00 ',
                     slotLabelFormat: {
@@ -81,31 +92,31 @@
                     },
                     contentHeight: 'auto',
                     views:{
-                    timeGridWeek: {
-                        dayHeaderContent: this.customDayHeaderContent
+                        timeGridWeek: {
+                            dayHeaderContent: this.customDayHeaderContent
                         }, 
                     },
                     allDaySlot: false,
-                    businessHours: [ // specify an array instead
-                    {
-                        daysOfWeek: [ 1, 2, 3, 4, 5, 6 ],
-                        startTime: '7:00', 
-                        endTime: '11:00' 
-                    },
-                    {
-                        daysOfWeek: [1, 2, 3, 4, 5, 6 ],
-                        startTime: '13:00', 
-                        endTime: '18:00'
-                    }
-                    ]
+                    businessHours: [
+                        {
+                            daysOfWeek: [ 1, 2, 3, 4, 5, 6 ],
+                            startTime: '7:00', 
+                            endTime: '11:00' 
+                        },
+                        {
+                            daysOfWeek: [1, 2, 3, 4, 5, 6 ],
+                            startTime: '13:00', 
+                            endTime: '18:00'
+                        }
+                    ],
                     
                 }
             }
         },
         methods: {
-            handleDateClick: function(arg) {
-                alert('date click! ' + arg.dateStr)
-            },
+            // handleDateClick: function(arg) {
+            //     alert('date click! ' + arg.dateStr)
+            // },
             customDayHeaderContent(args) {
                 const date = new Date(args.date);
                 const day = date.toLocaleDateString('en-US', { weekday: 'long' }); // Change 'long' to 'short' if you prefer abbreviated names
@@ -125,6 +136,8 @@
     }
     .fullcalendar{
         margin-top: 60px;
+        padding-left: 10px;
+        padding-right: 10px;
     }
     .title-content{
         position: absolute;
@@ -133,11 +146,10 @@
     .title-content h1{
         font-size: 27px;
     }
-    .hori{
-        width: 100%;
-        border-top: 3px solid #3AA6B9;
+    .hori hr{
+        width: 97.7%;
+        border-top: 4px solid #3AA6B9;
         position: absolute;
-        top: 60px;
     }
     .select-group-week{
         width: 200px;
@@ -145,7 +157,7 @@
         /* background-color: green; */
         position: absolute;
         top: 17px;
-        right: 5px;
+        right: 8px;
         display: flex;
         justify-content: space-between;
     }
@@ -187,6 +199,5 @@
         cursor: pointer;
         background-color: #0C356A;
         transition: all 0.7s;
-    }
-    
+    }  
 </style>
