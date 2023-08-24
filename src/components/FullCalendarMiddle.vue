@@ -3,7 +3,7 @@
         <div class="fullcalendar">
             <div class="hori">
             <hr>
-            </div>
+        </div>
         <!-- @title -->
         <div class="title-content">
             <h1>Schedule Management</h1>
@@ -23,34 +23,17 @@
             <!-- @button-week -->
             <div class="select-week">
                 <form action="">
-                    <select name="week" id="">
-                        <option value="week 1">Week 1</option>
-                        <option value="week 2">Week 2</option>
-                        <option value="week 3">Week 3</option>
-                        <option value="week 4">Week 4</option>
-                        <option value="week 5">Week 5</option>
-                        <option value="week 6">Week 6</option>
-                        <option value="week 7">Week 7</option>
-                        <option value="week 8">Week 8</option>
-                        <option value="week 9">Week 9</option>
-                        <option value="week 10">Week 10</option>
-                        <option value="week 11">Week 11</option>
-                        <option value="week 12">Week 12</option>
-                        <option value="week 13">Week 13</option>
-                        <option value="week 14">Week 14</option>
-                        <option value="week 15">Week 15</option>
-                        <option value="week 16">Week 16</option>
-                    </select>
+                    <select name="week" v-model="selectedWeek">
+                        <option class="option" :value="`week${weekNumber}`" v-for="weekNumber in 16" :key="weekNumber">
+                        Week {{ weekNumber }}
+                        </option>
+                    </select> 
                 </form>
             </div>
         </div>
-        <div class="calendar-container">
             <FullCalendar :options="calendarOptions">
-                <template v-slot:eventContent='arg'>
-                    <b>{{ arg.event.title }}</b>
-                </template>
+
             </FullCalendar>
-        </div>     
         </div>
     </div>
 </template>
@@ -67,6 +50,10 @@
         },
         data() {
             return {
+
+
+                
+                selectedWeek: 'week1', //set week 1 as default
                 calendarOptions:{
                     plugins: [
                         timeGridPlugin, 
@@ -81,7 +68,6 @@
                     },
                     hiddenDays: [0],
                     // slotHeight: '40px',
-                    height: 700,
                     slotMinTime: '07:00:00 ',
                     slotMaxTime: '18:00:00 ',
                     slotLabelFormat: {
