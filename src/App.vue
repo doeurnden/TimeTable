@@ -10,7 +10,7 @@
   import LeftSideBar from './components/LeftSideBar.vue'
   import FullCalendar_Middle from './components/FullCalendarMiddle.vue'
   import RightSideBar from './components/RightSideBar.vue';
-  import timeGridPlugin from '@fullcalendar/timegrid'
+  // import timeGridPlugin from '@fullcalendar/timegrid'
   
   export default {
     components: {
@@ -21,9 +21,25 @@
   };
 </script>
 
-<template>
-<RightSideBar/>
-<h1>I am Sreypich</h1>
-</template>
 
+<style>
+*{
+      margin: 0px;
+      padding: 0px;
+      box-sizing: border-box;
+    }
+    body{
+      width: 100%;
+      height: 100vh;
+      /* background-color: green; */
+    }
+    .container{
+      width: 100%;
+      height: 100%;
+      display: flex;
+    }
+  .container{
+    display: flex;
+  }
 </style>
+
