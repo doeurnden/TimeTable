@@ -79,19 +79,19 @@ export default {
 .sidebar {
   background-color: #3AA6B9;
   border-right: 1px solid black;
-  width: 20%;
+  width: 15%;
   height: 100vh;
 }
 .sidebar h1{
-  margin-top: 24px;
+  padding-top: 20px;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 27px;
 }
 .sidebar hr{
-  width: 100%;
-  height: 4px;
+  width: 95%;
   background-color: white;
-  margin-top: 7px;
+  padding-top: 2px;
+  margin: 8px auto;
 }
 body{
   width: 100%;
@@ -100,7 +100,7 @@ body{
 .sidebar select {
   width: 90%;
   height: 60px;
-  margin: 0px 16px;
+  margin: 0px 13px;
   margin-top: 10px;
   padding-left: 15px;
   border-radius: 8px;

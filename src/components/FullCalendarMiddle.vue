@@ -117,7 +117,7 @@
 
 <style scoped>
     .FullCalendar_Middle{
-        width: 60%;
+        width: 65%;
         height: 100%;
         /* background-color: blueviolet; */
         font-family: Arial, Helvetica, sans-serif;
