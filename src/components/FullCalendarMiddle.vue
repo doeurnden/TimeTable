@@ -127,8 +127,9 @@
     }
     .hori hr{
         width: 97.7%;
-        height: 4px;
+        height: 5px;
         color:#3AA6B9;
+        background-color:#3AA6B9;
         position: absolute;
     }
     .select-group-week{
