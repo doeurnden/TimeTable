@@ -50,9 +50,6 @@
         },
         data() {
             return {
-
-
-                
                 selectedWeek: 'week1', //set week 1 as default
                 calendarOptions:{
                     plugins: [
@@ -67,7 +64,6 @@
                         end: ''
                     },
                     hiddenDays: [0],
-                    // slotHeight: '40px',
                     slotMinTime: '07:00:00 ',
                     slotMaxTime: '18:00:00 ',
                     slotLabelFormat: {
@@ -100,9 +96,6 @@
             }
         },
         methods: {
-            // handleDateClick: function(arg) {
-            //     alert('date click! ' + arg.dateStr)
-            // },
             customDayHeaderContent(args) {
                 const date = new Date(args.date);
                 const day = date.toLocaleDateString('en-US', { weekday: 'long' }); // Change 'long' to 'short' if you prefer abbreviated names
@@ -114,7 +107,7 @@
 
 <style scoped>
     .FullCalendar_Middle{
-        width: 60%;
+        width: 65%;
         height: 100%;
         /* background-color: blueviolet; */
         font-family: Arial, Helvetica, sans-serif;
@@ -134,7 +127,8 @@
     }
     .hori hr{
         width: 97.7%;
-        border-top: 4px solid #3AA6B9;
+        height: 4px;
+        color:#3AA6B9;
         position: absolute;
     }
     .select-group-week{
