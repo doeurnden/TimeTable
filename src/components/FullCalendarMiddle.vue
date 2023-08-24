@@ -1,6 +1,5 @@
 <template>
     <div class="FullCalendar_Middle">
-        
         <div class="fullcalendar">
             <div class="hori">
             <hr>
@@ -25,7 +24,6 @@
             <div class="select-week">
                 <form action="">
                     <select name="week" id="">
-                        <option class="optionGroup" value="week">Week</option>
                         <option value="week 1">Week 1</option>
                         <option value="week 2">Week 2</option>
                         <option value="week 3">Week 3</option>
@@ -75,14 +73,9 @@
                     initialViews: 'weekGridPlugin, interactionPlugin',
                     dateClick: this.handleDateClick,
                     headerToolbar: {
-                    left: '',
-                    center: '',
-                    right: 'timeGridWeek'
-                    },
-                    headerToolbar: {
-                        start: '', // will normally be on the left. if RTL, will be on the right
+                        start: '',
                         center: '',
-                        end: '' // will normally be on the right. if RTL, will be on the left  (timeGridWeek)
+                        end: ''
                     },
                     hiddenDays: [0],
                     slotMinTime: '07:00:00 ',
@@ -95,12 +88,12 @@
                     },
                     contentHeight: 'auto',
                     views:{
-                    timeGridWeek: {
-                        dayHeaderContent: this.customDayHeaderContent
+                        timeGridWeek: {
+                            dayHeaderContent: this.customDayHeaderContent
                         }, 
                     },
                     allDaySlot: false,
-                    businessHours: [ // specify an array instead
+                    businessHours: [
                         {
                             daysOfWeek: [ 1, 2, 3, 4, 5, 6 ],
                             startTime: '7:00', 
@@ -111,14 +104,15 @@
                             startTime: '13:00', 
                             endTime: '18:00'
                         }
-                    ]
+                    ],
+                    
                 }
             }
         },
         methods: {
-            handleDateClick: function(arg) {
-                alert('date click! ' + arg.dateStr)
-            },
+            // handleDateClick: function(arg) {
+            //     alert('date click! ' + arg.dateStr)
+            // },
             customDayHeaderContent(args) {
                 const date = new Date(args.date);
                 const day = date.toLocaleDateString('en-US', { weekday: 'long' }); // Change 'long' to 'short' if you prefer abbreviated names
@@ -163,11 +157,6 @@
         display: flex;
         justify-content: space-between;
     }
-    .optionGroup {
-        font-weight: bold;
-        font-style: italic;
-    }
-
     .select-group-week .select-group{
         width: 96px;
         height: 35px;
@@ -206,6 +195,5 @@
         cursor: pointer;
         background-color: #0C356A;
         transition: all 0.7s;
-    }
-    
+    }  
 </style>
