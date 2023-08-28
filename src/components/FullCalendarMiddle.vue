@@ -46,7 +46,8 @@
 
     export default{
         components: {
-            FullCalendar
+            FullCalendar,
+            dayGridPlugin
         },
         data() {
             return {
@@ -90,8 +91,7 @@
                             startTime: '13:00', 
                             endTime: '18:00'
                         }
-                    ],
-                    
+                    ],  
                 }
             }
         },
@@ -131,6 +131,7 @@
         color:#3AA6B9;
         background-color:#3AA6B9;
         position: absolute;
+        border: none;
     }
     .select-group-week{
         width: 200px;

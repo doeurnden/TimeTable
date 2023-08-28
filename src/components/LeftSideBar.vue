@@ -89,9 +89,10 @@ export default {
 }
 .sidebar hr{
   width: 95%;
-  height: 4px;
+  height: 5px;
   background-color: white;
   margin: 7px auto;
+  border: none;
 }
 body{
   width: 100%;
