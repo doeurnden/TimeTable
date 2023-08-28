@@ -16,7 +16,7 @@ export default {
   components: {
     LeftSideBar,
     FullCalendar_Middle,
-    RightSideBar
+    // RightSideBar
   }
 };
 </script>
