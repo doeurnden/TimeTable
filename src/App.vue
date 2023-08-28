@@ -1,9 +1,9 @@
 <template>
-  <div class="container">
-    <LeftSideBar />
-    <FullCalendar_Middle />
-    <RightSideBar />
-  </div>
+    <div class="container">
+      <LeftSideBar />
+      <FullCalendar_Middle/>
+      <RightSideBar/>
+    </div>
 </template>
   
 <script>
@@ -21,22 +21,22 @@ export default {
 };
 </script>
 
-<style scoped>
-* {
-  margin: 0px;
-  padding: 0px;
-  box-sizing: border-box;
-}
 
-body {
-  width: 100%;
-  height: 100vh;
-  /* background-color: green; */
-}
-
-.container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-}
+<style>
+  *{
+      margin: 0px;
+      padding: 0px;
+      box-sizing: border-box;
+  }
+    body{
+      width: 100%;
+      height: 100vh;
+      /* background-color: green; */
+    }
+    .container{
+      width: 100%;
+      height: 100%;
+      display: flex;
+    }
 </style>
+

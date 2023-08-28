@@ -14,7 +14,7 @@
         <!-- course  -->
         <div class="sub-container" v-if="activeButton === 1">
             <div class="search">
-                <input type="text" placeholder="search subject">
+                <input type="text" placeholder="Search subject ..">
                 <i class="icon pi pi-search"></i>
             </div>
             <div class="data">
@@ -25,9 +25,9 @@
                             <i class="icon pi pi-ellipsis-v"></i>
                         </div>
                         <div class="course-info">
-                            <div>Internet Programming</div>
+                            <div><h1>Internet Programming</h1></div>
                             <div class="btn"><button>Unsigned</button></div>
-                            <div>TP : 16 H</div>
+                            <div><h1>TP : 16 H</h1></div>
                         </div>
                     </div>
 
@@ -37,9 +37,9 @@
                             <i class="icon pi pi-ellipsis-v"></i>
                         </div>
                         <div class="course-info">
-                            <div>Internet Programming</div>
+                            <div><h1>Internet Programming</h1></div>
                             <div class="btn"><button>Unsigned</button></div>
-                            <div> TP : 16 H</div>
+                            <div><h1>TP : 16 H</h1></div>
                         </div>
                     </div>
 
@@ -49,9 +49,9 @@
                             <i class="icon pi pi-ellipsis-v"></i>
                         </div>
                         <div class="course-info">
-                            <div>Internet Programming</div>
+                            <div><h1>Internet Programming</h1></div>
                             <div class="btn"><button>Unsigned</button></div>
-                            <div>TP : 16 H</div>
+                            <div><h1>TP : 16 H</h1></div>
                         </div>
                     </div>
 
@@ -61,9 +61,9 @@
                             <i class="icon pi pi-ellipsis-v"></i>
                         </div>
                         <div class="course-info">
-                            <div>Internet Programming</div>
+                            <div><h1>Internet Programming</h1></div>
                             <div class="btn"><button>Unsigned</button></div>
-                            <div> TP : 16 H</div>
+                            <div><h1>TP : 16 H</h1></div>
                         </div>
                     </div>
 
@@ -73,9 +73,9 @@
                             <i class="icon pi pi-ellipsis-v"></i>
                         </div>
                         <div class="course-info">
-                            <div>Internet Programming</div>
+                            <div><h1>Internet Programming</h1></div>
                             <div class="btn"><button>Unsigned</button></div>
-                            <div>TP : 16 H</div>
+                            <div><h1>TP : 16 H</h1></div>
                         </div>
                     </div>
 
@@ -85,9 +85,9 @@
                             <i class="icon pi pi-ellipsis-v"></i>
                         </div>
                         <div class="course-info">
-                            <div>Internet Programming</div>
+                            <div><h1>Internet Programming</h1></div>
                             <div class="btn"><button>Unsigned</button></div>
-                            <div> TP : 16 H</div>
+                            <div><h1>TP : 16 H</h1></div>
                         </div>
                     </div>
 
@@ -97,9 +97,9 @@
                             <i class="icon pi pi-ellipsis-v"></i>
                         </div>
                         <div class="course-info">
-                            <div>Internet Programming</div>
+                            <div><h1>Internet Programming</h1></div>
                             <div class="btn"><button>Unsigned</button></div>
-                            <div>TP : 16 H</div>
+                            <div><h1>TP : 16 H</h1></div>
                         </div>
                     </div>
 
@@ -109,9 +109,9 @@
                             <i class="icon pi pi-ellipsis-v"></i>
                         </div>
                         <div class="course-info">
-                            <div>Internet Programming</div>
+                            <div><h1>Internet Programming</h1></div>
                             <div class="btn"><button>Unsigned</button></div>
-                            <div> TP : 16 H</div>
+                            <div><h1>TP : 16 H</h1></div>
                         </div>
                     </div>
                     <div class="item">
@@ -120,32 +120,9 @@
                             <i class="icon pi pi-ellipsis-v"></i>
                         </div>
                         <div class="course-info">
-                            <div>Internet Programming</div>
+                            <div><h1>Internet Programming</h1></div>
                             <div class="btn"><button>Unsigned</button></div>
-                            <div>TP : 16 H</div>
-                        </div>
-                    </div>
-
-                    <div class="item">
-                        <div class="icons">
-                            <i class="icon pi pi-ellipsis-v"></i>
-                            <i class="icon pi pi-ellipsis-v"></i>
-                        </div>
-                        <div class="course-info">
-                            <div>Internet Programming</div>
-                            <div class="btn"><button>Unsigned</button></div>
-                            <div> TP : 16 H</div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="icons">
-                            <i class="icon pi pi-ellipsis-v"></i>
-                            <i class="icon pi pi-ellipsis-v"></i>
-                        </div>
-                        <div class="course-info">
-                            <div>Internet Programming</div>
-                            <div class="btn"><button>Unsigned</button></div>
-                            <div>TP : 16 H</div>
+                            <div><h1>TP : 16 H</h1></div>
                         </div>
                     </div>
 
@@ -155,9 +132,9 @@
                             <i class="icon pi pi-ellipsis-v"></i>
                         </div>
                         <div class="course-info">
-                            <div>Internet Programming</div>
+                            <div><h1>Internet Programming</h1></div>
                             <div class="btn"><button>Unsigned</button></div>
-                            <div> TP : 16 H</div>
+                            <div><h1>TP : 16 H</h1></div>
                         </div>
                     </div>
                     <div class="item">
@@ -166,9 +143,9 @@
                             <i class="icon pi pi-ellipsis-v"></i>
                         </div>
                         <div class="course-info">
-                            <div>Internet Programming</div>
+                            <div><h1>Internet Programming</h1></div>
                             <div class="btn"><button>Unsigned</button></div>
-                            <div>TP : 16 H</div>
+                            <div><h1>TP : 16 H</h1></div>
                         </div>
                     </div>
 
@@ -178,9 +155,32 @@
                             <i class="icon pi pi-ellipsis-v"></i>
                         </div>
                         <div class="course-info">
-                            <div>Internet Programming</div>
+                            <div><h1>Internet Programming</h1></div>
                             <div class="btn"><button>Unsigned</button></div>
-                            <div> TP : 16 H</div>
+                            <div><h1>TP : 16 H</h1></div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="icons">
+                            <i class="icon pi pi-ellipsis-v"></i>
+                            <i class="icon pi pi-ellipsis-v"></i>
+                        </div>
+                        <div class="course-info">
+                            <div><h1>Internet Programming</h1></div>
+                            <div class="btn"><button>Unsigned</button></div>
+                            <div><h1>TP : 16 H</h1></div>
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <div class="icons">
+                            <i class="icon pi pi-ellipsis-v"></i>
+                            <i class="icon pi pi-ellipsis-v"></i>
+                        </div>
+                        <div class="course-info">
+                            <div><h1>Internet Programming</h1></div>
+                            <div class="btn"><button>Unsigned</button></div>
+                            <div><h1>TP : 16 H</h1></div>
                         </div>
                     </div>
 
@@ -190,7 +190,7 @@
         <!-- room  -->
         <div class="sub-container" v-if="activeButton === 2">
             <div class="search">
-                <input type="text" placeholder="search room">
+                <input type="text" placeholder="Search room ..">
                 <i class="icon pi pi-search"></i>
             </div>
             <div class="data">
@@ -207,25 +207,7 @@
                     <div class="item-room">
                         <div class="room-number"><h3>A - 201</h3></div>
                         <div class="room-name">
-                            <h3>Office</h3>
-                            <p>N/A Desk</p>
-                            <p>N/A Chair</p>
-                        </div>
-                    </div>
-
-                    <div class="item-room">
-                        <div class="room-number"><h3>A - 201</h3></div>
-                        <div class="room-name">
-                            <h3>Office</h3>
-                            <p>N/A Desk</p>
-                            <p>N/A Chair</p>
-                        </div>
-                    </div>
-
-                    <div class="item-room">
-                        <div class="room-number"><h3>A - 201</h3></div>
-                        <div class="room-name">
-                            <h3>Office</h3>
+                            <h3>Conference Room</h3>
                             <p>N/A Desk</p>
                             <p>N/A Chair</p>
                         </div>
@@ -339,29 +321,13 @@
                             <p>N/A Chair</p>
                         </div>
                     </div>
-                    <div class="item-room">
-                        <div class="room-number"><h3>A - 201</h3></div>
-                        <div class="room-name">
-                            <h3>Office</h3>
-                            <p>N/A Desk</p>
-                            <p>N/A Chair</p>
-                        </div>
-                    </div>
-                    <div class="item-room">
-                        <div class="room-number"><h3>A - 201</h3></div>
-                        <div class="room-name">
-                            <h3>Office</h3>
-                            <p>N/A Desk</p>
-                            <p>N/A Chair</p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
         <!-- lecturer -->
         <div class="sub-container" v-if="activeButton === 3">
             <div class="search">
-                <input type="text" placeholder="search lecturer">
+                <input type="text" placeholder="Search lecturer ..">
                 <i class="icon pi pi-search"></i>
             </div>
             <div class="data">
@@ -661,6 +627,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div class="item-lecturer">
                         <div class="icon">
                             <img src="../assets/image/avatar.png" alt="avatar">
@@ -674,33 +641,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="item-lecturer">
-                        <div class="icon">
-                            <img src="../assets/image/avatar.png" alt="avatar">
-                        </div>
-                        <div class="info">
-                            <h4>No ID Card | Admin</h4>
-                            <p>Admin</p>
-                            <div class="depart-gen">
-                                <div><i class="icon pi pi-home"></i>GIC</div>
-                                <div><i class="icon pi pi-user"></i>M</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item-lecturer">
-                        <div class="icon">
-                            <img src="../assets/image/avatar.png" alt="avatar">
-                        </div>
-                        <div class="info">
-                            <h4>No ID Card | Admin</h4>
-                            <p>Admin</p>
-                            <div class="depart-gen">
-                                <div><i class="icon pi pi-home"></i>GIC</div>
-                                <div><i class="icon pi pi-user"></i>M</div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -724,202 +664,281 @@ export default {
 </script>
 
 <style scoped>
-/* navbar button color change */
-button.navbars.course.active {
-  background-color: #0c356a;
-}
-button.navbars.room.active {
-  background-color: #0c356a;
-}
-button.navbars.lecturer.active {
-  background-color: #0c356a;
-}
-/* container */
-.contianer {
-    width: 20%;
-    height: 100vh;
-    /* background-color: rgb(190, 190, 190); */
-    font-family: Arial, Helvetica, sans-serif;
-}
+    /* navbar button color change */
+    button.navbars.course.active, button.navbars.room.active, button.navbars.lecturer.active {
+      background-color: #0c356a;
+    }
+    
+    /* container */
+    .contianer {
+        width: 20%;
+        height: 94.6vh;
+        /* background-color: rgb(190, 190, 190); */
+        font-family: Arial, Helvetica, sans-serif;
+        padding-right: 7px;
+    }
 
-/* navbar */
-.contianer .navbar {
-    width: 100%;
-    height: 6%;
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
-    /* background-color: antiquewhite; */
-    padding-bottom: 5px;
-    /* padding-left: 5%; */
-}
+    /* navbar */
+    .contianer .navbar {
+        width: 100%;
+        height: 35px;
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        /* background-color: antiquewhite; */
+        padding-bottom: 5px;
+        /* padding-left: 5%; */
+        position: relative;
+    }
 
-.contianer .navbar .navbars {
-    border: 1px solid black;
-}
+    .contianer .navbar .navbars {
+        width: 84px;
+        height: 35px;
+        border: none;
+        border-radius: 5px;
+        background-color: #3aa6b9;
+        color: white;
+        position: absolute;
+        transition: all 0.6s;
+    }
 
-:hover {
-    cursor: pointer;
-}
+    .contianer .navbar .navbars:nth-child(1){
+        top: 17px;
+    }
+    .contianer .navbar .navbars:nth-child(2){
+        top: 17px;
+        left: 92px;
+    }
+    .contianer .navbar .navbars:nth-child(3){
+        top: 17px;
+        left: 184px;
+    }
 
-.contianer .navbar .navbars {
-    width: 30%;
-    height: 70%;
-    border: none;
-    border-radius: 5px;
-    background-color: #3aa6b9;
-    color: white;
-}
+    .contianer .navbar .navbars:hover {
+        background-color: #0c356a;
+        transition: all 0.6s;
+    }
+    .contianer .navbar .navbars span{
+        font-size: 15px;
+    }
+    .contianer .navbar .navbars span .icon {
+        padding-right: 9px;
+    }
 
-.contianer .navbar .navbars:hover {
-    background-color: #0c356a;
-}
+    /* .sub-container */
+    .contianer .sub-container {
+        width: 100%;
+        height: 95%;
+        /* background-color: aqua; */
+    }
 
-.contianer .navbar .navbars span .icon {
-    padding-right: .5rem;
-}
+    /* .search */
+    .contianer .sub-container .search {
+        width: 100%;
+        height: 35px;
+        /* background-color: aqua; */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* border: 1px solid black; */
+        margin-top: 35px;
+        margin-bottom: 10px;
+        outline:0px;
+    }
 
-/* .sub-container */
-.contianer .sub-container {
-    width: 100%;
-    height: 95%;
-    /* background-color: aqua; */
-}
+    .contianer .sub-container .search input{
+        width: 100%;
+        padding: .4rem;
+        outline: none;
+        position: relative;
+        font-size: 16px;
+        /* background-color: #EEEEEE; */
+        border: 1px solid #B2B2B2;
+        border-radius: 3px;
+    }
+    .contianer .sub-container .search input::placeholder{
+        font-size: 15px;
+        padding-left: 4px;
+        font-weight: medium;
+        color: #9DB2BF;
+    }
 
-/* .search */
-.contianer .sub-container .search {
-    width: 100%;
-    height: 5%;
-    /* background-color: aqua; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid black;
-    margin: .5rem 0;
-}
+    .contianer .sub-container .search .icon {
+        position: absolute;
+        right: 0.45rem;
+        width: 43px;
+        height: 33px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #35A29F;
+        border-radius: 3px;
+        color: white;
+        transition: all 0.6s;
+    }
+    .contianer .sub-container .search .icon:hover{
+        cursor: pointer;
+        background-color: #3E7C17;
+        transition: all 0.6s;
+    }
+    .contianer .sub-container .data {
+        width: 100%;
+        height: 92.4%;
+        background-color: rgb(255, 255, 255);
+        border: 1px solid #B2B2B2;
+        border-radius: 3px;
+    }
 
-.contianer .sub-container .search input {
-    width: 90%;
-    padding: .3rem;
-    outline: none;
-    position: relative;
-}
+    .contianer .sub-container .data .items {
+        width: 95%;
+        height: 95%;
+        background-color: #ece8e8;
+        /* padding: 5%; */
+        margin: 3%;
+        overflow-y: scroll;
+        border-radius: 3px;
+    }
+    /* item course  */
+    .contianer .sub-container .data .items .item {
+        height: 80px;
+        /* width: 100%; */
+        background-color: #ffffff;
+        /* padding: 5%; */
+        margin: 4.5%;
+        transition: all 0.4s;
+        border-left: 2px solid #ff0000;
+        border-radius: 3px;
+    }
 
-.contianer .sub-container .search .icon {
-    position: absolute;
-    right: 2rem;
-}
+    .contianer .sub-container .data .items .item:hover {
+        background-color: #A7ECEE;
+        box-shadow: -2px 2px 6px -4px rgba(0,0,0,0.79);
+        cursor: all-scroll;
+        transition: all 0.4s;
+    }
 
-.contianer .sub-container .data {
-    width: 100%;
-    height: 92.2%;
-    background-color: rgb(255, 255, 255);
-    border: 1px solid black;
-}
+    .contianer .sub-container .data .items .item .icons {
+        width: 100%;
+        height: 20%;
+        /* background-color: aliceblue; */
+        font-size:  12px;
+        display: flex;
+        align-items: center;
+        padding: 12px 0px 12px 6px;
+    }
 
-.contianer .sub-container .data .items {
-    width: 90%;
-    height: 95%;
-    background-color: #ece8e8;
-    /* padding: 5%; */
-    margin: 5%;
-    overflow-y: scroll;
-}
-/* item course  */
-.contianer .sub-container .data .items .item {
-    height: 15%;
-    /* width: 100%; */
-    background-color: #ffffff;
-    /* padding: 5%; */
-    margin: 5%;
-    /* margin-top: 10%; */
-    border-left: 2px solid #ff0000;
-}
+    .contianer .sub-container .data .items .item .course-info {
+        height: 70%;
+        width: 100%;
+        background-color: aliceblue;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        padding-left: 5%;
+        border-radius: 3px;
+    }
+    .contianer .sub-container .data .items .item .course-info h1{
+        font-size: 15px;
+    }
 
-.contianer .sub-container .data .items .item:hover {
-    cursor: pointer;
-}
-
-.contianer .sub-container .data .items .item .icons {
-    height: 30%;
-    width: 100%;
-    /* background-color: aliceblue; */
-    /* padding: 0;
-    margin: 0; */
-    display: flex;
-    align-items: center;
-    padding-left: .5rem;
-}
-
-.contianer .sub-container .data .items .item .course-info {
-    height: 70%;
-    width: 100%;
-    background-color: aliceblue;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    padding-left: 5%;
-}
-
-.contianer .sub-container .data .items .item .course-info .btn button {
-    color: white;
-    background-color: #ff0000;
-    border: none;
-    border-radius: 5px;
-    padding: .2rem;
-}
-/* item-room */
-.contianer .sub-container .data .items .item-room{
-    height: 15%;
-    background-color: #ffffff;
-    margin: 5%;
-    /* border-left: 2px solid #ff0000; */
-    display: flex;
-}
-.contianer .sub-container .data .items .item-room .room-number{
-    width: 30%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #71dcfe;
-    color: white;
-}
-.contianer .sub-container .data .items .item-room .room-name{
-    width: 70%;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    padding-top: 1rem;
-    padding-left: .5rem;
-}
-/* item-lecturer */
-.contianer .sub-container .data .items .item-lecturer{
-    height: 15%;
-    background-color: #ffffff;
-    margin: 5%;
-    border-left: 2px solid #002aff;
-    display: flex;
-}
-.contianer .sub-container .data .items .item-lecturer .icon{
-    width: 20%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-}.contianer .sub-container .data .items .item-lecturer .icon img{
-    width: 100%;
-}
-.contianer .sub-container .data .items .item-lecturer .info{
-    width: 80%;
-    padding-top: 1rem;
-    padding-left: .5rem;
-}
-.contianer .sub-container .data .items .item-lecturer .info .depart-gen{
-    width: 100%;
-    display: flex;
-    /* gap: .5rem; */
-}
-.contianer .sub-container .data .items .item-lecturer .info .depart-gen div{
-    width: 50%;
-    display: flex;
-}
+    .contianer .sub-container .data .items .item .course-info .btn button {
+        color: white;
+        background-color: #ff0000;
+        border: none;
+        border-radius: 5px;
+        padding: .2rem;
+        font-size: 12px;
+    }
+    /* item-room */
+    .contianer .sub-container .data .items .item-room{
+        height: 83px;
+        background-color: #ffffff;
+        margin: 5%;
+        /* border-left: 2px solid #ff0000; */
+        display: flex;
+        transition: all 0.4s;
+        border-radius: 3px;
+    }
+    .contianer .sub-container .data .items .item-room:hover{
+        background-color: #ECF2FF;
+        box-shadow: -2px 2px 6px -4px rgba(0,0,0,0.75);
+        cursor: pointer;
+        transition: all 0.4s;
+    }
+    .contianer .sub-container .data .items .item-room .room-number{
+        width: 78px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #71dcfe;
+        color: white;
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+    }
+    .contianer .sub-container .data .items .item-room .room-number h3{
+        font-size: 21px;
+    }
+    .contianer .sub-container .data .items .item-room .room-name{
+        width: 108px;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        padding-top: 0.45rem;
+        padding-left: .5rem;
+    }
+    .contianer .sub-container .data .items .item-room .room-name h3{
+        font-size: 18px;
+        padding-bottom: 4.60px;
+    }
+    .contianer .sub-container .data .items .item-room .room-name p{
+        font-size: 12px;
+    }
+    /* item-lecturer */
+    .contianer .sub-container .data .items .item-lecturer{
+        height: 85px;
+        background-color: #ffffff;
+        border-left: 2px solid #002aff;
+        border-radius: 3px;
+        display: flex;
+        margin: 4.5%;
+        transition: all 0.5s;
+    }
+    .contianer .sub-container .data .items .item-lecturer:hover{
+        background-color: #ECF2FF;
+        box-shadow: -2px 2px 6px -4px rgba(0,0,0,0.75);
+        cursor: pointer;
+        transition: all 0.5s;
+    }
+    .contianer .sub-container .data .items .item-lecturer .icon{
+        width: 20%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }.contianer .sub-container .data .items .item-lecturer .icon img{
+        width: 100%;
+        object-fit: cover;
+    }
+    .contianer .sub-container .data .items .item-lecturer .info{
+        width: 80%;
+        padding-top: 0.57rem;
+        padding-left: .5rem;
+    }
+    .contianer .sub-container .data .items .item-lecturer .info h4{
+        font-size: 16px;
+        padding-bottom: 5px;
+    }
+    .contianer .sub-container .data .items .item-lecturer .info p{
+        font-size: 14px;
+    }
+    .contianer .sub-container .data .items .item-lecturer .info .depart-gen{
+        width: 100%;
+        display: flex;
+        /* gap: .5rem; */
+    }
+    .contianer .sub-container .data .items .item-lecturer .info .depart-gen div{
+        width: 50%;
+        display: flex;
+        font-size: 12px;
+        padding-top: 9.3px;
+    }
 </style>

@@ -83,15 +83,16 @@ export default {
   height: 100vh;
 }
 .sidebar h1{
-  padding-top: 20px;
+  margin-top: 22px;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 27px;
 }
 .sidebar hr{
   width: 95%;
+  height: 5px;
   background-color: white;
-  padding-top: 2px;
-  margin: 8px auto;
+  margin: 7px auto;
+  border: none;
 }
 body{
   width: 100%;
@@ -100,7 +101,7 @@ body{
 .sidebar select {
   width: 90%;
   height: 60px;
-  margin: 0px 13px;
+  margin: 0px 16px;
   margin-top: 10px;
   padding-left: 15px;
   border-radius: 8px;
