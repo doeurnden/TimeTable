@@ -337,7 +337,7 @@
                             <img src="../assets/image/avatar.png" alt="avatar">
                         </div>
                         <div class="info">
-                            <h4>No ID Card | Admin</h4>
+                            <h4>No ID Card | Chhun Thavorac</h4>
                             <p>Admin</p>
                             <div class="depart-gen">
                                 <div><i class="icon pi pi-home"></i>GIC</div>
@@ -717,6 +717,7 @@ export default {
     .contianer .navbar .navbars:hover {
         background-color: #0c356a;
         transition: all 0.6s;
+        cursor: pointer;
     }
     .contianer .navbar .navbars span{
         font-size: 15px;
@@ -920,12 +921,12 @@ export default {
     }
     .contianer .sub-container .data .items .item-lecturer .info{
         width: 80%;
-        padding-top: 0.57rem;
+        padding-top: 0.55rem;
         padding-left: .5rem;
     }
     .contianer .sub-container .data .items .item-lecturer .info h4{
-        font-size: 16px;
-        padding-bottom: 5px;
+        font-size: 14px;
+        padding-bottom: 4px;
     }
     .contianer .sub-container .data .items .item-lecturer .info p{
         font-size: 14px;
