@@ -30,7 +30,9 @@
                             </div>
                             <div class="btn"><button>Unsigned</button></div>
                             <div>
-                                <h1>TP : 16 H</h1>
+                                <p v-if="course.time_course != 0">Course : {{ course.time_course }} H</p>
+                                <!-- <p v-if="course.time_tp != 0">TP : {{ course.time_tp }} H</p>
+                                <p v-if="course.time_td != 0">TD : {{ course.time_td }} H</p> -->
                             </div>
                         </div>
                     </div>
@@ -326,18 +328,18 @@ export default {
         }
     },
     mounted() {
-        axios.get(process.env.VUE_APP_ROOM)
+        axios.get(`http://127.0.0.1:8000/api/rooms/get_rooms`)
             .then(response => {
                 this.rooms = response.data;
             })
             .catch(error => {
                 console.error('An error occurred:', error);
             });
-        axios.get(process.env.VUE_APP_LECTURER)
+        axios.get(`http://127.0.0.1:8000/api/employees/get_lecturer`)
             .then(response => {
                 this.lecturers = response.data.data;
             });
-        axios.get(process.env.VUE_APP_COURSE)
+        axios.get(`http://127.0.0.1:8000/api/course/get_course`)
             .then(response => this.courses = response.data);
     }
 }
