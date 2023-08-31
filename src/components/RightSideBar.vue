@@ -286,12 +286,17 @@
                             <img src="../assets/image/avatar.png" alt="avatar">
                         </div>
                         <div class="info">
+<<<<<<< HEAD
                             <h4>
                                 <span v-if="lecturer.id_card === null">No ID Card</span>
                                 <span v-else>{{ lecturer.id_card }}</span>
                                 | {{ lecturer.name_latin }}
                             </h4>
                             <p>{{ lecturer.name_latin }}</p>
+=======
+                            <h4>No ID Card | Chhun Thavorac</h4>
+                            <p>Admin</p>
+>>>>>>> 13b372d102dd5f26ef96914ed791e1f96c06fe1d
                             <div class="depart-gen">
                                 <div><i class="icon pi pi-home"></i>{{ lecturer.department.code }}</div>
                                 <div><i class="icon pi pi-user"></i>{{ lecturer.gender.code }}</div>
@@ -344,12 +349,29 @@ export default {
 </script>
 
 <style scoped>
+<<<<<<< HEAD
 /* navbar button color change */
 button.navbars.course.active,
 button.navbars.room.active,
 button.navbars.lecturer.active {
     background-color: #0c356a;
 }
+=======
+    /* navbar button color change */
+    button.navbars.course.active, button.navbars.room.active, button.navbars.lecturer.active {
+      background-color: #0c356a;
+    }
+    
+    /* container */
+    .contianer {
+        width: 20%;
+        height: 96.78vh;
+        /* height: 100vh; */
+        /* background-color: rgb(190, 190, 190); */
+        font-family: Arial, Helvetica, sans-serif;
+        padding-right: 7px;
+    }
+>>>>>>> 13b372d102dd5f26ef96914ed791e1f96c06fe1d
 
 /* container */
 .contianer {
@@ -373,6 +395,7 @@ button.navbars.lecturer.active {
     position: relative;
 }
 
+<<<<<<< HEAD
 .contianer .navbar .navbars {
     width: 84px;
     height: 35px;
@@ -387,6 +410,31 @@ button.navbars.lecturer.active {
 .contianer .navbar .navbars:nth-child(1) {
     top: 17px;
 }
+=======
+    .contianer .navbar .navbars:nth-child(1){
+        top: 15px;
+    }
+    .contianer .navbar .navbars:nth-child(2){
+        top: 15px;
+        left: 92px;
+    }
+    .contianer .navbar .navbars:nth-child(3){
+        top: 15px;
+        left: 184px;
+    }
+
+    .contianer .navbar .navbars:hover {
+        background-color: #0c356a;
+        transition: all 0.6s;
+        cursor: pointer;
+    }
+    .contianer .navbar .navbars span{
+        font-size: 15px;
+    }
+    .contianer .navbar .navbars span .icon {
+        padding-right: 9px;
+    }
+>>>>>>> 13b372d102dd5f26ef96914ed791e1f96c06fe1d
 
 .contianer .navbar .navbars:nth-child(2) {
     top: 17px;
@@ -403,6 +451,7 @@ button.navbars.lecturer.active {
     transition: all 0.6s;
 }
 
+<<<<<<< HEAD
 .contianer .navbar .navbars span {
     font-size: 15px;
 }
@@ -410,6 +459,54 @@ button.navbars.lecturer.active {
 .contianer .navbar .navbars span .icon {
     padding-right: 9px;
 }
+=======
+    .contianer .sub-container .search .icon {
+        position: absolute;
+        right: 0.45rem;
+        width: 43px;
+        height: 33px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #35A29F;
+        border-radius: 3px;
+        color: white;
+        transition: all 0.6s;
+    }
+    .contianer .sub-container .search .icon:hover{
+        cursor: pointer;
+        background-color: #3E7C17;
+        transition: all 0.6s;
+    }
+    .contianer .sub-container .data {
+        width: 100%;
+        height: 90%;
+        background-color: rgb(255, 255, 255);
+        border: 1px solid #B2B2B2;
+        border-radius: 3px;
+    }
+
+    .contianer .sub-container .data .items {
+        width: 95%;
+        height: 97.5%;
+        background-color: #f4f4f4;
+        /* padding: 5%; */
+        margin: 3%;
+        overflow-y: scroll;
+        border-radius: 3px;
+    }
+    /* item course  */
+    .contianer .sub-container .data .items .item {
+        height: 80px;
+        /* width: 100%; */
+        background-color: #ffffff;
+        /* padding: 5%; */
+        margin: 4.5%;
+        transition: all 0.4s;
+        border-left: 2px solid #ff0000;
+        border-radius: 3px;
+    }
+>>>>>>> 13b372d102dd5f26ef96914ed791e1f96c06fe1d
 
 /* .sub-container */
 .contianer .sub-container {
@@ -418,6 +515,7 @@ button.navbars.lecturer.active {
     /* background-color: aqua; */
 }
 
+<<<<<<< HEAD
 /* .search */
 .contianer .sub-container .search {
     width: 100%;
@@ -649,4 +747,129 @@ button.navbars.lecturer.active {
     font-size: 12px;
     padding-top: 9.3px;
 }
+=======
+    .contianer .sub-container .data .items .item .icons {
+        width: 100%;
+        height: 20%;
+        /* background-color: aliceblue; */
+        font-size:  12px;
+        display: flex;
+        align-items: center;
+        padding: 12px 0px 12px 6px;
+    }
+    .contianer .sub-container .data .items .item .course-info {
+        height: 70%;
+        width: 100%;
+        background-color: aliceblue;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        padding-left: 5%;
+        border-radius: 3px;
+    }
+    .contianer .sub-container .data .items .item .course-info h1{
+        font-size: 15px;
+    }
+
+    .contianer .sub-container .data .items .item .course-info .btn button {
+        color: white;
+        background-color: #ff0000;
+        border: none;
+        border-radius: 5px;
+        padding: .2rem;
+        font-size: 12px;
+    }
+    /* item-room */
+    .contianer .sub-container .data .items .item-room{
+        height: 83px;
+        background-color: #ffffff;
+        margin: 5%;
+        /* border-left: 2px solid #ff0000; */
+        display: flex;
+        transition: all 0.4s;
+        border-radius: 3px;
+    }
+    .contianer .sub-container .data .items .item-room:hover{
+        background-color: #ECF2FF;
+        box-shadow: -2px 2px 6px -4px rgba(0,0,0,0.75);
+        cursor: pointer;
+        transition: all 0.4s;
+    }
+    .contianer .sub-container .data .items .item-room .room-number{
+        width: 78px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #71dcfe;
+        color: white;
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+    }
+    .contianer .sub-container .data .items .item-room .room-number h3{
+        font-size: 21px;
+    }
+    .contianer .sub-container .data .items .item-room .room-name{
+        width: 108px;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        padding-top: 0.45rem;
+        padding-left: .5rem;
+    }
+    .contianer .sub-container .data .items .item-room .room-name h3{
+        font-size: 18px;
+        padding-bottom: 4.60px;
+    }
+    .contianer .sub-container .data .items .item-room .room-name p{
+        font-size: 12px;
+    }
+    /* item-lecturer */
+    .contianer .sub-container .data .items .item-lecturer{
+        height: 85px;
+        background-color: #ffffff;
+        border-left: 2px solid #002aff;
+        border-radius: 3px;
+        display: flex;
+        margin: 4.5%;
+        transition: all 0.5s;
+    }
+    .contianer .sub-container .data .items .item-lecturer:hover{
+        background-color: #ECF2FF;
+        box-shadow: -2px 2px 6px -4px rgba(0,0,0,0.75);
+        cursor: pointer;
+        transition: all 0.5s;
+    }
+    .contianer .sub-container .data .items .item-lecturer .icon{
+        width: 20%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }.contianer .sub-container .data .items .item-lecturer .icon img{
+        width: 100%;
+        object-fit: cover;
+    }
+    .contianer .sub-container .data .items .item-lecturer .info{
+        width: 80%;
+        padding-top: 0.55rem;
+        padding-left: .5rem;
+    }
+    .contianer .sub-container .data .items .item-lecturer .info h4{
+        font-size: 14px;
+        padding-bottom: 4px;
+    }
+    .contianer .sub-container .data .items .item-lecturer .info p{
+        font-size: 14px;
+    }
+    .contianer .sub-container .data .items .item-lecturer .info .depart-gen{
+        width: 100%;
+        display: flex;
+        /* gap: .5rem; */
+    }
+    .contianer .sub-container .data .items .item-lecturer .info .depart-gen div{
+        width: 50%;
+        display: flex;
+        font-size: 12px;
+        padding-top: 9.3px;
+    }
+>>>>>>> 13b372d102dd5f26ef96914ed791e1f96c06fe1d
 </style>

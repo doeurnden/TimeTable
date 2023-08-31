@@ -1,7 +1,11 @@
 <template>
   <div class="sidebar">
-    <h1><center>Content</center></h1>
-    <hr>
+    <div class="sidebar-title">
+      <h1><center>Content</center></h1>
+    </div>
+    <div class="horizon">
+      <hr>
+    </div>
     <!-- Academy Years -->
     <select v-model="selectedAcademyYear" class="form-select">
       <option v-for="year in academyYears" :key="year">{{ year }}</option>
@@ -33,9 +37,9 @@
     </select>
 
     <!-- Groups -->
-    <select v-model="selectedGroup" class="form-select">
+    <!-- <select v-model="selectedGroup" class="form-select">
       <option v-for="group in groups" :key="group">{{ group }}</option>
-    </select>
+    </select> -->
   </div>
 </template>
 
@@ -76,6 +80,15 @@ export default {
 </script>
 
 <style>
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  width: 100%;
+  height: 100vh;
+}
 .sidebar {
   background-color: #3AA6B9;
   border-right: 1px solid black;
@@ -83,25 +96,40 @@ export default {
   height: 100vh;
 }
 .sidebar h1{
-  margin-top: 22px;
+  margin-top: 20px;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 27px;
 }
-.sidebar hr{
+.horizon{
+  position: relative;
   width: 95%;
+  height: 5px;
+  /* overflow: hidden; */
+  margin-bottom: 10px;
+}
+.horizon hr{
+  width: 100%;
   height: 5px;
   background-color: white;
   margin: 7px auto;
   border: none;
+  position: absolute;
+  /* left: 30px; */
+  animation: slideFromLeft 6s linear forwards;
+  
 }
-body{
-  width: 100%;
-  height: 100vh;
+@keyframes slideFromLeft {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 0;
+    }
 }
 .sidebar select {
   width: 90%;
   height: 60px;
-  margin: 0px 16px;
+  margin: 0px 10px;
   margin-top: 10px;
   padding-left: 15px;
   border-radius: 8px;
