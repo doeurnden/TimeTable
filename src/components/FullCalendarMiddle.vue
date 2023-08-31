@@ -32,14 +32,6 @@
                 </div>
             </div>
             <FullCalendar :options="calendarOptions"/>
-            <!-- <div class="fc-v-event">
-                <div class="fc-event-title-container">
-                
-                </div>
-                <div class="fc-event-time">
-
-                </div>
-            </div> -->
         </div>
     </div>
 </template>
@@ -75,7 +67,7 @@
                             // },
                         },
                         {
-                            title: 'Event 2',
+                            title: 'Java Programming',
                             start: '2023-09-02T13:00:00',
                             end: '2023-09-02T15:00:00',
                         },
@@ -283,34 +275,41 @@
         height: 185px;
     } */
     
-    @media screen and (max-width: 136px) {
-        .fc-v-event .fc-event-main-frame{
+    
+        .fc-event-main-frame{
             width: 100%;
-            display: flex;
-            /* justify-content: space-between; */
+            height: 100%;
             position: relative;
+            display: flex;
+            flex-direction: row;
+            /* position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column; */
+            /* background-color: yellow !important; */
         }
         .fc-event-title-container{
-            width: 60%;
-            height: 100%;
+            width: 100%;
+            height: 65%;
             background-color: green;
             padding: 8px;
             font-size: 15px;
+            position: absolute;
+           
         }
-        .fc-v-event .fc-event-time{
-            width: 40%;
-            height: 100%;
+        .fc-event-time{
+            width: 100%;
+            height: 35%;
             background-color: black;
             position: absolute;
-            right: 0;
+            bottom: 0;
             text-align: center;
             padding: 8px;
             font-size: 13;
             /* display: none; */
         } 
-    }
     @media screen and (min-width: 1369px) {
-        .fc-v-event .fc-event-main-frame{
+        .fc-event-main-frame{
             width: 100%;
             display: flex;
             justify-content: space-between;
@@ -323,7 +322,7 @@
             padding: 8px;
             font-size: 15px;
         }
-        .fc-v-event .fc-event-time{
+        .fc-event-time{
             width: 40%;
             height: 100%;
             background-color: black;
@@ -332,7 +331,6 @@
             text-align: center;
             padding: 8px;
             font-size: 13;
-            /* display: none; */
         } 
     }
 </style>
