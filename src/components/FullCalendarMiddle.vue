@@ -270,7 +270,7 @@
         background-color: white;
     }
     /* @color-11-12pm */
-    tbody tr:nth-child(9), tbody tr:nth-child(10), tbody tr:nth-child(11), tbody tr:nth-child(12){
+    tbody tr:nth-child(9), tbody tr:nth-child(10), tbody tr:nth-child(11), tbody tr:nth-child(12), tbody tr:nth-child(21){
         background-color: #f4f4f4 !important;
     }
     /* @like-colespan on 11 & 12pm */
@@ -282,28 +282,57 @@
         width: 185px;
         height: 185px;
     } */
-    .fc-v-event .fc-event-main-frame{
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        position: relative;
+    
+    @media screen and (max-width: 136px) {
+        .fc-v-event .fc-event-main-frame{
+            width: 100%;
+            display: flex;
+            /* justify-content: space-between; */
+            position: relative;
+        }
+        .fc-event-title-container{
+            width: 60%;
+            height: 100%;
+            background-color: green;
+            padding: 8px;
+            font-size: 15px;
+        }
+        .fc-v-event .fc-event-time{
+            width: 40%;
+            height: 100%;
+            background-color: black;
+            position: absolute;
+            right: 0;
+            text-align: center;
+            padding: 8px;
+            font-size: 13;
+            /* display: none; */
+        } 
     }
-    .fc-event-title-container{
-        width: 60%;
-        height: 100%;
-        background-color: green;
-        padding: 8px;
-        font-size: 15px;
+    @media screen and (min-width: 1369px) {
+        .fc-v-event .fc-event-main-frame{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+        .fc-event-title-container{
+            width: 60%;
+            height: 100%;
+            background-color: green;
+            padding: 8px;
+            font-size: 15px;
+        }
+        .fc-v-event .fc-event-time{
+            width: 40%;
+            height: 100%;
+            background-color: black;
+            position: absolute;
+            right: 0;
+            text-align: center;
+            padding: 8px;
+            font-size: 13;
+            /* display: none; */
+        } 
     }
-    .fc-v-event .fc-event-time{
-        width: 40%;
-        height: 100%;
-        background-color: black;
-        position: absolute;
-        right: 0;
-        text-align: center;
-        padding: 8px;
-        font-size: 13;
-        /* display: none; */
-    } 
 </style>
