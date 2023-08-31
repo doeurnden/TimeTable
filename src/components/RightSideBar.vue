@@ -672,7 +672,8 @@ export default {
     /* container */
     .contianer {
         width: 20%;
-        height: 94.6vh;
+        height: 96.78vh;
+        /* height: 100vh; */
         /* background-color: rgb(190, 190, 190); */
         font-family: Arial, Helvetica, sans-serif;
         padding-right: 7px;
@@ -703,14 +704,14 @@ export default {
     }
 
     .contianer .navbar .navbars:nth-child(1){
-        top: 17px;
+        top: 15px;
     }
     .contianer .navbar .navbars:nth-child(2){
-        top: 17px;
+        top: 15px;
         left: 92px;
     }
     .contianer .navbar .navbars:nth-child(3){
-        top: 17px;
+        top: 15px;
         left: 184px;
     }
 
@@ -784,7 +785,7 @@ export default {
     }
     .contianer .sub-container .data {
         width: 100%;
-        height: 92.4%;
+        height: 90%;
         background-color: rgb(255, 255, 255);
         border: 1px solid #B2B2B2;
         border-radius: 3px;
@@ -792,8 +793,8 @@ export default {
 
     .contianer .sub-container .data .items {
         width: 95%;
-        height: 95%;
-        background-color: #ece8e8;
+        height: 97.5%;
+        background-color: #f4f4f4;
         /* padding: 5%; */
         margin: 3%;
         overflow-y: scroll;
@@ -827,7 +828,6 @@ export default {
         align-items: center;
         padding: 12px 0px 12px 6px;
     }
-
     .contianer .sub-container .data .items .item .course-info {
         height: 70%;
         width: 100%;

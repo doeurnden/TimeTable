@@ -32,6 +32,14 @@
                 </div>
             </div>
             <FullCalendar :options="calendarOptions"/>
+            <!-- <div class="fc-v-event">
+                <div class="fc-event-title-container">
+                
+                </div>
+                <div class="fc-event-time">
+
+                </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -40,45 +48,49 @@
     import FullCalendar from '@fullcalendar/vue3'
     import listPlugin from '@fullcalendar/list'
     import timeGridPlugin from '@fullcalendar/timegrid'
-    // import dayGridPlugin from '@fullcalendar/daygrid'
     import interactionPlugin from '@fullcalendar/interaction'
 
     export default{
         components: {
             FullCalendar,
         },
-        mounted() {
-            window.addEventListener('resize', this.handleWindowResize);
-        },
-        
-        beforeUnmount() {
-            window.removeEventListener('resize', this.handleWindowResize);
-        },
         data() {
             return {
                 selectedWeek: 'week1', //set week 1 as default
                 calendarOptions:{
                     plugins: [
-                        // dayGridPlugin,
                         timeGridPlugin,
                         listPlugin, 
                         interactionPlugin,
                     ],
                     initialViews: 'weekGridPlugin, interactionPlugin',
-                    views: {
-                    timeGridWeek: {
-                            windowResizeDelay: 200, // Set your desired windowResizeDelay value
+                    events: [
+                        {
+                            title: 'Internet Programming',
+                            start: '2023-09-01T07:00:00',
+                            end: '2023-09-01T09:00:00',
+                            // extendedProps: {
+                            //     secondaryTitle: 'Secondary Title',
+                            //     additionalInfo: 'Additional Information',
+                            // },
                         },
-                    },
+                        {
+                            title: 'Event 2',
+                            start: '2023-09-02T13:00:00',
+                            end: '2023-09-02T15:00:00',
+                        },
+                    ],
+                    eventContent: this.customEventContent,
+                    eventAllow: this.handleEventAllow,
+                    editable: true, // Enable dragging and resizing
+                    eventDrop: this.handleEventDrop,
+                    eventClick: this.handleEventClick,
                     dateClick: this.handleDateClick,
                     headerToolbar: {
                         start: '',
                         center: '',
                         end: ''
                     },
-                    
-                    // editable: true,
-                    // selectable: true,
                     hiddenDays: [0],
                     slotMinTime: '07:00:00 ',
                     slotMaxTime: '18:00:00 ',
@@ -86,12 +98,12 @@
                         hour: 'numeric',
                         minute: '2-digit',
                         omitZeroMinute: false,
-                        meridiem: 'short'
+                        meridiem: 'short',
                     },
-                    contentHeight: '86vh',
+                    contentHeight: '89.1vh',
                     views:{
                         timeGridWeek: {
-                            dayHeaderContent: this.customDayHeaderContent
+                            dayHeaderContent: this.customDayHeaderContent,
                         }, 
                     },
                     allDaySlot: false,
@@ -116,14 +128,42 @@
                 const day = date.toLocaleDateString('en-US', { weekday: 'long' }); // Change 'long' to 'short' if you prefer abbreviated names
                 return day;
             },
-            handleWindowResize() {
-                this.$refs.fullCalendar.getApi().handleWindowResize();
+            handleEventClick(eventClickInfo) {
+            // This function will be called when an event is clicked
+                const event = eventClickInfo.event;
+                console.log('Event clicked:', event.title, event.start);
             },
+            handleEventAllow(dropInfo) {
+                // Prevent dropping events in the specified time range (11am to 12pm)
+                const startTime = dropInfo.start;
+                const endTime = dropInfo.end;
+            if (
+                startTime.getHours() >= 11 &&
+                startTime.getHours() <= 12 
+            ) {
+                return false; // Disallow dropping events
+            }
+            else{
+                return true; // Allow dropping events
+            }
+            },
+
+            // Render the event with multiple titles and additional information
+            // customEventContent(eventInfo) {
+            // const event = eventInfo.event;
+            // const secondaryTitle = event.extendedProps.secondaryTitle;
+            // const additionalInfo = event.extendedProps.additionalInfo;
+            // return `
+            //     ${event.title}
+            //     ${secondaryTitle}
+            //     ${additionalInfo}
+            // `;
+            // },
         }
     }
 </script>
 
-<style scoped>
+<style>
 
     .FullCalendar_Middle{
         width: 65%;
@@ -135,16 +175,16 @@
         margin-bottom: 0px;
     }
     .fullcalendar{
-        margin-top: 60px;
+        margin-top: 57px;
         padding-left: 10px;
         padding-right: 10px;
     }
     .title-content{
         position: absolute;
-        top: 20px;    
+        top: 17px;    
     }
     .title-content h1{
-        font-size: 27px;
+        font-size: 28px;
     }
     .hori{
         position: relative;
@@ -159,7 +199,7 @@
         background-color:#3AA6B9;
         position: absolute;
         border: none;
-        animation: slideFromLeft 7s linear forwards;
+        animation: slideFromLeft 6s linear forwards;
     }
     @keyframes slideFromLeft {
         0% {
@@ -174,7 +214,7 @@
         height: 35px;
         /* background-color: green; */
         position: absolute;
-        top: 17px;
+        top: 15px;
         right: 8px;
         display: flex;
         justify-content: space-between;
@@ -218,4 +258,52 @@
         background-color: #0C356A;
         transition: all 0.7s;
     }  
+    /* @change-slot-time-height */
+    td.fc-timegrid-slot {
+        height: 37px!important;
+    }
+    .fc .fc-toolbar.fc-header-toolbar {
+        margin-bottom: 0.54em;
+    }
+    /* @turn-off-color-current-day */
+    .fc .fc-timegrid-col.fc-day-today {
+        background-color: white;
+    }
+    /* @color-11-12pm */
+    tbody tr:nth-child(9), tbody tr:nth-child(10), tbody tr:nth-child(11), tbody tr:nth-child(12){
+        background-color: #f4f4f4 !important;
+    }
+    /* @like-colespan on 11 & 12pm */
+    .fc .fc-non-business{
+        background-color: transparent;
+    }
+    /* @event */
+    /* .fc-v-event{
+        width: 185px;
+        height: 185px;
+    } */
+    .fc-v-event .fc-event-main-frame{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+    }
+    .fc-event-title-container{
+        width: 60%;
+        height: 100%;
+        background-color: green;
+        padding: 8px;
+        font-size: 15px;
+    }
+    .fc-v-event .fc-event-time{
+        width: 40%;
+        height: 100%;
+        background-color: black;
+        position: absolute;
+        right: 0;
+        text-align: center;
+        padding: 8px;
+        font-size: 13;
+        /* display: none; */
+    } 
 </style>

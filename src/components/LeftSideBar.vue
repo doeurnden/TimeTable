@@ -96,7 +96,7 @@ body{
   height: 100vh;
 }
 .sidebar h1{
-  margin-top: 22px;
+  margin-top: 20px;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 27px;
 }
@@ -115,7 +115,7 @@ body{
   border: none;
   position: absolute;
   /* left: 30px; */
-  animation: slideFromLeft 7s linear forwards;
+  animation: slideFromLeft 6s linear forwards;
   
 }
 @keyframes slideFromLeft {
