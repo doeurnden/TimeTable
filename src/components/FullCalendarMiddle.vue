@@ -32,6 +32,7 @@
                 </div>
             </div>
             <FullCalendar :options="calendarOptions"/>
+
         </div>
     </div>
 </template>
@@ -48,7 +49,7 @@
         },
         data() {
             return {
-                selectedWeek: 'week1', //set week 1 as default
+                selectedWeek: 'week1',
                 calendarOptions:{
                     plugins: [
                         timeGridPlugin,
@@ -58,20 +59,63 @@
                     initialViews: 'weekGridPlugin, interactionPlugin',
                     events: [
                         {
-                            title: 'Internet Programming',
+                            id: 'event1',
+                            titles: [
+                                // course-side
+                                'Internet Programming', 
+                                '(Course)', 
+                                'CHUN Thavorac', 
+                                // room-side
+                                'I-606', 
+                                'I4-GIC-A'
+                            ],
                             start: '2023-09-01T07:00:00',
                             end: '2023-09-01T09:00:00',
-                            // extendedProps: {
-                            //     secondaryTitle: 'Secondary Title',
-                            //     additionalInfo: 'Additional Information',
-                            // },
                         },
                         {
-                            title: 'Java Programming',
-                            start: '2023-09-02T13:00:00',
-                            end: '2023-09-02T15:00:00',
+                            id: 'event1',
+                            titles: [
+                                // course-side
+                                'Operating System', 
+                                '(Course)', 
+                                'HENG Rathpisey', 
+                                // room-side
+                                'F-106', 
+                                'I4-GIC-A'
+                            ],
+                            start: '2023-09-02T09:00:00',
+                            end: '2023-09-02T11:00:00',
+                        },
+                        {
+                            id: 'event1',
+                            titles: [
+                                // course-side
+                                'Software Engineering', 
+                                '(Course)', 
+                                'TAL Tongsreng', 
+                                // room-side
+                                'F-404', 
+                                'I4-GIC-A'
+                            ],
+                            start: '2023-08-31T13:00:00',
+                            end: '2023-08-31T15:00:00',
+                        },
+                        {
+                            id: 'event1',
+                            titles: [
+                                // course-side
+                                'Advance Databse', 
+                                '(Course)', 
+                                'NOP Phearum', 
+                                // room-side
+                                'I-604', 
+                                'I4-GIC-A'
+                            ],
+                            start: '2023-08-28T07:00:00',
+                            end: '2023-08-28T09:00:00',
                         },
                     ],
+                    eventRender: this.customEventRender,
                     eventContent: this.customEventContent,
                     eventAllow: this.handleEventAllow,
                     editable: true, // Enable dragging and resizing
@@ -129,34 +173,66 @@
                 // Prevent dropping events in the specified time range (11am to 12pm)
                 const startTime = dropInfo.start;
                 const endTime = dropInfo.end;
-            if (
-                startTime.getHours() >= 11 &&
-                startTime.getHours() <= 12 
-            ) {
-                return false; // Disallow dropping events
-            }
-            else{
-                return true; // Allow dropping events
-            }
+                if (
+                    startTime.getHours() >= 11 &&
+                    startTime.getHours() <= 12 
+                ) {
+                    return false; // Disallow dropping events
+                }
+                else{
+                    return true; // Allow dropping events
+                }
             },
+            customEventContent(eventInfo) {
+                const event = eventInfo.event;
+                const titles = event.extendedProps.titles || [];
 
-            // Render the event with multiple titles and additional information
-            // customEventContent(eventInfo) {
-            // const event = eventInfo.event;
-            // const secondaryTitle = event.extendedProps.secondaryTitle;
-            // const additionalInfo = event.extendedProps.additionalInfo;
-            // return `
-            //     ${event.title}
-            //     ${secondaryTitle}
-            //     ${additionalInfo}
-            // `;
-            // },
+                // Split titles into different sections
+                const courseName = titles.slice(0, 1);
+                const courseType = titles.slice(1, 2);
+                const lecturer = titles.slice(2, 3);
+                const roomName = titles.slice(3, 4);
+                const roomNumber = titles.slice(4, 5);
+
+                const courseNameHtml = courseName.map(title => `<div class="courseName">${title}</div>`).join('');
+                const courseTypeHtml = courseType.map(title => `<div class="courseType">${title}</div>`).join('');
+                const lecturerHtml = lecturer.map(title => `<p class="lecturer">${title}</p>`).join(''); // Use .join() to join multiple lecturers
+
+                const roomNameHtml = roomName.map(title => `<div class="roomName">${title}</div>`).join('');
+                const roomNumberHtml = roomNumber.map(title => `<div class="roomNumber">${title}</div>`).join('');
+
+                return {
+                    html: `
+                        <div class="container-room">
+                            <div class="sideCourse">
+                                <div class="courseName">
+                                    ${courseNameHtml}    
+                                    <span class="courseType">
+                                        ${courseTypeHtml}
+                                    </span>
+                                </div>    
+                                <div class="lecturer">
+                                    ${lecturerHtml}
+                                </div>
+                            </div>
+                            
+                            <div class="sideRoom">
+                                <div class="roomName">
+                                    ${roomNameHtml}
+                                </div>    
+                                <p class="roomGroup">
+                                    ${roomNumberHtml}
+                                </p>
+                            </div>
+                        </div>
+                    `,
+                };
+            },
         }
     }
 </script>
 
 <style>
-
     .FullCalendar_Middle{
         width: 65%;
         height: 100vh;
@@ -164,7 +240,8 @@
         font-family: Arial, Helvetica, sans-serif;
         position: relative;
         padding-bottom: 0px;
-        margin-bottom: 0px;
+        /* margin-top: 4px; */
+        /* margin-bottom: 0px; */
     }
     .fullcalendar{
         margin-top: 57px;
@@ -269,68 +346,109 @@
     .fc .fc-non-business{
         background-color: transparent;
     }
+    a.fc-event, a.fc-event{
+        background-color: #3AA6B9;
+        border: 1px solid #3AA6B9;
+    }
+    .fc-timegrid-event .fc-event-main{
+        padding: 0px;
+    }
     /* @event */
-    /* .fc-v-event{
-        width: 185px;
-        height: 185px;
-    } */
-    
-    
-        .fc-event-main-frame{
-            width: 100%;
-            height: 100%;
-            position: relative;
-            display: flex;
-            flex-direction: row;
-            /* position: relative;
-            display: flex;
-            flex-wrap: wrap;
-            flex-direction: column; */
-            /* background-color: yellow !important; */
-        }
-        .fc-event-title-container{
-            width: 100%;
-            height: 65%;
-            background-color: green;
-            padding: 8px;
-            font-size: 15px;
-            position: absolute;
-           
-        }
-        .fc-event-time{
-            width: 100%;
-            height: 35%;
-            background-color: black;
-            position: absolute;
-            bottom: 0;
-            text-align: center;
-            padding: 8px;
-            font-size: 13;
-            /* display: none; */
-        } 
+    .container-room{
+        width: 100%;
+        height: 100%;
+        position: relative;
+        background-color: #3AA6B9;
+    }
+    /* @course-section */
+    .sideCourse{
+        width: 100%;
+        height: 60%;
+        background-color: white;
+        padding: 4px 6px;
+        font-size: 13px;
+        position: absolute;
+        font-weight: 600;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+    }
+    .courseName{
+        font-size: 14px;
+        color: black;
+        padding-bottom: 4px;
+    }
+    .courseType{
+        padding-bottom: 4px;
+        color: red;
+    }
+    .lecturer{
+        color: green;
+    }
+
+    /* @room-section */
+    .sideRoom{
+        width: 100%;
+        height: 40%;
+        background-color: #3AA6B9;
+        bottom: 0;
+        position: absolute;
+        padding: 6px 6px;
+        font-weight: 500;
+        font-size: 13;
+    } 
+    .roomName{
+        padding-bottom: 4px;
+    }
     @media screen and (min-width: 1369px) {
-        .fc-event-main-frame{
+        /* @event */
+        .container-room{
             width: 100%;
-            display: flex;
-            justify-content: space-between;
+            height: 100%;
             position: relative;
+            background-color: #3AA6B9;
+            display: flex !important;
+            justify-content: space-between;
         }
-        .fc-event-title-container{
-            width: 60%;
+        /* @course-section */
+        .sideCourse{
+            width: 61%;
             height: 100%;
-            background-color: green;
-            padding: 8px;
-            font-size: 15px;
-        }
-        .fc-event-time{
-            width: 40%;
-            height: 100%;
-            background-color: black;
+            background-color: white;
+            padding: 4px 6px;
+            font-size: 13px;
             position: absolute;
-            right: 0;
-            text-align: center;
-            padding: 8px;
+            font-weight: 600;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+            padding-top: 10px;
+        }
+        .courseName{
+            font-size: 14px;
+            color: black;
+            padding-bottom: 4px;
+        }
+        .courseType{
+            padding-bottom: 4px;
+            color: red;
+        }
+        .lecturer{
+            color: green;
+        }
+
+        /* @room-section */
+        .sideRoom{
+            width: 39%;
+            height: 100%;
+            background-color: #3AA6B9;
+            position: absolute;
+            padding: 6px 4px;
+            font-weight: 500;
             font-size: 13;
+            right: 0;
+            padding-top: 10px;
         } 
+        .roomName{
+            padding-bottom: 4px;
+        }
     }
 </style>
