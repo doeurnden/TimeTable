@@ -188,7 +188,6 @@
 
             }
         },
-<<<<<<< HEAD
         mounted() {
             const self = this; // Store a reference to the component instance
 
@@ -205,12 +204,6 @@
                 }
                 });
             });
-=======
-        created() {
-            // Fetch data from the API when the component is created
-            this.fetchGroups();
-            this.fetchWeeks();
->>>>>>> edd0eced478494872ca3170faceaeadca7bdad85
         },
         methods: {
             customDayHeaderContent(args) {
@@ -287,7 +280,6 @@
                     `,
                 };
             },
-<<<<<<< HEAD
             // @sweetalert2
             async confirmDelete(eventId) {
                 const result = await Swal.fire({
@@ -307,33 +299,6 @@
                     this.events.splice(index, 1);
                 }
             }, 
-=======
-
-
-            // Do on API
-            fetchGroups() {
-                const apiUrl = 'http://127.0.0.1:8000/api/get-all-Groups';
-                axios.get(apiUrl)
-                  .then((response) => {
-                   this.fetchedGroups = response.data;
-                   this.selectedGroup = this.fetchGroups[0].code
-                })
-                .catch((error) => {
-                console.error('Error fetching groups:', error);
-                });
-            },
-            fetchWeeks() {
-                const apiUrl = 'http://127.0.0.1:8000/api/get-all-Weeks';
-                axios.get(apiUrl)
-                  .then((response) => {
-                   this.fetchedWeeks = response.data;
-                   this.selectedWeek = this.fetchedWeeks[0].name_en
-                })
-                .catch((error) => {
-                console.error('Error fetching weeks:', error);
-                });
-            },
->>>>>>> edd0eced478494872ca3170faceaeadca7bdad85
         }
     }
 </script>
