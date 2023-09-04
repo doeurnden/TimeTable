@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar">
-    <h1><center>Content</center></h1>
+    <h1>Content</h1>
     <hr>
     <!-- Academy Years -->
     <select v-model="selectedAcademyYear" class="form-select">
@@ -66,10 +66,14 @@ export default {
       // selectedGroup: "",          // Selected group
     };
   },
-  mounted:()=>{
-    this.fetchAcademyYears()
-    this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
-  },
+  // mounted:()=>{
+  //   this.fetchAcademyYears();
+  //   this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
+  // },
+  mounted() {
+  this.fetchAcademyYears(); // Call the method here
+  this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
+},
   computed: {
     filteredDepartmentOptions() {
       if (!this.selectedDepartment) {
@@ -107,7 +111,7 @@ export default {
 
   methods: {
     fetchAcademyYears() {
-      const apiUrl = 'http://127.0.0.1:8000/api/get-all-AcademicYears';
+      const apiUrl = 'http://127.0.0.1:8000/api/get_all_AcademicYears';
 
       axios.get(apiUrl)
         .then(response => {
@@ -119,7 +123,7 @@ export default {
         });
     },
     fetchDepartments() {
-      const apiUrl = 'http://127.0.0.1:8000/api/get-all-Departments';
+      const apiUrl = 'http://127.0.0.1:8000/api/get_all_Departments';
 
       axios.get(apiUrl)
         .then(response => {
@@ -131,7 +135,7 @@ export default {
         });
     },
     fetchDegrees() {
-      const apiUrl = 'http://127.0.0.1:8000/api/get-all-Degrees';
+      const apiUrl = 'http://127.0.0.1:8000/api/get_all_Degrees';
 
       axios.get(apiUrl)
         .then(response => {
@@ -144,7 +148,7 @@ export default {
     },
  
     fetchDepOptions() {
-      const apiUrl = 'http://127.0.0.1:8000/api/get-all-DepOptions';
+      const apiUrl = 'http://127.0.0.1:8000/api/get_all_DepOptions';
 
       axios.get(apiUrl)
         .then(response => {
@@ -157,7 +161,7 @@ export default {
         });
     },
     fetchGrades() {
-      const apiUrl = 'http://127.0.0.1:8000/api/get-all-Grades';
+      const apiUrl = 'http://127.0.0.1:8000/api/get_all_Grades';
 
       axios.get(apiUrl)
         .then(response => {
@@ -169,7 +173,7 @@ export default {
         });
     },
     fetchSemesters() {
-      const apiUrl = 'http://127.0.0.1:8000/api/get-all-Semesters';
+      const apiUrl = 'http://127.0.0.1:8000/api/get_all_Semesters';
 
       axios.get(apiUrl)
         .then(response => {
@@ -181,7 +185,7 @@ export default {
         });
     },
     // fetchGroups() {
-    //   const apiUrl = 'http://127.0.0.1:8000/api/get-all-Groups';
+    //   const apiUrl = 'http://127.0.0.1:8000/api/get_all_Groups';
 
     //   axios.get(apiUrl)
     //     .then(response => {

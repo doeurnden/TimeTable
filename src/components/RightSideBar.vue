@@ -144,6 +144,8 @@ import 'primeicons/primeicons.css';
 import axios from 'axios';
 import draggable from 'vuedraggable';
 
+// Vue.component('draggable', draggable)
+
 export default {
     data() {
         return {
