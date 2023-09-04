@@ -96,6 +96,7 @@ body{
   height: 100vh;
 }
 .sidebar h1{
+  color: white;
   margin-top: 20px;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 27px;

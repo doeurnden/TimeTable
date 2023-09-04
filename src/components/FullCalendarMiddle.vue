@@ -32,12 +32,12 @@
                 </div>
             </div>
             <FullCalendar :options="calendarOptions"/>
-
         </div>
     </div>
 </template>
 
 <script>
+    import Swal from 'sweetalert2';
     import FullCalendar from '@fullcalendar/vue3'
     import listPlugin from '@fullcalendar/list'
     import timeGridPlugin from '@fullcalendar/timegrid'
@@ -69,8 +69,8 @@
                                 'I-606', 
                                 'I4-GIC-A'
                             ],
-                            start: '2023-09-01T07:00:00',
-                            end: '2023-09-01T09:00:00',
+                            start: '2023-09-04T07:00:00',
+                            end: '2023-09-04T09:00:00',
                         },
                         {
                             id: 'event1',
@@ -83,8 +83,8 @@
                                 'F-106', 
                                 'I4-GIC-A'
                             ],
-                            start: '2023-09-02T09:00:00',
-                            end: '2023-09-02T11:00:00',
+                            start: '2023-09-05T09:00:00',
+                            end: '2023-09-05T11:00:00',
                         },
                         {
                             id: 'event1',
@@ -97,8 +97,8 @@
                                 'F-404', 
                                 'I4-GIC-A'
                             ],
-                            start: '2023-08-31T13:00:00',
-                            end: '2023-08-31T15:00:00',
+                            start: '2023-09-6T13:00:00',
+                            end: '2023-09-06T15:00:00',
                         },
                         {
                             id: 'event1',
@@ -111,11 +111,38 @@
                                 'I-604', 
                                 'I4-GIC-A'
                             ],
-                            start: '2023-08-28T07:00:00',
-                            end: '2023-08-28T09:00:00',
+                            start: '2023-09-06T07:00:00',
+                            end: '2023-09-06T09:00:00',
+                        },
+                        {
+                            id: 'event1',
+                            titles: [
+                                // course-side
+                                'Human Computer Interaction', 
+                                '(Course)', 
+                                'BOU Channa', 
+                                // room-side
+                                'I-609', 
+                                'I4-GIC-A'
+                            ],
+                            start: '2023-09-07T07:00:00',
+                            end: '2023-09-07T09:00:00',
+                        },
+                        {
+                            id: 'event1',
+                            titles: [
+                                // course-side
+                                'Distibuted System', 
+                                '(TP)', 
+                                'Vanny Ratanak', 
+                                // room-side
+                                'I-604', 
+                                'I4-GIC-A'
+                            ],
+                            start: '2023-09-09T07:00:00',
+                            end: '2023-09-09T09:00:00',
                         },
                     ],
-                    eventRender: this.customEventRender,
                     eventContent: this.customEventContent,
                     eventAllow: this.handleEventAllow,
                     editable: true, // Enable dragging and resizing
@@ -158,6 +185,23 @@
                 }
             }
         },
+        mounted() {
+            const self = this; // Store a reference to the component instance
+
+            // Add a click event listener to the container of the delete buttons
+            // Using event delegation to handle clicks on any delete button
+            this.$nextTick(() => {
+                const container = document.querySelector('.fullcalendar');
+
+                container.addEventListener('click', function (event) {
+                const deleteButton = event.target.closest('.delete');
+                if (deleteButton) {
+                    const eventId = deleteButton.getAttribute('data-event-id');
+                    self.confirmDelete(eventId); // Call the confirmDelete method with the event ID
+                }
+                });
+            });
+        },
         methods: {
             customDayHeaderContent(args) {
                 const date = new Date(args.date);
@@ -175,7 +219,9 @@
                 const endTime = dropInfo.end;
                 if (
                     startTime.getHours() >= 11 &&
-                    startTime.getHours() <= 12 
+                    // endTime.getHours() >= 12 &&
+                    startTime.getHours() <= 12
+                    // endTime.getHours() >= 12
                 ) {
                     return false; // Disallow dropping events
                 }
@@ -186,8 +232,7 @@
             customEventContent(eventInfo) {
                 const event = eventInfo.event;
                 const titles = event.extendedProps.titles || [];
-
-                // Split titles into different sections
+                // Split titles into different sections //5
                 const courseName = titles.slice(0, 1);
                 const courseType = titles.slice(1, 2);
                 const lecturer = titles.slice(2, 3);
@@ -204,18 +249,21 @@
                 return {
                     html: `
                         <div class="container-room">
+                            <div class="delete">x</div>
                             <div class="sideCourse">
                                 <div class="courseName">
-                                    ${courseNameHtml}    
+                                    <div class="courseNameText">
+                                        ${courseNameHtml}
+                                    </div>
                                     <span class="courseType">
                                         ${courseTypeHtml}
                                     </span>
                                 </div>    
                                 <div class="lecturer">
-                                    ${lecturerHtml}
+                                        ${lecturerHtml}
                                 </div>
                             </div>
-                            
+          
                             <div class="sideRoom">
                                 <div class="roomName">
                                     ${roomNameHtml}
@@ -224,10 +272,30 @@
                                     ${roomNumberHtml}
                                 </p>
                             </div>
+                            <div class="delete" data-event-id="${event.id}">x</div>
                         </div>
                     `,
                 };
             },
+            // @sweetalert2
+            async confirmDelete(eventId) {
+                const result = await Swal.fire({
+                    title: 'Are you sure to delete?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No',
+                });
+                if (result.isConfirmed) {
+                    this.deleteEvent(eventId);
+                }
+            },
+                deleteEvent(eventId) {
+                const index = this.events.findIndex((event) => event.id === eventId);
+                if (index !== -1) {
+                    this.events.splice(index, 1);
+                }
+            }, 
         }
     }
 </script>
@@ -240,8 +308,6 @@
         font-family: Arial, Helvetica, sans-serif;
         position: relative;
         padding-bottom: 0px;
-        /* margin-top: 4px; */
-        /* margin-bottom: 0px; */
     }
     .fullcalendar{
         margin-top: 57px;
@@ -250,7 +316,7 @@
     }
     .title-content{
         position: absolute;
-        top: 17px;    
+        top: 19px;    
     }
     .title-content h1{
         font-size: 28px;
@@ -283,7 +349,7 @@
         height: 35px;
         /* background-color: green; */
         position: absolute;
-        top: 15px;
+        top: 17px;
         right: 8px;
         display: flex;
         justify-content: space-between;
@@ -359,46 +425,122 @@
         height: 100%;
         position: relative;
         background-color: #3AA6B9;
+        position: relative;
     }
     /* @course-section */
     .sideCourse{
         width: 100%;
-        height: 60%;
+        height: 63%;
         background-color: white;
-        padding: 4px 6px;
+        padding: 6px 6px;
         font-size: 13px;
         position: absolute;
         font-weight: 600;
         border-top-left-radius: 3px;
         border-top-right-radius: 3px;
     }
-    .courseName{
+    .courseName .courseNameText {
         font-size: 14px;
         color: black;
-        padding-bottom: 4px;
+        /* margin-bottom: 6px;
+        line-height: 1.3em;
+        max-height: calc(2 * 1.2em);
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;  */
     }
     .courseType{
-        padding-bottom: 4px;
+        padding-bottom: 6px;
         color: red;
     }
     .lecturer{
         color: green;
     }
-
     /* @room-section */
     .sideRoom{
         width: 100%;
-        height: 40%;
+        height: 37%;
         background-color: #3AA6B9;
         bottom: 0;
         position: absolute;
         padding: 6px 6px;
         font-weight: 500;
-        font-size: 13;
+        font-size: 13px;
     } 
     .roomName{
         padding-bottom: 4px;
     }
+    .delete{
+        width: 13px;
+        height: 13px;
+        background-color: red;
+        border-top-right-radius: 3px;
+        color: white;
+        font-weight: bold;
+        position: absolute;
+        text-align: center;
+        justify-content: center;
+        z-index: 1;
+        right: 0;
+        top: 0;
+        font-size: 10px;
+        cursor: pointer;
+    }
+
+    .swal2-container .swal2-popup{
+        width: 25rem;
+        height: 270px;
+        max-width: 100%;
+        border: none;
+        border-radius: 5px;
+        background: #fff;
+        color: #545454;
+        display: none;
+        padding: 0 0.1em 2.3em;
+        position: relative;
+        box-sizing: border-box;
+        grid-template-columns: minmax(0, 100%);
+        font-family: inherit;
+        font-size: 1rem;
+    }
+    .swal2-icon.swal2-warning {
+        border-color: red;
+        color: red;
+        margin-bottom: -25px;
+        /* font-size: 14px; */
+    }
+    .swal2-title{
+        /* font-size: 25px; */
+        color: black;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .swal2-actions .swal2-loader{
+        position: relative;
+    }
+    .swal2-container .swal2-styled.swal2-confirm {
+        border: 0;
+        border-radius: 0.25em;
+        /* background: initial; */
+        background-color: green!important;
+        color: #fff;
+        font-size: 1em;
+        padding: 10px 25px;
+        position: absolute;
+        right: 100px;
+    }
+    .swal2-container .swal2-styled.swal2-cancel {
+        border: 0;
+        border-radius: 0.25em;
+        background: initial;
+        background-color: red!important;
+        color: #fff;
+        font-size: 1em;
+        padding: 10px 25px;
+        position: absolute;
+        left: 100px;
+    }
+
     @media screen and (min-width: 1369px) {
         /* @event */
         .container-room{
@@ -411,15 +553,15 @@
         }
         /* @course-section */
         .sideCourse{
-            width: 61%;
+            width: 60%;
             height: 100%;
             background-color: white;
-            padding: 4px 6px;
-            font-size: 13px;
-            position: absolute;
-            font-weight: 600;
-            border-top-left-radius: 3px;
+            border-top-right-radius: 0px;
             border-bottom-left-radius: 3px;
+            padding: 4px 6px;
+            font-size: 12px;    
+            font-weight: 600;
+            position: absolute;
             padding-top: 10px;
         }
         .courseName{
@@ -430,20 +572,23 @@
         .courseType{
             padding-bottom: 4px;
             color: red;
+            padding-top: 3px;
         }
         .lecturer{
             color: green;
+            font-size: 14px;
+            padding-top: 3px;
         }
 
         /* @room-section */
         .sideRoom{
-            width: 39%;
+            width: 40%;
             height: 100%;
             background-color: #3AA6B9;
             position: absolute;
-            padding: 6px 4px;
+            padding: 6px 5px;
             font-weight: 500;
-            font-size: 13;
+            font-size: 13px;
             right: 0;
             padding-top: 10px;
         } 

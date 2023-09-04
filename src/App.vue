@@ -26,7 +26,7 @@ export default {
   *{
       margin: 0px;
       padding: 0px;
-      box-sizing: border-box;
+      box-sizing: border-box !important;
   }
   body{
     width: 100%;
@@ -37,6 +37,11 @@ export default {
     width: 100%;
     height: 100%;
     display: flex;
+  }
+  @media screen and (max-width: 1325) { 
+    .container{
+      widows: 99%;
+    }
   }
 </style>
 
