@@ -14,248 +14,80 @@
         <!-- course  -->
         <div class="sub-container" v-if="activeButton === 1">
             <div class="search">
-                <input type="text" placeholder="Search subject ..">z
-                <i class="icon pi pi-search"></i>
+                <input type="text" placeholder="Search subject .." v-model="course_search">
+                <!-- <i class="icon pi pi-search"></i> -->
             </div>
             <div class="data">
-                <div class="items">
-                    <div class="item" v-for="course in courses" :key="course.id">
-                        <div class="icons">
-                            <i class="icon pi pi-ellipsis-v"></i>
-                            <i class="icon pi pi-ellipsis-v"></i>
-                        </div>
-                        <div class="course-info">
-                            <div>
-                                <h1>{{ course.name_en }}</h1>
+                <draggable class="items" v-model="filteredCourses" :options="dragOptions">
+                    <div class="itemss" v-for="course in filteredCourses" :key="course.id">
+                        <div class="item" v-if="course.time_course != 0">
+                            <div class="icons">
+                                <i class="icon pi pi-ellipsis-v"></i>
+                                <i class="icon pi pi-ellipsis-v"></i>
                             </div>
-                            <div class="btn"><button>Unsigned</button></div>
-                            <div>
-                                <p v-if="course.time_course != 0">Course : {{ course.time_course }} H</p>
-                                <!-- <p v-if="course.time_tp != 0">TP : {{ course.time_tp }} H</p>
-                                <p v-if="course.time_td != 0">TD : {{ course.time_td }} H</p> -->
+                            <div class="course-info">
+                                <div>
+                                    <h1>{{ course.name_en }}</h1>
+                                </div>
+                                <div class="btn"><button>Unsigned</button></div>
+                                <div>
+                                    <p v-if="course.time_course != 0">Course : {{ course.time_course }} H</p>
+                                </div>
                             </div>
                         </div>
+                        <div class="item" v-if="course.time_tp != 0">
+                            <div class="icons">
+                                <i class="icon pi pi-ellipsis-v"></i>
+                                <i class="icon pi pi-ellipsis-v"></i>
+                            </div>
+                            <div class="course-info">
+                                <div>
+                                    <h1>{{ course.name_en }}</h1>
+                                </div>
+                                <div class="btn"><button>Unsigned</button></div>
+                                <div>
+                                    <p v-if="course.time_tp != 0">TP : {{ course.time_tp }} H</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item" v-if="course.time_td != 0">
+                            <div class="icons">
+                                <i class="icon pi pi-ellipsis-v"></i>
+                                <i class="icon pi pi-ellipsis-v"></i>
+                            </div>
+                            <div class="course-info">
+                                <div>
+                                    <h1>{{ course.name_en }}</h1>
+                                </div>
+                                <div class="btn"><button>Unsigned</button></div>
+                                <div>
+                                    <p v-if="course.time_td != 0">TD : {{ course.time_td }} H</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="item" v-if="!filteredCourses.length && course_search !== ''"
+                            style="
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                            ">
+                            <h3>No Course!</h3>
+                        </div> -->
                     </div>
-
-                    <!-- <div class="item">
-                        <div class="icons">
-                            <i class="icon pi pi-ellipsis-v"></i>
-                            <i class="icon pi pi-ellipsis-v"></i>
-                        </div>
-                        <div class="course-info">
-                            <div>
-                                <h1>Internet Programming</h1>
-                            </div>
-                            <div class="btn"><button>Unsigned</button></div>
-                            <div>
-                                <h1>TP : 16 H</h1>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="item">
-                        <div class="icons">
-                            <i class="icon pi pi-ellipsis-v"></i>
-                            <i class="icon pi pi-ellipsis-v"></i>
-                        </div>
-                        <div class="course-info">
-                            <div>
-                                <h1>Internet Programming</h1>
-                            </div>
-                            <div class="btn"><button>Unsigned</button></div>
-                            <div>
-                                <h1>TP : 16 H</h1>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="item">
-                        <div class="icons">
-                            <i class="icon pi pi-ellipsis-v"></i>
-                            <i class="icon pi pi-ellipsis-v"></i>
-                        </div>
-                        <div class="course-info">
-                            <div>
-                                <h1>Internet Programming</h1>
-                            </div>
-                            <div class="btn"><button>Unsigned</button></div>
-                            <div>
-                                <h1>TP : 16 H</h1>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="item">
-                        <div class="icons">
-                            <i class="icon pi pi-ellipsis-v"></i>
-                            <i class="icon pi pi-ellipsis-v"></i>
-                        </div>
-                        <div class="course-info">
-                            <div>
-                                <h1>Internet Programming</h1>
-                            </div>
-                            <div class="btn"><button>Unsigned</button></div>
-                            <div>
-                                <h1>TP : 16 H</h1>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="item">
-                        <div class="icons">
-                            <i class="icon pi pi-ellipsis-v"></i>
-                            <i class="icon pi pi-ellipsis-v"></i>
-                        </div>
-                        <div class="course-info">
-                            <div>
-                                <h1>Internet Programming</h1>
-                            </div>
-                            <div class="btn"><button>Unsigned</button></div>
-                            <div>
-                                <h1>TP : 16 H</h1>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="item">
-                        <div class="icons">
-                            <i class="icon pi pi-ellipsis-v"></i>
-                            <i class="icon pi pi-ellipsis-v"></i>
-                        </div>
-                        <div class="course-info">
-                            <div>
-                                <h1>Internet Programming</h1>
-                            </div>
-                            <div class="btn"><button>Unsigned</button></div>
-                            <div>
-                                <h1>TP : 16 H</h1>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="item">
-                        <div class="icons">
-                            <i class="icon pi pi-ellipsis-v"></i>
-                            <i class="icon pi pi-ellipsis-v"></i>
-                        </div>
-                        <div class="course-info">
-                            <div>
-                                <h1>Internet Programming</h1>
-                            </div>
-                            <div class="btn"><button>Unsigned</button></div>
-                            <div>
-                                <h1>TP : 16 H</h1>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="icons">
-                            <i class="icon pi pi-ellipsis-v"></i>
-                            <i class="icon pi pi-ellipsis-v"></i>
-                        </div>
-                        <div class="course-info">
-                            <div>
-                                <h1>Internet Programming</h1>
-                            </div>
-                            <div class="btn"><button>Unsigned</button></div>
-                            <div>
-                                <h1>TP : 16 H</h1>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="item">
-                        <div class="icons">
-                            <i class="icon pi pi-ellipsis-v"></i>
-                            <i class="icon pi pi-ellipsis-v"></i>
-                        </div>
-                        <div class="course-info">
-                            <div>
-                                <h1>Internet Programming</h1>
-                            </div>
-                            <div class="btn"><button>Unsigned</button></div>
-                            <div>
-                                <h1>TP : 16 H</h1>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="icons">
-                            <i class="icon pi pi-ellipsis-v"></i>
-                            <i class="icon pi pi-ellipsis-v"></i>
-                        </div>
-                        <div class="course-info">
-                            <div>
-                                <h1>Internet Programming</h1>
-                            </div>
-                            <div class="btn"><button>Unsigned</button></div>
-                            <div>
-                                <h1>TP : 16 H</h1>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="item">
-                        <div class="icons">
-                            <i class="icon pi pi-ellipsis-v"></i>
-                            <i class="icon pi pi-ellipsis-v"></i>
-                        </div>
-                        <div class="course-info">
-                            <div>
-                                <h1>Internet Programming</h1>
-                            </div>
-                            <div class="btn"><button>Unsigned</button></div>
-                            <div>
-                                <h1>TP : 16 H</h1>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="icons">
-                            <i class="icon pi pi-ellipsis-v"></i>
-                            <i class="icon pi pi-ellipsis-v"></i>
-                        </div>
-                        <div class="course-info">
-                            <div>
-                                <h1>Internet Programming</h1>
-                            </div>
-                            <div class="btn"><button>Unsigned</button></div>
-                            <div>
-                                <h1>TP : 16 H</h1>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="item">
-                        <div class="icons">
-                            <i class="icon pi pi-ellipsis-v"></i>
-                            <i class="icon pi pi-ellipsis-v"></i>
-                        </div>
-                        <div class="course-info">
-                            <div>
-                                <h1>Internet Programming</h1>
-                            </div>
-                            <div class="btn"><button>Unsigned</button></div>
-                            <div>
-                                <h1>TP : 16 H</h1>
-                            </div>
-                        </div>
-                    </div> -->
-
-                </div>
+                </draggable>
             </div>
         </div>
         <!-- room  -->
         <div class="sub-container" v-if="activeButton === 2">
             <div class="search">
-                <input type="text" placeholder="Search room ..">
-                <i class="icon pi pi-search"></i>
+                <input type="text" placeholder="Search room .." v-model="room_search">
+                <!-- <i class="icon pi pi-search"></i> -->
             </div>
             <div class="data">
                 <div class="items">
-                    <div class="item-room" v-for="room in rooms" :key="room.id">
+                    <div class="item-room" v-for="room in filteredRooms" :key="room.id">
                         <div class="room-number">
-                            <h3>{{ room.building.code }} - {{ room.name }}</h3>
+                            <h3>{{ room.building.code }}-{{ room.name }}</h3>
                         </div>
                         <div class="room-name">
                             <h4>{{ room.room_type.name }}</h4>
@@ -278,12 +110,12 @@
         <!-- lecturer -->
         <div class="sub-container" v-if="activeButton === 3">
             <div class="search">
-                <input type="text" placeholder="Search lecturer ..">
-                <i class="icon pi pi-search"></i>
+                <input type="text" placeholder="Search lecturer .." v-model="lecturer_search">
+                <!-- <i class="icon pi pi-search"></i> -->
             </div>
             <div class="data">
                 <div class="items">
-                    <div class="item-lecturer" v-for="lecturer in lecturers" :key="lecturer.id">
+                    <div class="item-lecturer" v-for="lecturer in filteredLecturers" :key="lecturer.id">
                         <div class="icon">
                             <img src="../assets/image/avatar.png" alt="avatar">
                         </div>
@@ -304,13 +136,16 @@
             </div>
         </div>
     </div>
-    <div>{{ test }}</div>
 </template>
 
 <script>
 
 import 'primeicons/primeicons.css';
 import axios from 'axios';
+import Vue from 'Vue'
+import draggable from 'vuedraggable'
+
+Vue.component('draggable', draggable)
 
 export default {
     data() {
@@ -319,7 +154,13 @@ export default {
             rooms: [],
             lecturers: [],
             courses: [],
-            // test: VUE_APP_ROOM
+            course_search: '',
+            room_search: '',
+            lecturer_search: '',
+            filteredCourses: [], // Your data array
+            dragOptions: {
+                // Customize drag-and-drop options if needed
+            }
         }
     },
     methods: {
@@ -335,12 +176,79 @@ export default {
             .catch(error => {
                 console.error('An error occurred:', error);
             });
-        axios.get(`http://127.0.0.1:8000/api/employees/get_lecturer`)
-            .then(response => {
-                this.lecturers = response.data.data;
-            });
+        // axios.get(`http://127.0.0.1:8000/api/employees/get_lecturer`)
+        //     .then(response => {
+        //         this.lecturers = response.data.data;
+        //     });
         axios.get(`http://127.0.0.1:8000/api/course/get_course`)
             .then(response => this.courses = response.data);
+
+        axios.get(`http://127.0.0.1:8000/api/employees/get_lecturer`)
+            .then(response => {
+                this.lecturers = response.data;
+            });
+
+
+    },
+    computed: {
+        filteredCourses() {
+            const searchTerm = this.course_search.toLowerCase().trim(); // Convert search term to lowercase and remove leading/trailing whitespace
+
+            if (!searchTerm) {
+                // If the search input is empty, return all courses
+                return this.courses;
+            }
+
+            // Use the filter() method to filter courses based on the search term
+            return this.courses.filter(course => {
+                // You can customize the conditions for filtering based on your requirements
+                return (
+                    course.name_en.toLowerCase().includes(searchTerm) ||
+                    (course.time_course != 0 && course.time_course.toString().includes(searchTerm)) ||
+                    (course.time_tp != 0 && course.time_tp.toString().includes(searchTerm)) ||
+                    (course.time_td != 0 && course.time_td.toString().includes(searchTerm))
+                );
+            });
+        },
+        filteredRooms() {
+            const searchTerm = this.room_search.toLowerCase().trim(); // Convert search term to lowercase and remove leading/trailing whitespace
+
+            if (!searchTerm) {
+                // If the search input is empty, return all rooms
+                return this.rooms;
+            }
+
+            // Use the filter() method to filter rooms based on the search term
+            return this.rooms.filter(room => {
+                const fullRoomName = `${room.building.code}-${room.name}`.toLowerCase(); // Create the full room name and convert to lowercase
+
+                return (
+                    fullRoomName.includes(searchTerm) || // Check if the search term is in the full room name
+                    room.building.code.toLowerCase().includes(searchTerm) || // Check if it matches building code
+                    room.room_type.name.toLowerCase().includes(searchTerm) || // Check if it matches room type
+                    (room.nb_desk !== null && room.nb_desk.toString().includes(searchTerm)) || // Check if it matches desk count
+                    (room.nb_chair !== null && room.nb_chair.toString().includes(searchTerm)) // Check if it matches chair count
+                );
+            })
+        },
+        filteredLecturers() {
+            const searchTerm = this.lecturer_search.toLowerCase().trim(); // Convert search term to lowercase and remove leading/trailing whitespace
+
+            if (!searchTerm) {
+                // If the search input is empty, return all lecturers
+                return this.lecturers;
+            }
+
+            return this.lecturers.filter(lecturer => {
+                const idCard = `${lecturer.id_card}`; // Convert id_card to lowercase or use an empty string if it's null
+                const lecturerNameLatin = lecturer.name_latin.toLowerCase();
+
+                return (
+                    idCard.includes(searchTerm) || // Check for an exact match by ID card
+                    lecturerNameLatin.includes(searchTerm) // Check if search term is in lecturer name
+                );
+            });
+        },
     }
 }
 </script>
@@ -492,7 +400,7 @@ button.navbars.lecturer.active {
 
 /* item course  */
 .contianer .sub-container .data .items .item {
-    height: 80px;
+    height: 100px;
     /* width: 100%; */
     background-color: #ffffff;
     /* padding: 5%; */
@@ -505,7 +413,7 @@ button.navbars.lecturer.active {
 .contianer .sub-container .data .items .item:hover {
     background-color: #A7ECEE;
     box-shadow: -2px 2px 6px -4px rgba(0, 0, 0, 0.79);
-    cursor: all-scroll;
+    cursor: pointer;
     transition: all 0.4s;
 }
 
@@ -520,7 +428,7 @@ button.navbars.lecturer.active {
 }
 
 .contianer .sub-container .data .items .item .course-info {
-    height: 70%;
+    height: 80%;
     width: 100%;
     background-color: aliceblue;
     display: flex;
@@ -650,5 +558,10 @@ button.navbars.lecturer.active {
     display: flex;
     font-size: 12px;
     padding-top: 9.3px;
+}
+
+/* course css*/
+.contianer .sub-container .data .items .itemss {
+    width: 100%;
 }
 </style>
