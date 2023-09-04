@@ -252,7 +252,7 @@ export default {
   height: 100vh;
 }
 .sidebar h1{
-  margin-top: 22px;
+  margin-top: 20px;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 27px;
 }
@@ -262,6 +262,10 @@ export default {
   background-color: white;
   margin: 7px auto;
   border: none;
+  position: absolute;
+  /* left: 30px; */
+  animation: slideFromLeft 7s linear forwards;
+  
 }
 body{
   width: 100%;
