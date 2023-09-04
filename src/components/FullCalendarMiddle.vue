@@ -188,7 +188,6 @@
 
             }
         },
-<<<<<<< HEAD
         mounted() {
             const self = this; // Store a reference to the component instance
 
@@ -205,12 +204,6 @@
                 }
                 });
             });
-=======
-        created() {
-            // Fetch data from the API when the component is created
-            this.fetchGroups();
-            this.fetchWeeks();
->>>>>>> edd0eced478494872ca3170faceaeadca7bdad85
         },
         methods: {
             customDayHeaderContent(args) {
@@ -287,7 +280,6 @@
                     `,
                 };
             },
-<<<<<<< HEAD
             // @sweetalert2
             async confirmDelete(eventId) {
                 const result = await Swal.fire({
@@ -307,7 +299,6 @@
                     this.events.splice(index, 1);
                 }
             }, 
-=======
 
 
             // Do on API
@@ -333,7 +324,6 @@
                 console.error('Error fetching weeks:', error);
                 });
             },
->>>>>>> edd0eced478494872ca3170faceaeadca7bdad85
         }
     }
 </script>
