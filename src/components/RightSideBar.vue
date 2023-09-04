@@ -18,7 +18,7 @@
                 <!-- <i class="icon pi pi-search"></i> -->
             </div>
             <div class="data">
-                <draggable class="items" v-model="filteredCourses" :options="dragOptions">
+                <div class="items">
                     <div class="itemss" v-for="course in filteredCourses" :key="course.id">
                         <div class="item" v-if="course.time_course != 0">
                             <div class="icons">
@@ -74,7 +74,7 @@
                             <h3>No Course!</h3>
                         </div> -->
                     </div>
-                </draggable>
+                </div>
             </div>
         </div>
         <!-- room  -->
@@ -142,10 +142,7 @@
 
 import 'primeicons/primeicons.css';
 import axios from 'axios';
-import Vue from 'Vue'
-import draggable from 'vuedraggable'
-
-Vue.component('draggable', draggable)
+import draggable from 'vuedraggable';
 
 export default {
     data() {
@@ -157,12 +154,11 @@ export default {
             course_search: '',
             room_search: '',
             lecturer_search: '',
-            filteredCourses: [], // Your data array
-            dragOptions: {
-                // Customize drag-and-drop options if needed
-            }
         }
     },
+    // components:{
+    //     draggable
+    // },
     methods: {
         showInfo(buttonNumber) {
             this.activeButton = buttonNumber;
