@@ -20,7 +20,7 @@
             <div class="data">
                 <div class="items">
                     <div class="itemss" v-for="course in filteredCourses" :key="course.id">
-                        <div class="item" v-if="course.time_course != 0">
+                        <div class="item" v-if="course.time_course != 0" draggable="true">
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
@@ -35,7 +35,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item" v-if="course.time_tp != 0">
+                        <div class="item" v-if="course.time_tp != 0" draggable="true">
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
@@ -50,7 +50,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item" v-if="course.time_td != 0">
+                        <div class="item" v-if="course.time_td != 0" draggable="true">
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
@@ -144,7 +144,7 @@ import 'primeicons/primeicons.css';
 import axios from 'axios';
 import draggable from 'vuedraggable';
 
-// Vue.component('draggable', draggable)
+// Vue.component('draggable', draggable) 
 
 export default {
     data() {
@@ -156,7 +156,7 @@ export default {
             course_search: '',
             room_search: '',
             lecturer_search: '',
-        }
+        };
     },
     // components:{
     //     draggable
@@ -164,10 +164,10 @@ export default {
     methods: {
         showInfo(buttonNumber) {
             this.activeButton = buttonNumber;
-        }
+        },
     },
     mounted() {
-        axios.get(`http://127.0.0.1:8000/api/rooms/get_rooms`)
+        axios.get(`http://127.0.0.1:8000/api/rooms/get_room`)
             .then(response => {
                 this.rooms = response.data;
             })
@@ -178,7 +178,7 @@ export default {
         //     .then(response => {
         //         this.lecturers = response.data.data;
         //     });
-        axios.get(`http://127.0.0.1:8000/api/course/get_course`)
+        axios.get(`http://127.0.0.1:8000/api/courses/get_course`)
             .then(response => this.courses = response.data);
 
         axios.get(`http://127.0.0.1:8000/api/employees/get_lecturer`)
