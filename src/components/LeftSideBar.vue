@@ -127,7 +127,7 @@ export default {
 
   methods: {
     fetchAcademyYears() {
-      const apiUrl = 'http://127.0.0.1:8000/api/get-all-AcademicYears';
+      const apiUrl = 'http://127.0.0.1:8000/api/get_all_AcademicYears';
       axios.get(apiUrl)
         .then(response => {
           this.fetchedAcademyYears = response.data;
