@@ -142,7 +142,7 @@
 
 import 'primeicons/primeicons.css';
 import axios from 'axios';
-import draggable from 'vuedraggable';
+// import draggable from 'vuedraggable';
 
 export default {
     data() {

@@ -8,6 +8,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.4.2",
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-brands-svg-icons": "^6.4.2",
+    "@fortawesome/free-regular-svg-icons": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@fortawesome/vue-fontawesome": "^3.0.3",
     "@fullcalendar/core": "^6.1.8",
     "@fullcalendar/daygrid": "^6.1.8",
     "@fullcalendar/interaction": "^6.1.8",
@@ -15,10 +21,7 @@
     "@fullcalendar/timegrid": "^6.1.8",
     "@fullcalendar/vue3": "^6.1.8",
     "axios": "^1.5.0",
-<<<<<<< HEAD
-=======
     "dotenv": "^16.3.1",
->>>>>>> 8ecdfb82c7e3307b597bfeff3a09b6ac7b8ee111
     "fullcalendar": "^6.1.8",
     "primeicons": "^6.0.1",
     "sweetalert2": "^11.7.27",
