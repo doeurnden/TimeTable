@@ -21,10 +21,7 @@
     "@fullcalendar/timegrid": "^6.1.8",
     "@fullcalendar/vue3": "^6.1.8",
     "axios": "^1.5.0",
-<<<<<<< HEAD
     "dotenv": "^16.3.1",
-=======
->>>>>>> f3a8115f837c0bc4e059e278a01fb1e2a1aa1067
     "fullcalendar": "^6.1.8",
     "primeicons": "^6.0.1",
     "sweetalert2": "^11.7.27",

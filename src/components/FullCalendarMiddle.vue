@@ -204,11 +204,8 @@
                 }
                 });
             });
-<<<<<<< HEAD
             this.fetchAcademyYears()
             this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
-=======
->>>>>>> f3a8115f837c0bc4e059e278a01fb1e2a1aa1067
         },
         // Fetch data from the API when the component is created
         // created() {
@@ -309,34 +306,31 @@
                     this.events.splice(index, 1);
                 }
             }, 
-<<<<<<< HEAD
 
 
             // Do on API
-            // fetchGroups() {
-            //     const apiUrl = 'http://127.0.0.1:8000/api/get-all-Groups';
-            //     axios.get(apiUrl)
-            //       .then((response) => {
-            //        this.fetchedGroups = response.data;
-            //        this.selectedGroup = this.fetchGroups[0].code
-            //     })
-            //     .catch((error) => {
-            //     console.error('Error fetching groups:', error);
-            //     });
-            // },
-            // fetchWeeks() {
-            //     const apiUrl = 'http://127.0.0.1:8000/api/get-all-Weeks';
-            //     axios.get(apiUrl)
-            //       .then((response) => {
-            //        this.fetchedWeeks = response.data;
-            //        this.selectedWeek = this.fetchedWeeks[0].name_en
-            //     })
-            //     .catch((error) => {
-            //         console.error('Error fetching weeks:', error);
-            //     });
-            // },
-=======
->>>>>>> f3a8115f837c0bc4e059e278a01fb1e2a1aa1067
+            fetchGroups() {
+                const apiUrl = 'http://127.0.0.1:8000/api/get-all-Groups';
+                axios.get(apiUrl)
+                  .then((response) => {
+                   this.fetchedGroups = response.data;
+                   this.selectedGroup = this.fetchGroups[0].code
+                })
+                .catch((error) => {
+                console.error('Error fetching groups:', error);
+                });
+            },
+            fetchWeeks() {
+                const apiUrl = 'http://127.0.0.1:8000/api/get-all-Weeks';
+                axios.get(apiUrl)
+                  .then((response) => {
+                   this.fetchedWeeks = response.data;
+                   this.selectedWeek = this.fetchedWeeks[0].name_en
+                })
+                .catch((error) => {
+                    console.error('Error fetching weeks:', error);
+                });
+            },
         }
         
     }

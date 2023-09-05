@@ -1,6 +1,5 @@
 <template>
   <div class="sidebar">
-<<<<<<< HEAD
     <h1><center>Content</center></h1>
     <div class="horizon">
       <hr>
@@ -13,14 +12,6 @@
       <select v-model="selectedAcademyYear" class="form-select">
         <option v-for="year in fetchedAcademyYears" :key="year.id">{{ year.name_latin }}</option>
       </select>
-=======
-    <h1>Content</h1>
-    <hr>
-    <!-- Academy Years -->
-    <select v-model="selectedAcademyYear" class="form-select">
-      <option v-for="year in fetchedAcademyYears" :key="year.id">{{ year.name_latin }}</option>
-    </select>
->>>>>>> f3a8115f837c0bc4e059e278a01fb1e2a1aa1067
 
       <!-- Departments -->
       <div class="icon">
@@ -96,19 +87,9 @@ export default {
     };
   },
   // mounted:()=>{
-<<<<<<< HEAD
   //   this.fetchAcademyYears()
   //   this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
   // },
-=======
-  //   this.fetchAcademyYears();
-  //   this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
-  // },
-  mounted() {
-  this.fetchAcademyYears(); // Call the method here
-  this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
-},
->>>>>>> f3a8115f837c0bc4e059e278a01fb1e2a1aa1067
   computed: {
     filteredDepartmentOptions() {
       if (!this.selectedDepartment) {
@@ -146,12 +127,7 @@ export default {
 
   methods: {
     fetchAcademyYears() {
-<<<<<<< HEAD
       const apiUrl = 'http://127.0.0.1:8000/api/get-all-AcademicYears';
-=======
-      const apiUrl = 'http://127.0.0.1:8000/api/get_all_AcademicYears';
-
->>>>>>> f3a8115f837c0bc4e059e278a01fb1e2a1aa1067
       axios.get(apiUrl)
         .then(response => {
           this.fetchedAcademyYears = response.data;
