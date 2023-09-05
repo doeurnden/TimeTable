@@ -204,7 +204,10 @@
                 }
                 });
             });
+            this.fetchAcademyYears()
+            this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
         },
+
         methods: {
             customDayHeaderContent(args) {
                 const date = new Date(args.date);
@@ -299,6 +302,38 @@
                     this.events.splice(index, 1);
                 }
             }, 
+
+
+            // Do on API
+            fetchGroups() {
+                const apiUrl = 'http://127.0.0.1:8000/api/get_all_Groups';
+                axios.get(apiUrl)
+                  .then((response) => {
+                   this.fetchedGroups = response.data;
+                   this.selectedGroup = this.fetchGroups[0].code
+                })
+                .catch((error) => {
+                console.error('Error fetching groups:', error);
+                });
+            },
+            fetchWeeks() {
+                const apiUrl = 'http://127.0.0.1:8000/api/get_all_Weeks';
+                axios.get(apiUrl)
+                  .then((response) => {
+                   this.fetchedWeeks = response.data;
+                   this.selectedWeek = this.fetchedWeeks[0].name_en
+                })
+                .catch((error) => {
+                    console.error('Error fetching weeks:', error);
+                });
+            },
+            fetchdata(){
+                this.fetchGroups();
+                this.fetchWeeks();
+            }
+        },
+        created(){
+            this.fetchdata();
         }
     }
 </script>
