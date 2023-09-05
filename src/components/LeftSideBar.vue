@@ -127,7 +127,7 @@ export default {
 
   methods: {
     fetchAcademyYears() {
-      const apiUrl = 'http://127.0.0.1:8000/api/get_all_AcademicYears';
+      const apiUrl = 'http://127.0.0.1:8000/api/get_all_academicYears';
       axios.get(apiUrl)
         .then(response => {
           this.fetchedAcademyYears = response.data;
@@ -138,7 +138,7 @@ export default {
         });
     },
     fetchDepartments() {
-      const apiUrl = 'http://127.0.0.1:8000/api/get_all_Departments';
+      const apiUrl = 'http://127.0.0.1:8000/api/get_all_departments';
 
       axios.get(apiUrl)
         .then(response => {
@@ -150,7 +150,7 @@ export default {
         });
     },
     fetchDegrees() {
-      const apiUrl = 'http://127.0.0.1:8000/api/get_all_Degrees';
+      const apiUrl = 'http://127.0.0.1:8000/api/get_all_degrees';
 
       axios.get(apiUrl)
         .then(response => {
@@ -163,7 +163,7 @@ export default {
     },
  
     fetchDepOptions() {
-      const apiUrl = 'http://127.0.0.1:8000/api/get_all_DepOptions';
+      const apiUrl = 'http://127.0.0.1:8000/api/get_all_depOptions';
 
       axios.get(apiUrl)
         .then(response => {
@@ -176,7 +176,7 @@ export default {
         });
     },
     fetchGrades() {
-      const apiUrl = 'http://127.0.0.1:8000/api/get_all_Grades';
+      const apiUrl = 'http://127.0.0.1:8000/api/get_all_grades';
 
       axios.get(apiUrl)
         .then(response => {
@@ -188,7 +188,7 @@ export default {
         });
     },
     fetchSemesters() {
-      const apiUrl = 'http://127.0.0.1:8000/api/get_all_Semesters';
+      const apiUrl = 'http://127.0.0.1:8000/api/get_all_semesters';
 
       axios.get(apiUrl)
         .then(response => {
