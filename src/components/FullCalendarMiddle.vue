@@ -14,7 +14,7 @@
                 <div class="select-group">
                     <form action="">
                         <select name="group" v-model="selectedGroup">
-                            <!-- <option v-for="group in fetchedGroups" :key="group.id" :value="group.id">{{ group.code }}</option> -->
+                            <option v-for="group in fetchedGroups" :key="group.id" :value="group.id">{{ group.code }}</option>
                         </select>
                     </form>
                 </div>
@@ -22,7 +22,7 @@
                 <div class="select-week">
                     <form action="">
                         <select name="group" v-model="selectedWeek">
-                            <!-- <option v-for="week in fetchedWeeks" :key="week.id" :value="week.id">{{ week.name_en }}</option> -->
+                            <option v-for="week in fetchedWeeks" :key="week.id" :value="week.id">{{ week.name_en }}</option>
                         </select>
                     </form>
                 </div>
@@ -38,7 +38,7 @@
     import listPlugin from '@fullcalendar/list'
     import timeGridPlugin from '@fullcalendar/timegrid'
     import interactionPlugin from '@fullcalendar/interaction'
-    // import axios from 'axios';
+    import axios from 'axios';
 
     export default{
         components: {
@@ -207,11 +207,7 @@
             this.fetchAcademyYears()
             this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
         },
-        // Fetch data from the API when the component is created
-        // created() {
-        //     this.fetchGroups();
-        //     this.fetchWeeks();
-        // },
+
         methods: {
             customDayHeaderContent(args) {
                 const date = new Date(args.date);
@@ -310,7 +306,7 @@
 
             // Do on API
             fetchGroups() {
-                const apiUrl = 'http://127.0.0.1:8000/api/get-all-Groups';
+                const apiUrl = 'http://127.0.0.1:8000/api/get_all_Groups';
                 axios.get(apiUrl)
                   .then((response) => {
                    this.fetchedGroups = response.data;
@@ -321,7 +317,7 @@
                 });
             },
             fetchWeeks() {
-                const apiUrl = 'http://127.0.0.1:8000/api/get-all-Weeks';
+                const apiUrl = 'http://127.0.0.1:8000/api/get_all_Weeks';
                 axios.get(apiUrl)
                   .then((response) => {
                    this.fetchedWeeks = response.data;
@@ -331,8 +327,14 @@
                     console.error('Error fetching weeks:', error);
                 });
             },
+            fetchdata(){
+                this.fetchGroups();
+                this.fetchWeeks();
+            }
+        },
+        created(){
+            this.fetchdata();
         }
-        
     }
 </script>
 

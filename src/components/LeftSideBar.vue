@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar">
-    <h1><center>Content</center></h1>
+    <h1>Content</h1>
     <div class="horizon">
       <hr>
     </div>
