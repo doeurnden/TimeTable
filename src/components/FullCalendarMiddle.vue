@@ -204,8 +204,11 @@
                 }
                 });
             });
+<<<<<<< HEAD
             this.fetchAcademyYears()
             this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
+=======
+>>>>>>> f3a8115f837c0bc4e059e278a01fb1e2a1aa1067
         },
         // Fetch data from the API when the component is created
         // created() {
@@ -306,6 +309,7 @@
                     this.events.splice(index, 1);
                 }
             }, 
+<<<<<<< HEAD
 
 
             // Do on API
@@ -331,6 +335,8 @@
             //         console.error('Error fetching weeks:', error);
             //     });
             // },
+=======
+>>>>>>> f3a8115f837c0bc4e059e278a01fb1e2a1aa1067
         }
         
     }
