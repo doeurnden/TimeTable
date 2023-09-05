@@ -255,7 +255,27 @@ export default {
     selectedGroup() {
       // Any logic needed when selectedGroup changes...
     },
-    // Add watch handlers for other selections...
+    
+    //send signal from child to parent
+
+    selectedAcademyYear(newValue){
+      this.$emit('academic-year-selected', newValue);
+    },
+    selectedDepartment(newValue){
+      this.$emit('department-selected', newValue);
+    },
+    selectedDegree(newValue){
+      this.$emit('degree-selected', newValue);
+    },
+    selectedDepOption(newValue){
+      this.$emit('depOption-selected', newValue);
+    },
+    selectedGrade(newValue){
+      this.$emit('grade-selected', newValue);
+    },
+    selectedSemester(newValue){
+      this.$emit('semester-selected', newValue);
+    }
   },
   created() {
     this.fetchData();

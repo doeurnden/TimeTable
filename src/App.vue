@@ -1,8 +1,14 @@
 <template>
     <div class="container">
-      <LeftSideBar />
+      <LeftSideBar
+      @academic-year-selected="handleAcademicYearSelected"
+      @department-selected="handleDepartmentSelected"
+      ></LeftSideBar>
       <FullCalendar_Middle/>
       <RightSideBar/>
+
+      
+
     </div>
 </template>
   
@@ -17,7 +23,40 @@ export default {
     LeftSideBar,
     FullCalendar_Middle,
     RightSideBar
-  }
+  },
+  data(){
+    return{
+      selectedAcademyYear: "",    // Selected academy year
+      selectedDepartment: "",     // Selected department
+      selectedDegree: "",         // Selected degree
+      selectedDepOption: "",      // Selected department option
+      selectedGrade: "",          // Selected grade
+      selectedSemester: "",       // Selected semester
+    };
+  },
+  methods: {
+    handleAcademicYearSelected(selectedValue) {
+      // this.selectedAcademyYear = selectedValue;
+      console.log('Selected option:', selectedValue);
+    },
+    handleDepartmentSelected(selectedValue) {
+      // this.selectedDepartment = selectedValue;
+      console.log('Selected option:', selectedValue);
+    },
+    handleDegreeSelected(selectedValue) {
+      // this.selectedDegree = selectedValue;
+      console.log('Selected option:', selectedValue);
+    },
+    handleDepartmentSelected(selectedValue) {
+      // this.selectedDepOption = selectedValue;
+    },
+    handleGradeSelected(selectedValue) {
+      // this.selectedGrade = selectedValue;
+    },
+    handleSemesterSelected(selectedValue) {
+      // this.selectedSemester = selectedValue;
+    }
+  },
 };
 </script>
 
