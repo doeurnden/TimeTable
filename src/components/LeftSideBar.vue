@@ -303,7 +303,7 @@ body{
   background-color: white;
   margin: 7px auto;
   position: absolute;
-  animation: slideFromLeft 7s linear forwards;
+  animation: slideFromLeft 5.9s linear forwards;
   top: 50px;
   box-sizing: border-box;
 }

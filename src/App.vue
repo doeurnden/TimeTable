@@ -10,9 +10,6 @@
       ></LeftSideBar>
       <FullCalendar_Middle/>
       <RightSideBar/>
-
-      
-
     </div>
 </template>
   
@@ -83,11 +80,6 @@ export default {
     width: 100%;
     height: 100%;
     display: flex;
-  }
-  @media screen and (max-width: 1325) { 
-    .container{
-      widows: 99%;
-    }
   }
 </style>
 
