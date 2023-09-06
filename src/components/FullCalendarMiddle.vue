@@ -14,8 +14,7 @@
                 <div class="select-group">
                     <form action="">
                         <select name="group" v-model="selectedGroup">
-                            <option v-for="group in fetchedGroups" :key="group.id" :value="group.id">{{ group.code }}
-                            </option>
+                            <option v-for="group in fetchedGroups" :key="group.id" :value="group.id">{{ group.code }}</option>
                         </select>
                     </form>
                 </div>
@@ -23,6 +22,7 @@
                 <div class="select-week">
                     <form action="">
                         <select name="group" v-model="selectedWeek">
+                            <option value="" disabled>Weeks</option>
                             <option v-for="week in fetchedWeeks" :key="week.id" :value="week.id">{{ week.name_en }}</option>
                         </select>
                     </form>
@@ -306,13 +306,13 @@ export default {
         },
 
 
-        // Do on API
-        fetchGroups() {
-            const apiUrl = 'http://127.0.0.1:8000/api/get_all_groups';
-            axios.get(apiUrl)
-                .then((response) => {
-                    this.fetchedGroups = response.data;
-                    this.selectedGroup = this.fetchGroups[0].code
+            // Do on API Backend
+            fetchGroups() {
+                const apiUrl = 'http://127.0.0.1:8000/api/get_all_groups';
+                axios.get(apiUrl)
+                  .then((response) => {
+                   this.fetchedGroups = response.data;
+                   this.selectedGroup = this.fetchGroups[0].code
                 })
                 .catch((error) => {
                     console.error('Error fetching groups:', error);
