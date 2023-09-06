@@ -306,7 +306,7 @@
 
             // Do on API
             fetchGroups() {
-                const apiUrl = 'http://127.0.0.1:8000/api/get_all_Groups';
+                const apiUrl = 'http://127.0.0.1:8000/api/get_all_groups';
                 axios.get(apiUrl)
                   .then((response) => {
                    this.fetchedGroups = response.data;
@@ -317,7 +317,7 @@
                 });
             },
             fetchWeeks() {
-                const apiUrl = 'http://127.0.0.1:8000/api/get_all_Weeks';
+                const apiUrl = 'http://127.0.0.1:8000/api/get_all_weeks';
                 axios.get(apiUrl)
                   .then((response) => {
                    this.fetchedWeeks = response.data;
