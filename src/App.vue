@@ -1,8 +1,12 @@
 <template>
     <div class="container">
       <LeftSideBar
-      @academic-year-selected="handleAcademicYearSelected"
+      @academy-year-selected="handleAcademicYearSelected"
       @department-selected="handleDepartmentSelected"
+      @degree-selected="handleDegreeSelected"
+      @depOption-selected="handleDepOptionSelected"
+      @grade-selected="handleGradeSelected"
+      @semester-selected="handleSemesterSelected"
       ></LeftSideBar>
       <FullCalendar_Middle/>
       <RightSideBar/>
@@ -37,24 +41,27 @@ export default {
   methods: {
     handleAcademicYearSelected(selectedValue) {
       // this.selectedAcademyYear = selectedValue;
-      console.log('Selected option:', selectedValue);
+      console.log('Academy Year Selected:', selectedValue);
     },
     handleDepartmentSelected(selectedValue) {
       // this.selectedDepartment = selectedValue;
-      console.log('Selected option:', selectedValue);
+      console.log('Department Selected:', selectedValue);
     },
     handleDegreeSelected(selectedValue) {
       // this.selectedDegree = selectedValue;
-      console.log('Selected option:', selectedValue);
+      console.log('Degree Selected::', selectedValue);
     },
-    handleDepartmentSelected(selectedValue) {
+    handleDepOptionSelected(selectedValue) {
       // this.selectedDepOption = selectedValue;
+      console.log('Department Option Selected:', selectedValue);
     },
     handleGradeSelected(selectedValue) {
       // this.selectedGrade = selectedValue;
+      console.log('Grade Selected:', selectedValue);
     },
     handleSemesterSelected(selectedValue) {
       // this.selectedSemester = selectedValue;
+      console.log('Semester Selected:', selectedValue);
     }
   },
 };
