@@ -1,31 +1,26 @@
 <template>
-    <div class="container">
-      <LeftSideBar
-      @academic-year-selected="handleAcademicYearSelected"
-      @department-selected="handleDepartmentSelected"
-      ></LeftSideBar>
-      <FullCalendar_Middle/>
-      <RightSideBar/>
-
-      
-
-    </div>
+  <div class="container">
+    <LeftSideBar @academic-year-selected="handleAcademicYearSelected" @department-selected="handleDepartmentSelected">
+    </LeftSideBar>
+    <FullCalendarMiddle />
+    <RightSideBar />
+  </div>
 </template>
   
 <script>
 import LeftSideBar from './components/LeftSideBar.vue'
-import FullCalendar_Middle from './components/FullCalendarMiddle.vue'
+import FullCalendarMiddle from './components/FullCalendarMiddle.vue'
 import RightSideBar from './components/RightSideBar.vue';
 // import timeGridPlugin from '@fullcalendar/timegrid'
 
 export default {
   components: {
     LeftSideBar,
-    FullCalendar_Middle,
+    FullCalendarMiddle,
     RightSideBar
   },
-  data(){
-    return{
+  data() {
+    return {
       selectedAcademyYear: "",    // Selected academy year
       selectedDepartment: "",     // Selected department
       selectedDegree: "",         // Selected degree
@@ -62,25 +57,28 @@ export default {
 
 
 <style>
-  *{
-      margin: 0px;
-      padding: 0px;
-      box-sizing: border-box !important;
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box !important;
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+  /* background-color: green; */
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+@media screen and (max-width: 1325) {
+  .container {
+    widows: 99%;
   }
-  body{
-    width: 100%;
-    height: 100vh;
-    /* background-color: green; */
-  }
-  .container{
-    width: 100%;
-    height: 100%;
-    display: flex;
-  }
-  @media screen and (max-width: 1325) { 
-    .container{
-      widows: 99%;
-    }
-  }
+}
 </style>
 

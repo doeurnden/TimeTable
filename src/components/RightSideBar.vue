@@ -19,8 +19,8 @@
             </div>
             <div class="data">
                 <div class="items">
-                    <div class="itemss" v-for="course in filteredCourses" :key="course.id">
-                        <div class="item" v-if="course.time_course != 0" draggable="true">
+                    <Draggable class="itemss" v-for="course in filteredCourses" :key="course.id">
+                        <div class="item" v-if="course.time_course != 0" >
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
@@ -35,7 +35,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item" v-if="course.time_tp != 0" draggable="true">
+                        <div class="item" v-if="course.time_tp != 0" >
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
@@ -50,7 +50,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item" v-if="course.time_td != 0" draggable="true">
+                        <div class="item" v-if="course.time_td != 0" >
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
@@ -73,7 +73,7 @@
                             ">
                             <h3>No Course!</h3>
                         </div> -->
-                    </div>
+                    </Draggable>
                 </div>
             </div>
         </div>
@@ -142,9 +142,7 @@
 
 import 'primeicons/primeicons.css';
 import axios from 'axios';
-// import draggable from 'vuedraggable';
-
-// Vue.component('draggable', draggable) 
+import Draggable from 'vuedraggable';
 
 export default {
     data() {
@@ -158,9 +156,9 @@ export default {
             lecturer_search: '',
         };
     },
-    // components:{
-    //     draggable
-    // },
+    components:{
+        Draggable
+    },
     methods: {
         showInfo(buttonNumber) {
             this.activeButton = buttonNumber;
@@ -185,8 +183,6 @@ export default {
             .then(response => {
                 this.lecturers = response.data;
             });
-
-
     },
     computed: {
         filteredCourses() {
@@ -395,6 +391,10 @@ button.navbars.lecturer.active {
     overflow-y: scroll;
     border-radius: 3px;
 }
+/* course css*/
+.contianer .sub-container .data .items .itemss {
+    width: 100%;
+}
 
 /* item course  */
 .contianer .sub-container .data .items .item {
@@ -558,8 +558,5 @@ button.navbars.lecturer.active {
     padding-top: 9.3px;
 }
 
-/* course css*/
-.contianer .sub-container .data .items .itemss {
-    width: 100%;
-}
+
 </style>
