@@ -19,7 +19,7 @@
             </div>
             <div class="data">
                 <div class="items">
-                    <Draggable class="itemss" v-for="course in filteredCourses" :key="course.id">
+                    <div class="itemss" v-for="course in filteredCourses" :key="course.id">
                         <div class="item" v-if="course.time_course != 0" >
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
@@ -73,7 +73,7 @@
                             ">
                             <h3>No Course!</h3>
                         </div> -->
-                    </Draggable>
+                    </div>
                 </div>
             </div>
         </div>
@@ -165,21 +165,18 @@ export default {
         },
     },
     mounted() {
-        axios.get(`http://127.0.0.1:8000/api/rooms/get_room`)
+        axios.get(import.meta.env.VITE_APP_ROOM)
             .then(response => {
                 this.rooms = response.data;
             })
-            .catch(error => {
-                console.error('An error occurred:', error);
-            });
         // axios.get(`http://127.0.0.1:8000/api/employees/get_lecturer`)
         //     .then(response => {
         //         this.lecturers = response.data.data;
         //     });
-        axios.get(`http://127.0.0.1:8000/api/courses/get_course`)
+        axios.get(import.meta.env.VITE_APP_COURSE)
             .then(response => this.courses = response.data);
 
-        axios.get(`http://127.0.0.1:8000/api/employees/get_lecturer`)
+        axios.get(import.meta.env.VITE_APP_LECTURER)
             .then(response => {
                 this.lecturers = response.data;
             });
