@@ -304,7 +304,7 @@
             }, 
 
 
-            // Do on API
+            // Do on API Backend
             fetchGroups() {
                 const apiUrl = 'http://127.0.0.1:8000/api/get_all_groups';
                 axios.get(apiUrl)
