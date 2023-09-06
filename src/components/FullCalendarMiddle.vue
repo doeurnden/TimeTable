@@ -14,6 +14,7 @@
                 <div class="select-group">
                     <form action="">
                         <select name="group" v-model="selectedGroup">
+                            <option value="" disabled>Groups</option>
                             <option v-for="group in fetchedGroups" :key="group.id" :value="group.id">{{ group.code }}</option>
                         </select>
                     </form>
@@ -22,6 +23,7 @@
                 <div class="select-week">
                     <form action="">
                         <select name="group" v-model="selectedWeek">
+                            <option value="" disabled>Weeks</option>
                             <option v-for="week in fetchedWeeks" :key="week.id" :value="week.id">{{ week.name_en }}</option>
                         </select>
                     </form>
