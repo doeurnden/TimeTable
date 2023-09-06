@@ -5,21 +5,6 @@
     <FullCalendarMiddle />
     <RightSideBar />
   </div>
-    <div class="container">
-      <LeftSideBar
-      @academy-year-selected="handleAcademicYearSelected"
-      @department-selected="handleDepartmentSelected"
-      @degree-selected="handleDegreeSelected"
-      @depOption-selected="handleDepOptionSelected"
-      @grade-selected="handleGradeSelected"
-      @semester-selected="handleSemesterSelected"
-      ></LeftSideBar>
-      <FullCalendar_Middle/>
-      <RightSideBar/>
-
-      
-
-    </div>
 </template>
   
 <script>
