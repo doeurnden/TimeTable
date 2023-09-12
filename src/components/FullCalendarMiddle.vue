@@ -30,7 +30,7 @@
                     </form>
                 </div>
             </div>
-            <FullCalendar :options="calendarOptions" />
+            <FullCalendar :options="calendarOptions" /> 
         </div>
     </div>
 </template>
@@ -74,8 +74,8 @@ export default {
                             'I-606',
                             'I4-GIC-A'
                         ],
-                        start: '2023-09-04T07:00:00',
-                        end: '2023-09-04T09:00:00',
+                        start: '2023-09-11T07:00:00',
+                        end: '2023-09-11T09:00:00',
                     },
                     {
                         id: 'event1',
@@ -88,8 +88,8 @@ export default {
                             'F-106',
                             'I4-GIC-A'
                         ],
-                        start: '2023-09-05T09:00:00',
-                        end: '2023-09-05T11:00:00',
+                        start: '2023-09-12T09:00:00',
+                        end: '2023-09-12T11:00:00',
                     },
                     {
                         id: 'event1',
@@ -102,8 +102,8 @@ export default {
                             'F-404',
                             'I4-GIC-A'
                         ],
-                        start: '2023-09-6T13:00:00',
-                        end: '2023-09-06T15:00:00',
+                        start: '2023-09-13T13:00:00',
+                        end: '2023-09-13T15:00:00',
                     },
                     {
                         id: 'event1',
@@ -116,8 +116,8 @@ export default {
                             'I-604',
                             'I4-GIC-A'
                         ],
-                        start: '2023-09-06T07:00:00',
-                        end: '2023-09-06T09:00:00',
+                        start: '2023-09-14T07:00:00',
+                        end: '2023-09-14T09:00:00',
                     },
                     {
                         id: 'event1',
@@ -130,8 +130,8 @@ export default {
                             'I-609',
                             'I4-GIC-A'
                         ],
-                        start: '2023-09-07T07:00:00',
-                        end: '2023-09-07T09:00:00',
+                        start: '2023-09-15T07:00:00',
+                        end: '2023-09-15T09:00:00',
                     },
                     {
                         id: 'event1',
@@ -144,16 +144,16 @@ export default {
                             'I-604',
                             'I4-GIC-A'
                         ],
-                        start: '2023-09-09T07:00:00',
-                        end: '2023-09-09T09:00:00',
+                        start: '2023-09-16T07:00:00',
+                        end: '2023-09-16T09:00:00',
                     },
                 ],
                 eventContent: this.customEventContent,
                 eventAllow: this.handleEventAllow,
                 editable: true, // Enable dragging and resizing
                 eventDrop: this.handleEventDrop,
-                eventClick: this.handleEventClick,
-                dateClick: this.handleDateClick,
+                // eventClick: this.handleEventClick,
+                // dateClick: this.handleDateClick,
                 headerToolbar: {
                     start: '',
                     center: '',
@@ -258,7 +258,7 @@ export default {
             return {
                 html: `
                         <div class="container-room">
-                            <div class="delete">x</div>
+                            <div class="delete"><h1>x</h1></div>
                             <div class="sideCourse">
                                 <div class="courseName">
                                     <div class="courseNameText">
@@ -486,7 +486,6 @@ a.fc-event {
 .fc-timegrid-event .fc-event-main {
     padding: 0px;
 }
-
 /* @event */
 .container-room {
     width: 100%;
@@ -494,6 +493,25 @@ a.fc-event {
     position: relative;
     background-color: #3AA6B9;
     position: relative;
+}
+.container-room:hover .delete{
+    width: 13px;
+    height: 13px;
+    background-color: red;
+    border-top-right-radius: 3px;
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    text-align: center;
+    justify-content: center;
+    z-index: 1;
+    right: 0;
+    top: 0;
+    font-size: 10px;
+    cursor: pointer;
+}
+.container-room:hover .sideCourse{
+    background-color: #FFF6E0 !important;
 }
 
 /* @course-section */
@@ -508,7 +526,6 @@ a.fc-event {
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
 }
-
 .courseName .courseNameText {
     font-size: 14px;
     color: black;
@@ -545,7 +562,30 @@ a.fc-event {
 .roomName {
     padding-bottom: 4px;
 }
-
+.delete h1{
+    width: 13px;
+    height: 13px;
+    display: none;
+    transition: all 0.5s;
+}
+.container-room:hover .delete{
+    width: 13px;
+    height: 13px;
+    background-color: red;
+    border-top-right-radius: 3px;
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    text-align: center;
+    justify-content: center;
+    z-index: 1;
+    right: 0;
+    top: 0;
+    font-size: 10px;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+/* 
 .delete {
     width: 13px;
     height: 13px;
@@ -561,7 +601,7 @@ a.fc-event {
     top: 0;
     font-size: 10px;
     cursor: pointer;
-}
+} */
 
 .swal2-container .swal2-popup {
     width: 25rem;
