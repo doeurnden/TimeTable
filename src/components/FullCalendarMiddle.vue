@@ -23,10 +23,16 @@
                 <!-- @button-week -->
                 <div class="select-week">
                     <form action="">
-                        <select name="group" v-model="selectedWeek">
+                        <select name="group" v-model="selectedWeek" id="weekSelect">
+                            <option value="" disabled>Weeks</option>
+                            <option v-for="weekNumber in 16" :key="weekNumber" :value="weekNumber">
+                                {{ weekNumber }}
+                            </option>
+                        </select>
+                        <!-- <select name="group" v-model="selectedWeek">
                             <option value="" disabled>Weeks</option>
                             <option v-for="week in fetchedWeeks" :key="week.id" :value="week.id">{{ week.name_en }}</option>
-                        </select>
+                        </select> -->
                     </form>
                 </div>
             </div>
@@ -319,20 +325,20 @@ export default {
                     console.error('Error fetching groups:', error);
                 });
         },
-        fetchWeeks() {
-            const apiUrl = 'http://127.0.0.1:8000/api/get_all_weeks';
-            axios.get(apiUrl)
-                .then((response) => {
-                    this.fetchedWeeks = response.data;
-                    this.selectedWeek = this.fetchedWeeks[0].name_en;
-                })
-                .catch((error) => {
-                    console.error('Error fetching weeks:', error);
-                });
-        },
+        // fetchWeeks() {
+        //     const apiUrl = 'http://127.0.0.1:8000/api/get_all_weeks';
+        //     axios.get(apiUrl)
+        //         .then((response) => {
+        //             this.fetchedWeeks = response.data;
+        //             this.selectedWeek = this.fetchedWeeks[0].name_en;
+        //         })
+        //         .catch((error) => {
+        //             console.error('Error fetching weeks:', error);
+        //         });
+        // },
         fetchdata() {
             this.fetchGroups();
-            this.fetchWeeks();
+            // this.fetchWeeks();
         },
         emitSelectedGroup(){
             this.$emit('group-selected',this.selectedGroup);
