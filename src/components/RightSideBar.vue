@@ -183,9 +183,22 @@ export default {
                 this.lecturers = response.data;
             });
 //move from fullcalender center
-        this.fetchAcademyYears()
+        // this.fetchAcademyYears()
         this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
 
+    },
+    watch:{
+        selectedAcademyYear:function(value){
+            axios.get(import.meta.env.VITE_APP_GROUP+"?"+new URLSearchParams({academic_year_id:value}))
+                .then((response) => {
+                    console.log(response.data);
+                    // this.fetchedGroups = response.data;
+                    // this.selectedGroup = this.fetchGroups[0].code;
+                })
+                .catch((error) => {
+                    console.error('Error fetching groups:', error);
+                });
+        }
     },
     computed: {
         filteredCourses() {

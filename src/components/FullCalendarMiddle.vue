@@ -13,7 +13,7 @@
                 <!-- @button-group -->
                 <div class="select-group">
                     <form action="">
-                        <select name="group" v-model="selectedGroup">
+                        <select name="group" v-model="selectedGroup" @change="emitSelectedGroup">
                             <option value="" disabled>Groups</option>
                             <option v-for="group in fetchedGroups" :key="group.id" :value="group.id">{{ group.code }}
                             </option>
@@ -44,6 +44,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 import axios from 'axios';
 
 export default {
+    props:["selectedAcademyYear","selectedDepartment","selectedDegree","selectedDepOption","selectedGrade","selectedSemester"],
     components: {
         FullCalendar,
     },
@@ -309,11 +310,10 @@ export default {
 
         // Do on API Backend
         fetchGroups() {
-            const apiUrl = 'http://127.0.0.1:8000/api/get_all_groups';
-            axios.get(apiUrl)
+            axios.get(import.meta.env.VITE_APP_GROUP)
                 .then((response) => {
                     this.fetchedGroups = response.data;
-                    this.selectedGroup = this.fetchGroups[0].code
+                    this.selectedGroup = this.fetchGroups[0].code;
                 })
                 .catch((error) => {
                     console.error('Error fetching groups:', error);
@@ -324,7 +324,7 @@ export default {
             axios.get(apiUrl)
                 .then((response) => {
                     this.fetchedWeeks = response.data;
-                    this.selectedWeek = this.fetchedWeeks[0].name_en
+                    this.selectedWeek = this.fetchedWeeks[0].name_en;
                 })
                 .catch((error) => {
                     console.error('Error fetching weeks:', error);
@@ -333,6 +333,49 @@ export default {
         fetchdata() {
             this.fetchGroups();
             this.fetchWeeks();
+        },
+        emitSelectedGroup(){
+            this.$emit('group-selected',this.selectedGroup);
+        },
+        fetchGroups(){
+            axios.get(import.meta.env.VITE_APP_GROUP+"?"+new URLSearchParams({
+                academic_year_id:this.selectedAcademyYear,
+                department_id:this.selectedDepartment,
+                degree_id:this.selectedDegree,
+                department_option_id:this.selectedDepOption,
+                grade_id:this.selectedGrade,
+                semester_id:this.selectedSemester,
+            }))
+                .then((response) => {
+                    this.fetchedGroups = response.data;
+                    this.selectedGroup = this.fetchedGroups[0].code;
+                    console.log(response.data)
+                    // this.fetchedGroups = response.data;
+                    // this.selectedGroup = this.fetchGroups[0].code;
+                })
+                .catch((error) => {
+                    console.error('Error fetching groups:', error);
+                });
+        }
+    },
+    watch:{
+        selectedAcademyYear:function(){
+          this.fetchGroups()
+        },
+        selectedDepartment:function(){
+            this.fetchGroups();
+        },
+        selectedDegree:function(){
+            this.fetchGroups();
+        },
+        selectedDepOption:function(){
+            this.fetchGroups();
+        },
+        selectedGrade:function(){
+            this.fetchGroups();
+        },
+        selectedSemester:function(){
+            this.fetchGroups();
         }
     },
     created() {
