@@ -201,10 +201,29 @@ export default {
             .then(response => {
                 this.lecturers = response.data;
             });
+<<<<<<< HEAD
         //move from fullcalender center
         // this.fetchAcademyYears()
         // this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
+=======
+//move from fullcalender center
+        // this.fetchAcademyYears()
+        this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
+>>>>>>> bc58d338f474d51b3c1a35c54e4c76c17f603353
 
+    },
+    watch:{
+        selectedAcademyYear:function(value){
+            axios.get(import.meta.env.VITE_APP_GROUP+"?"+new URLSearchParams({academic_year_id:value}))
+                .then((response) => {
+                    console.log(response.data);
+                    // this.fetchedGroups = response.data;
+                    // this.selectedGroup = this.fetchGroups[0].code;
+                })
+                .catch((error) => {
+                    console.error('Error fetching groups:', error);
+                });
+        }
     },
     computed: {
         filteredCourses() {
