@@ -30,7 +30,7 @@
                     </form>
                 </div>
             </div>
-            <FullCalendar :options="calendarOptions" /> 
+            <FullCalendar :options="calendarOptions" @eventDrop="handleEventDrop" @click="checkPosition"/>
         </div>
     </div>
 </template>
@@ -53,7 +53,11 @@ export default {
             selectedGroup: '', // To store the selected group
             fetchedGroups: [], // To store the groups fetched from the API
             selectedWeek: '', // To store the selected week
-            fetchedWeeks: [], // To store the weeks fetched from the API
+            fetchedWeeks: [],
+            // To store the weeks fetched from the API
+
+            //from right side
+            events: [],
 
             calendarOptions: {
                 plugins: [
@@ -62,98 +66,97 @@ export default {
                     interactionPlugin,
                 ],
                 initialViews: 'weekGridPlugin, interactionPlugin',
-                events: [
-                    {
-                        id: 'event1',
-                        titles: [
-                            // course-side
-                            'Internet Programming',
-                            '(Course)',
-                            'CHUN Thavorac',
-                            // room-side
-                            'I-606',
-                            'I4-GIC-A'
-                        ],
-                        start: '2023-09-11T07:00:00',
-                        end: '2023-09-11T09:00:00',
-                    },
-                    {
-                        id: 'event1',
-                        titles: [
-                            // course-side
-                            'Operating System',
-                            '(Course)',
-                            'HENG Rathpisey',
-                            // room-side
-                            'F-106',
-                            'I4-GIC-A'
-                        ],
-                        start: '2023-09-12T09:00:00',
-                        end: '2023-09-12T11:00:00',
-                    },
-                    {
-                        id: 'event1',
-                        titles: [
-                            // course-side
-                            'Software Engineering',
-                            '(Course)',
-                            'TAL Tongsreng',
-                            // room-side
-                            'F-404',
-                            'I4-GIC-A'
-                        ],
-                        start: '2023-09-13T13:00:00',
-                        end: '2023-09-13T15:00:00',
-                    },
-                    {
-                        id: 'event1',
-                        titles: [
-                            // course-side
-                            'Advance Databse',
-                            '(Course)',
-                            'NOP Phearum',
-                            // room-side
-                            'I-604',
-                            'I4-GIC-A'
-                        ],
-                        start: '2023-09-14T07:00:00',
-                        end: '2023-09-14T09:00:00',
-                    },
-                    {
-                        id: 'event1',
-                        titles: [
-                            // course-side
-                            'Human Computer Interaction',
-                            '(Course)',
-                            'BOU Channa',
-                            // room-side
-                            'I-609',
-                            'I4-GIC-A'
-                        ],
-                        start: '2023-09-15T07:00:00',
-                        end: '2023-09-15T09:00:00',
-                    },
-                    {
-                        id: 'event1',
-                        titles: [
-                            // course-side
-                            'Distibuted System',
-                            '(TP)',
-                            'Vanny Ratanak',
-                            // room-side
-                            'I-604',
-                            'I4-GIC-A'
-                        ],
-                        start: '2023-09-16T07:00:00',
-                        end: '2023-09-16T09:00:00',
-                    },
-                ],
                 eventContent: this.customEventContent,
                 eventAllow: this.handleEventAllow,
                 editable: true, // Enable dragging and resizing
                 eventDrop: this.handleEventDrop,
+                events: [{
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Internet Programming',
+                        '(Course)',
+                        'CHUN Thavorac',
+                        // room-side
+                        'I-606',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-11T07:00:00',
+                    end: '2023-09-11T09:00:00',
+                },
+                {
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Operating System',
+                        '(Course)',
+                        'HENG Rathpisey',
+                        // room-side
+                        'F-106',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-12T09:00:00',
+                    end: '2023-09-12T11:00:00',
+                },
+                {
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Software Engineering',
+                        '(Course)',
+                        'TAL Tongsreng',
+                        // room-side
+                        'F-404',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-13T13:00:00',
+                    end: '2023-09-13T15:00:00',
+                },
+                {
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Advance Databse',
+                        '(Course)',
+                        'NOP Phearum',
+                        // room-side
+                        'I-604',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-14T07:00:00',
+                    end: '2023-09-14T09:00:00',
+                },
+                {
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Human Computer Interaction',
+                        '(Course)',
+                        'BOU Channa',
+                        // room-side
+                        'I-609',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-15T07:00:00',
+                    end: '2023-09-15T09:00:00',
+                },
+                {
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Distibuted System',
+                        '(TP)',
+                        'Vanny Ratanak',
+                        // room-side
+                        'I-604',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-16T07:00:00',
+                    end: '2023-09-16T09:00:00',
+                },],
                 // eventClick: this.handleEventClick,
                 // dateClick: this.handleDateClick,
+
                 headerToolbar: {
                     start: '',
                     center: '',
@@ -212,6 +215,10 @@ export default {
     },
 
     methods: {
+        checkPosition(e){
+            console.log(e.target)
+        },
+        handleEventDrop() { },
         customDayHeaderContent(args) {
             const date = new Date(args.date);
             const day = date.toLocaleDateString('en-US', { weekday: 'long' }); // Change 'long' to 'short' if you prefer abbreviated names
@@ -486,6 +493,7 @@ a.fc-event {
 .fc-timegrid-event .fc-event-main {
     padding: 0px;
 }
+
 /* @event */
 .container-room {
     width: 100%;
@@ -494,7 +502,8 @@ a.fc-event {
     background-color: #3AA6B9;
     position: relative;
 }
-.container-room:hover .delete{
+
+.container-room:hover .delete {
     width: 13px;
     height: 13px;
     background-color: red;
@@ -510,7 +519,8 @@ a.fc-event {
     font-size: 10px;
     cursor: pointer;
 }
-.container-room:hover .sideCourse{
+
+.container-room:hover .sideCourse {
     background-color: #FFF6E0 !important;
 }
 
@@ -526,6 +536,7 @@ a.fc-event {
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
 }
+
 .courseName .courseNameText {
     font-size: 14px;
     color: black;
@@ -562,13 +573,15 @@ a.fc-event {
 .roomName {
     padding-bottom: 4px;
 }
-.delete h1{
+
+.delete h1 {
     width: 13px;
     height: 13px;
     display: none;
     transition: all 0.5s;
 }
-.container-room:hover .delete{
+
+.container-room:hover .delete {
     width: 13px;
     height: 13px;
     background-color: red;
@@ -585,6 +598,7 @@ a.fc-event {
     cursor: pointer;
     transition: all 0.5s;
 }
+
 /* 
 .delete {
     width: 13px;
@@ -721,4 +735,5 @@ a.fc-event {
     .roomName {
         padding-bottom: 4px;
     }
-}</style>
+}
+</style>
