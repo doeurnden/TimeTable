@@ -1,4 +1,5 @@
 <template>
+    <!--container-->
     <div class="contianer">
         <nav class="navbar">
             <button class="navbars course" @click="showInfo(1)" :class="{ active: activeButton === 1 }">
@@ -20,7 +21,7 @@
             <div class="data">
                 <div class="items">
                     <div class="itemss" v-for="course in filteredCourses" :key="course.id">
-                        <div class="item" v-if="course.time_course != 0" >
+                        <div class="item" v-if="course.time_course != 0" draggable="true" @click="displayItemId(course.id)">
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
@@ -35,7 +36,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item" v-if="course.time_tp != 0" >
+                        <div class="item" v-if="course.time_tp != 0" draggable="true" @click="displayItemId(course.id)">
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
@@ -50,7 +51,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item" v-if="course.time_td != 0" >
+                        <div class="item" v-if="course.time_td != 0" draggable="true" @click="displayItemId(course.id)">
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
@@ -65,14 +66,14 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="item" v-if="!filteredCourses.length && course_search !== ''"
-                            style="
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-                            ">
-                            <h3>No Course!</h3>
-                        </div> -->
+
+                    </div>
+                    <div class="item" v-if="course_search != filteredCourses" style="
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                    ">
+                        <h3>No Course!</h3>
                     </div>
                 </div>
             </div>
@@ -104,6 +105,13 @@
                             </p>
                         </div>
                     </div>
+                    <div class="item-room" v-if="room_search != filteredRooms" style="
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                    ">
+                        <h3>No Room</h3>
+                    </div>
                 </div>
             </div>
         </div>
@@ -132,6 +140,13 @@
                             </div>
                         </div>
                     </div>
+                    <div class="item-lecturer" v-if="lecturer_search != filteredLecturers" style="
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                    ">
+                        <h3>No Lecturer</h3>
+                    </div>
                 </div>
             </div>
         </div>
@@ -142,7 +157,7 @@
 
 import 'primeicons/primeicons.css';
 import axios from 'axios';
-import Draggable from 'vuedraggable';
+import draggable from 'vuedraggable';
 
 export default {
     data() {
@@ -154,15 +169,21 @@ export default {
             course_search: '',
             room_search: '',
             lecturer_search: '',
-        };
+        }
     },
-    components:{
-        Draggable
+    components: {
+        draggable
     },
     methods: {
         showInfo(buttonNumber) {
             this.activeButton = buttonNumber;
         },
+        displayItemId(courseId) {
+            let item = this.courses[courseId - 1]
+            // console.log(courseId);
+            console.log(item)
+            // console.log(this.courses);
+        }
     },
     mounted() {
         axios.get(import.meta.env.VITE_APP_ROOM)
@@ -180,19 +201,33 @@ export default {
             .then(response => {
                 this.lecturers = response.data;
             });
+        //move from fullcalender center
+        // this.fetchAcademyYears()
+        // this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
+
+    },
+    watch:{
+        selectedAcademyYear:function(value){
+            axios.get(import.meta.env.VITE_APP_GROUP+"?"+new URLSearchParams({academic_year_id:value}))
+                .then((response) => {
+                    console.log(response.data);
+                    // this.fetchedGroups = response.data;
+                    // this.selectedGroup = this.fetchGroups[0].code;
+                })
+                .catch((error) => {
+                    console.error('Error fetching groups:', error);
+                });
+        }
     },
     computed: {
         filteredCourses() {
-            const searchTerm = this.course_search.toLowerCase().trim(); // Convert search term to lowercase and remove leading/trailing whitespace
+            const searchTerm = this.course_search.toLowerCase().trim();
 
             if (!searchTerm) {
-                // If the search input is empty, return all courses
                 return this.courses;
             }
 
-            // Use the filter() method to filter courses based on the search term
             return this.courses.filter(course => {
-                // You can customize the conditions for filtering based on your requirements
                 return (
                     course.name_en.toLowerCase().includes(searchTerm) ||
                     (course.time_course != 0 && course.time_course.toString().includes(searchTerm)) ||
@@ -202,41 +237,38 @@ export default {
             });
         },
         filteredRooms() {
-            const searchTerm = this.room_search.toLowerCase().trim(); // Convert search term to lowercase and remove leading/trailing whitespace
+            const searchTerm = this.room_search.toLowerCase().trim();
 
             if (!searchTerm) {
-                // If the search input is empty, return all rooms
                 return this.rooms;
             }
 
-            // Use the filter() method to filter rooms based on the search term
             return this.rooms.filter(room => {
-                const fullRoomName = `${room.building.code}-${room.name}`.toLowerCase(); // Create the full room name and convert to lowercase
+                const fullRoomName = `${room.building.code}-${room.name}`.toLowerCase();
 
                 return (
-                    fullRoomName.includes(searchTerm) || // Check if the search term is in the full room name
-                    room.building.code.toLowerCase().includes(searchTerm) || // Check if it matches building code
-                    room.room_type.name.toLowerCase().includes(searchTerm) || // Check if it matches room type
-                    (room.nb_desk !== null && room.nb_desk.toString().includes(searchTerm)) || // Check if it matches desk count
-                    (room.nb_chair !== null && room.nb_chair.toString().includes(searchTerm)) // Check if it matches chair count
+                    fullRoomName.includes(searchTerm) ||
+                    room.building.code.toLowerCase().includes(searchTerm) ||
+                    room.room_type.name.toLowerCase().includes(searchTerm) ||
+                    (room.nb_desk !== null && room.nb_desk.toString().includes(searchTerm)) ||
+                    (room.nb_chair !== null && room.nb_chair.toString().includes(searchTerm))
                 );
             })
         },
         filteredLecturers() {
-            const searchTerm = this.lecturer_search.toLowerCase().trim(); // Convert search term to lowercase and remove leading/trailing whitespace
+            const searchTerm = this.lecturer_search.toLowerCase().trim();
 
             if (!searchTerm) {
-                // If the search input is empty, return all lecturers
                 return this.lecturers;
             }
 
             return this.lecturers.filter(lecturer => {
-                const idCard = `${lecturer.id_card}`; // Convert id_card to lowercase or use an empty string if it's null
+                const idCard = `${lecturer.id_card}`;
                 const lecturerNameLatin = lecturer.name_latin.toLowerCase();
 
                 return (
-                    idCard.includes(searchTerm) || // Check for an exact match by ID card
-                    lecturerNameLatin.includes(searchTerm) // Check if search term is in lecturer name
+                    idCard.includes(searchTerm) ||
+                    lecturerNameLatin.includes(searchTerm)
                 );
             });
         },
@@ -373,7 +405,7 @@ button.navbars.lecturer.active {
 
 .contianer .sub-container .data {
     width: 100%;
-    height: 92.4%;
+    height: 94%;
     background-color: rgb(255, 255, 255);
     border: 1px solid #B2B2B2;
     border-radius: 3px;
@@ -388,10 +420,6 @@ button.navbars.lecturer.active {
     overflow-y: scroll;
     border-radius: 3px;
 }
-/* course css*/
-.contianer .sub-container .data .items .itemss {
-    width: 100%;
-}
 
 /* item course  */
 .contianer .sub-container .data .items .item {
@@ -403,12 +431,15 @@ button.navbars.lecturer.active {
     transition: all 0.4s;
     border-left: 2px solid #ff0000;
     border-radius: 3px;
+    cursor: move;
+    user-select: none;
+    touch-action: manipulation;
 }
 
 .contianer .sub-container .data .items .item:hover {
     background-color: #A7ECEE;
     box-shadow: -2px 2px 6px -4px rgba(0, 0, 0, 0.79);
-    cursor: pointer;
+    /* cursor: move; */
     transition: all 0.4s;
 }
 
@@ -555,5 +586,9 @@ button.navbars.lecturer.active {
     padding-top: 9.3px;
 }
 
-
+/* course css*/
+.contianer .sub-container .data .items .itemss {
+    width: 100%;
+    /* position: fixed; */
+}
 </style>

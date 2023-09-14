@@ -13,22 +13,39 @@
                 <!-- @button-group -->
                 <div class="select-group">
                     <form action="">
+<<<<<<< HEAD
                         <select name="group" v-model="selectedGroup">
                             <option v-for="group in fetchedGroups" :key="group.id" :value="group.id">{{ group.code }}</option>
+=======
+                        <select name="group" v-model="selectedGroup" @change="emitSelectedGroup">
+                            <option value="" disabled>Groups</option>
+                            <option v-for="group in fetchedGroups" :key="group.id" :value="group.id">{{ group.code }}
+                            </option>
+>>>>>>> ff9d1db30c5be0763f0164c277c0ce4c0f9c3c61
                         </select>
                     </form>
                 </div>
                 <!-- @button-week -->
                 <div class="select-week">
                     <form action="">
-                        <select name="group" v-model="selectedWeek">
+                        <select name="group" v-model="selectedWeek" id="weekSelect">
+                            <option value="" disabled>Weeks</option>
+                            <option v-for="weekNumber in 16" :key="weekNumber" :value="weekNumber">
+                                {{ weekNumber }}
+                            </option>
+                        </select>
+                        <!-- <select name="group" v-model="selectedWeek">
                             <option value="" disabled>Weeks</option>
                             <option v-for="week in fetchedWeeks" :key="week.id" :value="week.id">{{ week.name_en }}</option>
-                        </select>
+                        </select> -->
                     </form>
                 </div>
             </div>
+<<<<<<< HEAD
             <FullCalendar :options="calendarOptions" />
+=======
+            <FullCalendar :options="calendarOptions" @eventDrop="handleEventDrop" @click="checkPosition"/>
+>>>>>>> ff9d1db30c5be0763f0164c277c0ce4c0f9c3c61
         </div>
     </div>
 </template>
@@ -42,6 +59,10 @@ import interactionPlugin from '@fullcalendar/interaction'
 import axios from 'axios';
 
 export default {
+<<<<<<< HEAD
+=======
+    props:["selectedAcademyYear","selectedDepartment","selectedDegree","selectedDepOption","selectedGrade","selectedSemester"],
+>>>>>>> ff9d1db30c5be0763f0164c277c0ce4c0f9c3c61
     components: {
         FullCalendar,
     },
@@ -51,8 +72,17 @@ export default {
             selectedGroup: '', // To store the selected group
             fetchedGroups: [], // To store the groups fetched from the API
             selectedWeek: '', // To store the selected week
+<<<<<<< HEAD
             fetchedWeeks: [], // To store the weeks fetched from the API
 
+=======
+            fetchedWeeks: [],
+            // To store the weeks fetched from the API
+
+            //from right side
+            events: [],
+
+>>>>>>> ff9d1db30c5be0763f0164c277c0ce4c0f9c3c61
             calendarOptions: {
                 plugins: [
                     timeGridPlugin,
@@ -60,6 +90,7 @@ export default {
                     interactionPlugin,
                 ],
                 initialViews: 'weekGridPlugin, interactionPlugin',
+<<<<<<< HEAD
                 events: [
                     {
                         id: 'event1',
@@ -146,12 +177,104 @@ export default {
                         end: '2023-09-09T09:00:00',
                     },
                 ],
+=======
+>>>>>>> ff9d1db30c5be0763f0164c277c0ce4c0f9c3c61
                 eventContent: this.customEventContent,
                 eventAllow: this.handleEventAllow,
                 editable: true, // Enable dragging and resizing
                 eventDrop: this.handleEventDrop,
+<<<<<<< HEAD
                 eventClick: this.handleEventClick,
                 dateClick: this.handleDateClick,
+=======
+                events: [{
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Internet Programming',
+                        '(Course)',
+                        'CHUN Thavorac',
+                        // room-side
+                        'I-606',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-11T07:00:00',
+                    end: '2023-09-11T09:00:00',
+                },
+                {
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Operating System',
+                        '(Course)',
+                        'HENG Rathpisey',
+                        // room-side
+                        'F-106',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-12T09:00:00',
+                    end: '2023-09-12T11:00:00',
+                },
+                {
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Software Engineering',
+                        '(Course)',
+                        'TAL Tongsreng',
+                        // room-side
+                        'F-404',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-13T13:00:00',
+                    end: '2023-09-13T15:00:00',
+                },
+                {
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Advance Databse',
+                        '(Course)',
+                        'NOP Phearum',
+                        // room-side
+                        'I-604',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-14T07:00:00',
+                    end: '2023-09-14T09:00:00',
+                },
+                {
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Human Computer Interaction',
+                        '(Course)',
+                        'BOU Channa',
+                        // room-side
+                        'I-609',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-15T07:00:00',
+                    end: '2023-09-15T09:00:00',
+                },
+                {
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Distibuted System',
+                        '(TP)',
+                        'Vanny Ratanak',
+                        // room-side
+                        'I-604',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-16T07:00:00',
+                    end: '2023-09-16T09:00:00',
+                },],
+                // eventClick: this.handleEventClick,
+                // dateClick: this.handleDateClick,
+
+>>>>>>> ff9d1db30c5be0763f0164c277c0ce4c0f9c3c61
                 headerToolbar: {
                     start: '',
                     center: '',
@@ -207,6 +330,7 @@ export default {
         });
         // this.fetchAcademyYears()
         // this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
+<<<<<<< HEAD
 
     },
 
@@ -216,6 +340,20 @@ export default {
             const day = date.toLocaleDateString('en-US', { weekday: 'long' }); // Change 'long' to 'short' if you prefer abbreviated names
             return day;
         },
+=======
+    },
+
+    methods: {
+        checkPosition(e){
+            console.log(e.target)
+        },
+        handleEventDrop() { },
+        customDayHeaderContent(args) {
+            const date = new Date(args.date);
+            const day = date.toLocaleDateString('en-US', { weekday: 'long' }); // Change 'long' to 'short' if you prefer abbreviated names
+            return day;
+        },
+>>>>>>> ff9d1db30c5be0763f0164c277c0ce4c0f9c3c61
         handleEventClick(eventClickInfo) {
             // This function will be called when an event is clicked
             const event = eventClickInfo.event;
@@ -257,7 +395,7 @@ export default {
             return {
                 html: `
                         <div class="container-room">
-                            <div class="delete">x</div>
+                            <div class="delete"><h1>x</h1></div>
                             <div class="sideCourse">
                                 <div class="courseName">
                                     <div class="courseNameText">
@@ -297,6 +435,7 @@ export default {
             if (result.isConfirmed) {
                 this.deleteEvent(eventId);
             }
+<<<<<<< HEAD
         },
         deleteEvent(eventId) {
             const index = this.events.findIndex((event) => event.id === eventId);
@@ -334,6 +473,87 @@ export default {
             this.fetchWeeks();
         }
     },
+=======
+        },
+        deleteEvent(eventId) {
+            const index = this.events.findIndex((event) => event.id === eventId);
+            if (index !== -1) {
+                this.events.splice(index, 1);
+            }
+        },
+
+
+        // Do on API Backend
+        fetchGroups() {
+            axios.get(import.meta.env.VITE_APP_GROUP)
+                .then((response) => {
+                    this.fetchedGroups = response.data;
+                    this.selectedGroup = this.fetchGroups[0].code;
+                })
+                .catch((error) => {
+                    console.error('Error fetching groups:', error);
+                });
+        },
+        // fetchWeeks() {
+        //     const apiUrl = 'http://127.0.0.1:8000/api/get_all_weeks';
+        //     axios.get(apiUrl)
+        //         .then((response) => {
+        //             this.fetchedWeeks = response.data;
+        //             this.selectedWeek = this.fetchedWeeks[0].name_en;
+        //         })
+        //         .catch((error) => {
+        //             console.error('Error fetching weeks:', error);
+        //         });
+        // },
+        fetchdata() {
+            this.fetchGroups();
+            // this.fetchWeeks();
+        },
+        emitSelectedGroup(){
+            this.$emit('group-selected',this.selectedGroup);
+        },
+        fetchGroups(){
+            axios.get(import.meta.env.VITE_APP_GROUP+"?"+new URLSearchParams({
+                academic_year_id:this.selectedAcademyYear,
+                department_id:this.selectedDepartment,
+                degree_id:this.selectedDegree,
+                department_option_id:this.selectedDepOption,
+                grade_id:this.selectedGrade,
+                semester_id:this.selectedSemester,
+            }))
+                .then((response) => {
+                    this.fetchedGroups = response.data;
+                    this.selectedGroup = this.fetchedGroups[0].code;
+                    console.log(response.data)
+                    // this.fetchedGroups = response.data;
+                    // this.selectedGroup = this.fetchGroups[0].code;
+                })
+                .catch((error) => {
+                    console.error('Error fetching groups:', error);
+                });
+        }
+    },
+    watch:{
+        selectedAcademyYear:function(){
+          this.fetchGroups()
+        },
+        selectedDepartment:function(){
+            this.fetchGroups();
+        },
+        selectedDegree:function(){
+            this.fetchGroups();
+        },
+        selectedDepOption:function(){
+            this.fetchGroups();
+        },
+        selectedGrade:function(){
+            this.fetchGroups();
+        },
+        selectedSemester:function(){
+            this.fetchGroups();
+        }
+    },
+>>>>>>> ff9d1db30c5be0763f0164c277c0ce4c0f9c3c61
     created() {
         this.fetchdata();
     }
@@ -495,6 +715,30 @@ a.fc-event {
     position: relative;
 }
 
+<<<<<<< HEAD
+=======
+.container-room:hover .delete {
+    width: 13px;
+    height: 13px;
+    background-color: red;
+    border-top-right-radius: 3px;
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    text-align: center;
+    justify-content: center;
+    z-index: 1;
+    right: 0;
+    top: 0;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.container-room:hover .sideCourse {
+    background-color: #FFF6E0 !important;
+}
+
+>>>>>>> ff9d1db30c5be0763f0164c277c0ce4c0f9c3c61
 /* @course-section */
 .sideCourse {
     width: 100%;
@@ -545,6 +789,35 @@ a.fc-event {
     padding-bottom: 4px;
 }
 
+<<<<<<< HEAD
+=======
+.delete h1 {
+    width: 13px;
+    height: 13px;
+    display: none;
+    transition: all 0.5s;
+}
+
+.container-room:hover .delete {
+    width: 13px;
+    height: 13px;
+    background-color: red;
+    border-top-right-radius: 3px;
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    text-align: center;
+    justify-content: center;
+    z-index: 1;
+    right: 0;
+    top: 0;
+    font-size: 10px;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+/* 
+>>>>>>> ff9d1db30c5be0763f0164c277c0ce4c0f9c3c61
 .delete {
     width: 13px;
     height: 13px;
@@ -560,7 +833,11 @@ a.fc-event {
     top: 0;
     font-size: 10px;
     cursor: pointer;
+<<<<<<< HEAD
 }
+=======
+} */
+>>>>>>> ff9d1db30c5be0763f0164c277c0ce4c0f9c3c61
 
 .swal2-container .swal2-popup {
     width: 25rem;
@@ -680,4 +957,9 @@ a.fc-event {
     .roomName {
         padding-bottom: 4px;
     }
+<<<<<<< HEAD
 }</style>
+=======
+}
+</style>
+>>>>>>> ff9d1db30c5be0763f0164c277c0ce4c0f9c3c61

@@ -1,8 +1,24 @@
 <template>
   <div class="container">
+<<<<<<< HEAD
     <LeftSideBar @academic-year-selected="handleAcademicYearSelected" @department-selected="handleDepartmentSelected">
     </LeftSideBar>
     <FullCalendarMiddle />
+=======
+    <LeftSideBar 
+      @academy-year-selected="handleAcademicYearSelected" 
+      @department-selected="handleDepartmentSelected"
+      @degree-selected="handleDegreeSelected" 
+      @depOption-selected="handleDepOptionSelected"
+      @grade-selected="handleGradeSelected" 
+      @semester-selected="handleSemesterSelected"
+      @group-selected="handleGroupSelected"></LeftSideBar>
+    <FullCalendarMiddle 
+      @group-selected="handleGroupSelected" :selectedAcademyYear="selectedAcademyYear" 
+      :selectedDepartment="selectedDepartment" :selectedDegree="selectedDegree"
+      :selectedDepOption="selectedDepOption" :selectedGrade="selectedGrade" :selectedSemester="selectedSemester">
+    </FullCalendarMiddle>
+>>>>>>> ff9d1db30c5be0763f0164c277c0ce4c0f9c3c61
     <RightSideBar />
   </div>
 </template>
@@ -27,33 +43,42 @@ export default {
       selectedDepOption: "",      // Selected department option
       selectedGrade: "",          // Selected grade
       selectedSemester: "",       // Selected semester
+      //Fullcalendar//
+      selectedGroup: "",          // Selected group
+     
+      
     };
   },
   methods: {
     handleAcademicYearSelected(selectedValue) {
       // this.selectedAcademyYear = selectedValue;
+      this.selectedAcademyYear=selectedValue;
       console.log('Academy Year Selected:', selectedValue);
     },
     handleDepartmentSelected(selectedValue) {
-      // this.selectedDepartment = selectedValue;
+      this.selectedDepartment = selectedValue;
       console.log('Department Selected:', selectedValue);
     },
     handleDegreeSelected(selectedValue) {
-      // this.selectedDegree = selectedValue;
+      this.selectedDegree = selectedValue;
       console.log('Degree Selected::', selectedValue);
     },
     handleDepOptionSelected(selectedValue) {
-      // this.selectedDepOption = selectedValue;
+      this.selectedDepOption = selectedValue;
       console.log('Department Option Selected:', selectedValue);
     },
     handleGradeSelected(selectedValue) {
-      // this.selectedGrade = selectedValue;
+      this.selectedGrade = selectedValue;
       console.log('Grade Selected:', selectedValue);
     },
     handleSemesterSelected(selectedValue) {
-      // this.selectedSemester = selectedValue;
+      this.selectedSemester = selectedValue;
       console.log('Semester Selected:', selectedValue);
-    }
+    },
+    handleGroupSelected(selectedValue) {
+      // this.selectedSemester = selectedValue;
+      console.log('Group selected:', selectedValue);
+    },
   },
 };
 </script>
