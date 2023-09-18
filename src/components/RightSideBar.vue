@@ -201,9 +201,9 @@ export default {
             .then(response => {
                 this.lecturers = response.data;
             });
-        //move from fullcalender center
-        // this.fetchAcademyYears()
-        // this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
+        // move from fullcalender center
+        this.fetchAcademyYears()
+        this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
 
     },
     watch:{
