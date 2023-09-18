@@ -1,10 +1,5 @@
 <template>
   <div class="container">
-<<<<<<< HEAD
-    <LeftSideBar @academic-year-selected="handleAcademicYearSelected" @department-selected="handleDepartmentSelected">
-    </LeftSideBar>
-    <FullCalendarMiddle />
-=======
     <LeftSideBar 
       @academy-year-selected="handleAcademicYearSelected" 
       @department-selected="handleDepartmentSelected"
@@ -18,13 +13,13 @@
       :selectedDepartment="selectedDepartment" :selectedDegree="selectedDegree"
       :selectedDepOption="selectedDepOption" :selectedGrade="selectedGrade" :selectedSemester="selectedSemester">
     </FullCalendarMiddle>
->>>>>>> ff9d1db30c5be0763f0164c277c0ce4c0f9c3c61
     <RightSideBar />
   </div>
 </template>
   
 <script>
-import LeftSideBar from './components/LeftSideBar.vue'
+
+import LeftSideBar from './components/LeftSideBar.vue';
 import FullCalendarMiddle from './components/FullCalendarMiddle.vue'
 import RightSideBar from './components/RightSideBar.vue';
 // import timeGridPlugin from '@fullcalendar/timegrid'

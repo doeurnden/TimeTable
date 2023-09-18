@@ -1,6 +1,6 @@
 <template>
     <!--container-->
-    <div class="contianer">
+    <div class="contianer" ref="contianer">
         <nav class="navbar">
             <button class="navbars course" @click="showInfo(1)" :class="{ active: activeButton === 1 }">
                 <span><i class="icon pi pi-book"></i>Course</span>
@@ -15,13 +15,13 @@
         <!-- course  -->
         <div class="sub-container" v-if="activeButton === 1">
             <div class="search">
-                <input type="text" placeholder="Search subject .." v-model="course_search">
+                <input type="text" placeholder="Search Subject .." v-model="course_search">
                 <!-- <i class="icon pi pi-search"></i> -->
             </div>
             <div class="data">
                 <div class="items">
                     <div class="itemss" v-for="course in filteredCourses" :key="course.id">
-                        <div class="item" v-if="course.time_course != 0" draggable="true" @click="displayItemId(course.id)">
+                        <div class="item" v-if="course.time_course != 0" draggable="true" ref="item">
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item" v-if="course.time_tp != 0" draggable="true" @click="displayItemId(course.id)">
+                        <div class="item" v-if="course.time_tp != 0" draggable="true" ref="item">
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
@@ -51,7 +51,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item" v-if="course.time_td != 0" draggable="true" @click="displayItemId(course.id)">
+                        <div class="item" v-if="course.time_td != 0" draggable="true" ref="item">
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
@@ -66,13 +66,12 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
-                    <div class="item" v-if="course_search != filteredCourses" style="
-                                        display: flex;
-                                        justify-content: center;
-                                        align-items: center;
-                                    ">
+                    <div class="item see_more" v-if="course_search == ''">
+                        <button @click="seeMore">see more..</button>
+                    </div>
+                    <div class="item no_course"
+                        v-if="(course_search != filteredCourses) && (course_search != '') && (filteredCourses.length == 0)">
                         <h3>No Course!</h3>
                     </div>
                 </div>
@@ -81,7 +80,7 @@
         <!-- room  -->
         <div class="sub-container" v-if="activeButton === 2">
             <div class="search">
-                <input type="text" placeholder="Search room .." v-model="room_search">
+                <input type="text" placeholder="Search Room .." v-model="room_search">
                 <!-- <i class="icon pi pi-search"></i> -->
             </div>
             <div class="data">
@@ -105,7 +104,8 @@
                             </p>
                         </div>
                     </div>
-                    <div class="item-room" v-if="room_search != filteredRooms" style="
+                    <div class="item-room"
+                        v-if="(room_search != filteredRooms) && (room_search != '') && (filteredRooms.length == 0)" style="
                                         display: flex;
                                         justify-content: center;
                                         align-items: center;
@@ -118,7 +118,7 @@
         <!-- lecturer -->
         <div class="sub-container" v-if="activeButton === 3">
             <div class="search">
-                <input type="text" placeholder="Search lecturer .." v-model="lecturer_search">
+                <input type="text" placeholder="Search Lecturer .." v-model="lecturer_search">
                 <!-- <i class="icon pi pi-search"></i> -->
             </div>
             <div class="data">
@@ -140,7 +140,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="item-lecturer" v-if="lecturer_search != filteredLecturers" style="
+                    <div class="item-lecturer"
+                        v-if="(lecturer_search != filteredLecturers) & (lecturer_search !== '') & (filteredLecturers.length == 0)"
+                        style="
                                         display: flex;
                                         justify-content: center;
                                         align-items: center;
@@ -157,7 +159,8 @@
 
 import 'primeicons/primeicons.css';
 import axios from 'axios';
-import draggable from 'vuedraggable';
+// import interactionPlugin from '@fullcalendar/interaction'
+// import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 
 export default {
     data() {
@@ -169,11 +172,12 @@ export default {
             course_search: '',
             room_search: '',
             lecturer_search: '',
+            course_page: 1
         }
     },
-    components: {
-        draggable
-    },
+    // components: {
+    //     draggable
+    // },
     methods: {
         showInfo(buttonNumber) {
             this.activeButton = buttonNumber;
@@ -183,41 +187,42 @@ export default {
             // console.log(courseId);
             console.log(item)
             // console.log(this.courses);
+        },
+        fetchData(courseId) {
+            // console.log(this.courses);
+            console.log(this.$refs.text);
+            // alert("Hello")
+        },
+        seeMore() {
+            this.course_page += 1;
+            console.log(this.course_page);
+
+            axios.get(`${import.meta.env.VITE_APP_COURSE}?page=${this.course_page}`)
+                .then(response => this.courses = response.data.data);
         }
     },
     mounted() {
         axios.get(import.meta.env.VITE_APP_ROOM)
             .then(response => {
-                this.rooms = response.data;
+                this.rooms = response.data.data;
             })
         // axios.get(`http://127.0.0.1:8000/api/employees/get_lecturer`)
         //     .then(response => {
         //         this.lecturers = response.data.data;
         //     });
         axios.get(import.meta.env.VITE_APP_COURSE)
-            .then(response => this.courses = response.data);
+            .then(response => this.courses = response.data.data);
 
         axios.get(import.meta.env.VITE_APP_LECTURER)
             .then(response => {
-                this.lecturers = response.data;
+                this.lecturers = response.data.data;
             });
         //move from fullcalender center
-        // this.fetchAcademyYears()
-        // this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
+        this.fetchAcademyYears()
+        this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0];
 
     },
-    watch:{
-        selectedAcademyYear:function(value){
-            axios.get(import.meta.env.VITE_APP_GROUP+"?"+new URLSearchParams({academic_year_id:value}))
-                .then((response) => {
-                    console.log(response.data);
-                    // this.fetchedGroups = response.data;
-                    // this.selectedGroup = this.fetchGroups[0].code;
-                })
-                .catch((error) => {
-                    console.error('Error fetching groups:', error);
-                });
-        }
+    watch: {
     },
     computed: {
         filteredCourses() {
@@ -591,4 +596,11 @@ button.navbars.lecturer.active {
     width: 100%;
     /* position: fixed; */
 }
-</style>
+
+/*see_more and no_course */
+.see_more,
+.no_course {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}</style>
