@@ -51,7 +51,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item" v-if="course.time_td != 0" draggable="true" ref="item">
+                        <div class="item" v-if="course.time_td != 0" >
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
