@@ -101,6 +101,7 @@ export default {
                         dayHeaderContent: this.customDayHeaderContent,
                     },
                 },
+                defaultTimedEventDuration: '02:00:00',
                 allDaySlot: false,
                 businessHours: [
                     {

@@ -125,7 +125,7 @@
                 <div class="items">
                     <div class="item-lecturer" v-for="lecturer in filteredLecturers" :key="lecturer.id">
                         <div class="icon">
-                            <img src="../assets/image/avatar.png" alt="avatar">
+                            <img src="../as4s/image/avatar.png" alt="avatar">
                         </div>
                         <div class="info">
                             <h4>
@@ -172,7 +172,93 @@ export default {
             course_search: '',
             room_search: '',
             lecturer_search: '',
-            course_page: 1
+            course_page: 1,
+            events: [
+                {
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Internet Programming',
+                        '(Course)',
+                        'CHUN Thavorac',
+                        // room-side
+                        'I-606',
+                        'I4-GIC-A'
+                    ],
+                    // start: '2023-09-11T07:00:00',
+                    // end: '2023-09-11T09:00:00',
+                },
+                {
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Operating System',
+                        '(Course)',
+                        'HENG Rathpisey',
+                        // room-side
+                        'F-106',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-12T09:00:00',
+                    end: '2023-09-12T11:00:00',
+                },
+                {
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Software Engineering',
+                        '(Course)',
+                        'TAL Tongsreng',
+                        // room-side
+                        'F-404',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-13T13:00:00',
+                    end: '2023-09-13T15:00:00',
+                },
+                {
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Advance Databse',
+                        '(Course)',
+                        'NOP Phearum',
+                        // room-side
+                        'I-604',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-14T07:00:00',
+                    end: '2023-09-14T09:00:00',
+                },
+                {
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Human Computer Interaction',
+                        '(Course)',
+                        'BOU Channa',
+                        // room-side
+                        'I-609',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-15T07:00:00',
+                    end: '2023-09-15T09:00:00',
+                },
+                {
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Distibuted System',
+                        '(TP)',
+                        'Vanny Ratanak',
+                        // room-side
+                        'I-604',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-16T07:00:00',
+                    end: '2023-09-16T09:00:00',
+                },
+            ],
         }
     },
     // components: {
