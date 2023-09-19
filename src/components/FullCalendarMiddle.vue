@@ -36,7 +36,7 @@
                     </form>
                 </div>
             </div>
-            <FullCalendar :options="calendarOptions" @eventDrop="handleEventDrop" @click="checkPosition" />
+            <FullCalendar :options="calendarOptions"/>
         </div>
     </div>
 </template>
@@ -46,7 +46,7 @@ import Swal from 'sweetalert2';
 import FullCalendar from '@fullcalendar/vue3'
 import listPlugin from '@fullcalendar/list'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import interactionPlugin from '@fullcalendar/interaction'
+import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import axios from 'axios';
 
 export default {
@@ -76,91 +76,8 @@ export default {
                 eventContent: this.customEventContent,
                 eventAllow: this.handleEventAllow,
                 editable: true, // Enable dragging and resizing
-                eventDrop: this.handleEventDrop,
-                events: [{
-                    id: 'event1',
-                    titles: [
-                        // course-side
-                        'Internet Programming',
-                        '(Course)',
-                        'CHUN Thavorac',
-                        // room-side
-                        'I-606',
-                        'I4-GIC-A'
-                    ],
-                    start: '2023-09-11T07:00:00',
-                    end: '2023-09-11T09:00:00',
-                },
-                {
-                    id: 'event1',
-                    titles: [
-                        // course-side
-                        'Operating System',
-                        '(Course)',
-                        'HENG Rathpisey',
-                        // room-side
-                        'F-106',
-                        'I4-GIC-A'
-                    ],
-                    start: '2023-09-12T09:00:00',
-                    end: '2023-09-12T11:00:00',
-                },
-                {
-                    id: 'event1',
-                    titles: [
-                        // course-side
-                        'Software Engineering',
-                        '(Course)',
-                        'TAL Tongsreng',
-                        // room-side
-                        'F-404',
-                        'I4-GIC-A'
-                    ],
-                    start: '2023-09-13T13:00:00',
-                    end: '2023-09-13T15:00:00',
-                },
-                {
-                    id: 'event1',
-                    titles: [
-                        // course-side
-                        'Advance Databse',
-                        '(Course)',
-                        'NOP Phearum',
-                        // room-side
-                        'I-604',
-                        'I4-GIC-A'
-                    ],
-                    start: '2023-09-14T07:00:00',
-                    end: '2023-09-14T09:00:00',
-                },
-                {
-                    id: 'event1',
-                    titles: [
-                        // course-side
-                        'Human Computer Interaction',
-                        '(Course)',
-                        'BOU Channa',
-                        // room-side
-                        'I-609',
-                        'I4-GIC-A'
-                    ],
-                    start: '2023-09-15T07:00:00',
-                    end: '2023-09-15T09:00:00',
-                },
-                {
-                    id: 'event1',
-                    titles: [
-                        // course-side
-                        'Distibuted System',
-                        '(TP)',
-                        'Vanny Ratanak',
-                        // room-side
-                        'I-604',
-                        'I4-GIC-A'
-                    ],
-                    start: '2023-09-16T07:00:00',
-                    end: '2023-09-16T09:00:00',
-                },],
+                eventDrop: this.handleDrop,
+                events: [],
                 // eventClick: this.handleEventClick,
                 // dateClick: this.handleDateClick,
 
@@ -219,13 +136,26 @@ export default {
         });
         // this.fetchAcademyYears()
         // this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
+        document.addEventListener('DOMContentLoaded', function () {
+            var containerEl = document.querySelector('.contianer');
+            new Draggable(containerEl, {
+                itemSelector: '.item',
+                eventData: function (eventEl) {
+                    return {
+                        title: eventEl.innerText
+                    };
+                }
+            });
+        })
     },
 
     methods: {
         checkPosition(e) {
             console.log(e.target)
         },
-        handleEventDrop() { },
+        handleDrop(){
+
+        },
         customDayHeaderContent(args) {
             const date = new Date(args.date);
             const day = date.toLocaleDateString('en-US', { weekday: 'long' }); // Change 'long' to 'short' if you prefer abbreviated names
