@@ -21,7 +21,7 @@
             <div class="data">
                 <div class="items">
                     <div class="itemss" v-for="course in filteredCourses" :key="course.id">
-                        <div class="item" v-if="course.time_course != 0" draggable="true" ref="item">
+                        <div class="item" v-if="course.time_course != 0">
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item" v-if="course.time_tp != 0" draggable="true" ref="item">
+                        <div class="item" v-if="course.time_tp != 0">
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
