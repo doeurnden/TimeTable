@@ -23,14 +23,20 @@
                 <!-- @button-week -->
                 <div class="select-week">
                     <form action="">
-                        <select name="group" v-model="selectedWeek">
+                        <select name="group" v-model="selectedWeek" id="weekSelect">
+                            <option value="" disabled>Weeks</option>
+                            <option v-for="weekNumber in 16" :key="weekNumber" :value="weekNumber">
+                                {{ weekNumber }}
+                            </option>
+                        </select>
+                        <!-- <select name="group" v-model="selectedWeek">
                             <option value="" disabled>Weeks</option>
                             <option v-for="week in fetchedWeeks" :key="week.id" :value="week.id">{{ week.name_en }}</option>
-                        </select>
+                        </select> -->
                     </form>
                 </div>
             </div>
-            <FullCalendar :options="calendarOptions" /> 
+            <FullCalendar :options="calendarOptions" @eventDrop="handleEventDrop" @click="checkPosition"/>
         </div>
     </div>
 </template>
@@ -54,7 +60,11 @@ export default {
             selectedGroup: '', // To store the selected group
             fetchedGroups: [], // To store the groups fetched from the API
             selectedWeek: '', // To store the selected week
-            fetchedWeeks: [], // To store the weeks fetched from the API
+            fetchedWeeks: [],
+            // To store the weeks fetched from the API
+
+            //from right side
+            events: [],
 
             calendarOptions: {
                 plugins: [
@@ -63,98 +73,97 @@ export default {
                     interactionPlugin,
                 ],
                 initialViews: 'weekGridPlugin, interactionPlugin',
-                events: [
-                    {
-                        id: 'event1',
-                        titles: [
-                            // course-side
-                            'Internet Programming',
-                            '(Course)',
-                            'CHUN Thavorac',
-                            // room-side
-                            'I-606',
-                            'I4-GIC-A'
-                        ],
-                        start: '2023-09-11T07:00:00',
-                        end: '2023-09-11T09:00:00',
-                    },
-                    {
-                        id: 'event1',
-                        titles: [
-                            // course-side
-                            'Operating System',
-                            '(Course)',
-                            'HENG Rathpisey',
-                            // room-side
-                            'F-106',
-                            'I4-GIC-A'
-                        ],
-                        start: '2023-09-12T09:00:00',
-                        end: '2023-09-12T11:00:00',
-                    },
-                    {
-                        id: 'event1',
-                        titles: [
-                            // course-side
-                            'Software Engineering',
-                            '(Course)',
-                            'TAL Tongsreng',
-                            // room-side
-                            'F-404',
-                            'I4-GIC-A'
-                        ],
-                        start: '2023-09-13T13:00:00',
-                        end: '2023-09-13T15:00:00',
-                    },
-                    {
-                        id: 'event1',
-                        titles: [
-                            // course-side
-                            'Advance Databse',
-                            '(Course)',
-                            'NOP Phearum',
-                            // room-side
-                            'I-604',
-                            'I4-GIC-A'
-                        ],
-                        start: '2023-09-14T07:00:00',
-                        end: '2023-09-14T09:00:00',
-                    },
-                    {
-                        id: 'event1',
-                        titles: [
-                            // course-side
-                            'Human Computer Interaction',
-                            '(Course)',
-                            'BOU Channa',
-                            // room-side
-                            'I-609',
-                            'I4-GIC-A'
-                        ],
-                        start: '2023-09-15T07:00:00',
-                        end: '2023-09-15T09:00:00',
-                    },
-                    {
-                        id: 'event1',
-                        titles: [
-                            // course-side
-                            'Distibuted System',
-                            '(TP)',
-                            'Vanny Ratanak',
-                            // room-side
-                            'I-604',
-                            'I4-GIC-A'
-                        ],
-                        start: '2023-09-16T07:00:00',
-                        end: '2023-09-16T09:00:00',
-                    },
-                ],
                 eventContent: this.customEventContent,
                 eventAllow: this.handleEventAllow,
                 editable: true, // Enable dragging and resizing
                 eventDrop: this.handleEventDrop,
+                events: [{
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Internet Programming',
+                        '(Course)',
+                        'CHUN Thavorac',
+                        // room-side
+                        'I-606',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-11T07:00:00',
+                    end: '2023-09-11T09:00:00',
+                },
+                {
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Operating System',
+                        '(Course)',
+                        'HENG Rathpisey',
+                        // room-side
+                        'F-106',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-12T09:00:00',
+                    end: '2023-09-12T11:00:00',
+                },
+                {
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Software Engineering',
+                        '(Course)',
+                        'TAL Tongsreng',
+                        // room-side
+                        'F-404',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-13T13:00:00',
+                    end: '2023-09-13T15:00:00',
+                },
+                {
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Advance Databse',
+                        '(Course)',
+                        'NOP Phearum',
+                        // room-side
+                        'I-604',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-14T07:00:00',
+                    end: '2023-09-14T09:00:00',
+                },
+                {
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Human Computer Interaction',
+                        '(Course)',
+                        'BOU Channa',
+                        // room-side
+                        'I-609',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-15T07:00:00',
+                    end: '2023-09-15T09:00:00',
+                },
+                {
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Distibuted System',
+                        '(TP)',
+                        'Vanny Ratanak',
+                        // room-side
+                        'I-604',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-16T07:00:00',
+                    end: '2023-09-16T09:00:00',
+                },],
                 // eventClick: this.handleEventClick,
                 // dateClick: this.handleDateClick,
+
                 headerToolbar: {
                     start: '',
                     center: '',
@@ -213,6 +222,10 @@ export default {
     },
 
     methods: {
+        checkPosition(e){
+            console.log(e.target)
+        },
+        handleEventDrop() { },
         customDayHeaderContent(args) {
             const date = new Date(args.date);
             const day = date.toLocaleDateString('en-US', { weekday: 'long' }); // Change 'long' to 'short' if you prefer abbreviated names
@@ -324,20 +337,20 @@ export default {
                     console.error('Error fetching groups:', error);
                 });
         },
-        fetchWeeks() {
-            const apiUrl = 'http://127.0.0.1:8000/api/get_all_weeks';
-            axios.get(apiUrl)
-                .then((response) => {
-                    this.fetchedWeeks = response.data;
-                    this.selectedWeek = this.fetchedWeeks[0].name_en;
-                })
-                .catch((error) => {
-                    console.error('Error fetching weeks:', error);
-                });
-        },
+        // fetchWeeks() {
+        //     const apiUrl = 'http://127.0.0.1:8000/api/get_all_weeks';
+        //     axios.get(apiUrl)
+        //         .then((response) => {
+        //             this.fetchedWeeks = response.data;
+        //             this.selectedWeek = this.fetchedWeeks[0].name_en;
+        //         })
+        //         .catch((error) => {
+        //             console.error('Error fetching weeks:', error);
+        //         });
+        // },
         fetchdata() {
             this.fetchGroups();
-            this.fetchWeeks();
+            // this.fetchWeeks();
         },
         emitSelectedGroup(){
             this.$emit('group-selected',this.selectedGroup);
@@ -531,60 +544,60 @@ export default {
         border: 1px solid #3AA6B9;
     }
 
-    .fc-timegrid-event .fc-event-main {
-        padding: 0px;
-    }
-    /* @event */
-    .container-room {
-        width: 100%;
-        height: 100%;
-        position: relative;
-        background-color: #3AA6B9;
-        position: relative;
-    }
-    .container-room:hover .delete{
-        width: 13px;
-        height: 13px;
-        background-color: red;
-        border-top-right-radius: 3px;
-        color: white;
-        font-weight: bold;
-        position: absolute;
-        text-align: center;
-        justify-content: center;
-        z-index: 1;
-        right: 0;
-        top: 0;
-        font-size: 10px;
-        cursor: pointer;
-    }
-    .container-room:hover .sideCourse{
-        background-color: #FFF6E0 !important;
-    }
+.fc-timegrid-event .fc-event-main {
+    padding: 0px;
+}
+/* @event */
+.container-room {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: #3AA6B9;
+    position: relative;
+}
+.container-room:hover .delete{
+    width: 13px;
+    height: 13px;
+    background-color: red;
+    border-top-right-radius: 3px;
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    text-align: center;
+    justify-content: center;
+    z-index: 1;
+    right: 0;
+    top: 0;
+    font-size: 10px;
+    cursor: pointer;
+}
+.container-room:hover .sideCourse{
+    background-color: #FFF6E0 !important;
+}
 
-    /* @course-section */
-    .sideCourse {
-        width: 100%;
-        height: 63%;
-        background-color: white;
-        padding: 6px 6px;
-        font-size: 13px;
-        position: absolute;
-        font-weight: 600;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-    }
-    .courseName .courseNameText {
-        font-size: 14px;
-        color: black;
-        /* margin-bottom: 6px;
-            line-height: 1.3em;
-            max-height: calc(2 * 1.2em);
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;  */
-    }
+/* @course-section */
+.sideCourse {
+    width: 100%;
+    height: 63%;
+    background-color: white;
+    padding: 6px 6px;
+    font-size: 13px;
+    position: absolute;
+    font-weight: 600;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+.courseName .courseNameText {
+    font-size: 14px;
+    color: black;
+    /* margin-bottom: 6px;
+        line-height: 1.3em;
+        max-height: calc(2 * 1.2em);
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;  */
+}
 
     .courseType {
         padding-bottom: 6px;
@@ -607,49 +620,49 @@ export default {
         font-size: 13px;
     }
 
-    .roomName {
-        padding-bottom: 4px;
-    }
-    .delete h1{
-        width: 13px;
-        height: 13px;
-        display: none;
-        transition: all 0.5s;
-    }
-    .container-room:hover .delete{
-        width: 13px;
-        height: 13px;
-        background-color: red;
-        border-top-right-radius: 3px;
-        color: white;
-        font-weight: bold;
-        position: absolute;
-        text-align: center;
-        justify-content: center;
-        z-index: 1;
-        right: 0;
-        top: 0;
-        font-size: 10px;
-        cursor: pointer;
-        transition: all 0.5s;
-    }
-    /* 
-    .delete {
-        width: 13px;
-        height: 13px;
-        background-color: red;
-        border-top-right-radius: 3px;
-        color: white;
-        font-weight: bold;
-        position: absolute;
-        text-align: center;
-        justify-content: center;
-        z-index: 1;
-        right: 0;
-        top: 0;
-        font-size: 10px;
-        cursor: pointer;
-    } */
+.roomName {
+    padding-bottom: 4px;
+}
+.delete h1{
+    width: 13px;
+    height: 13px;
+    display: none;
+    transition: all 0.5s;
+}
+.container-room:hover .delete{
+    width: 13px;
+    height: 13px;
+    background-color: red;
+    border-top-right-radius: 3px;
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    text-align: center;
+    justify-content: center;
+    z-index: 1;
+    right: 0;
+    top: 0;
+    font-size: 10px;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+/* 
+.delete {
+    width: 13px;
+    height: 13px;
+    background-color: red;
+    border-top-right-radius: 3px;
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    text-align: center;
+    justify-content: center;
+    z-index: 1;
+    right: 0;
+    top: 0;
+    font-size: 10px;
+    cursor: pointer;
+} */
 
     .swal2-container .swal2-popup {
         width: 25rem;
@@ -766,8 +779,7 @@ export default {
             padding-top: 10px;
         }
 
-        .roomName {
-            padding-bottom: 4px;
-        }
+    .roomName {
+        padding-bottom: 4px;
     }
-</style>
+}</style>
