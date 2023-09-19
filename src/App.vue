@@ -18,7 +18,8 @@
 </template>
   
 <script>
-import LeftSideBar from './components/LeftSideBar.vue'
+
+import LeftSideBar from './components/LeftSideBar.vue';
 import FullCalendarMiddle from './components/FullCalendarMiddle.vue'
 import RightSideBar from './components/RightSideBar.vue';
 // import timeGridPlugin from '@fullcalendar/timegrid'
