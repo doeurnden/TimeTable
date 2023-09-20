@@ -40,8 +40,8 @@ export default {
       selectedSemester: "",       // Selected semester
       //Fullcalendar//
       selectedGroup: "",          // Selected group
-     
-      
+      events:[],
+      tmpEvent:{}
     };
   },
   methods: {
