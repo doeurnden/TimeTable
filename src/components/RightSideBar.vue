@@ -22,8 +22,7 @@
                 <div class="items">
                     <div class="itemss" v-for="course in filteredCourses" :key="course.id">
                         <div  class="item" v-if="course.time_course != 0" draggable="true" >
-                            <input type="text" :id="JSON.stringify(course)" >
-
+                            <input type="text" :data-course="JSON.stringify(course)"  :data-courseType="course.time_course != 0 ?'Course' :''" hidden>
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
@@ -39,6 +38,7 @@
                             </div>
                         </div>
                         <div class="item" v-if="course.time_tp != 0" draggable="true" >
+                            <input type="text" :data-course="JSON.stringify(course)" :data-courseType="course.time_tp != 0 ?'TP' :''" hidden>
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
@@ -54,6 +54,7 @@
                             </div>
                         </div>
                         <div class="item" v-if="course.time_td != 0" draggable="true">
+                            <input type="text" :data-course="JSON.stringify(course)" :data-courseType="course.time_td != 0 ?'TD' :''" hidden>
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>

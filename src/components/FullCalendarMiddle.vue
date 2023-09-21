@@ -49,20 +49,21 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import axios from 'axios';
 // import { addDurations } from '@fullcalendar/core/internal';
-let events = [{
-    id: 'event1',
-    titles: [
-        // course-side
-        'Internet Programming',
-        '(Course)',
-        'CHUN Thavorac',
-        // room-side
-        'I-606',
-        'I4-GIC-A'
-    ],
-    start: '2023-09-20T09:00:00',
-    end: '2023-09-20T11:00:00',
-},
+let events = [
+    // {
+    //     id: 'event1',
+    //     titles: [
+    //         // course-side
+    //         'Internet Programming',
+    //         '(Course)',
+    //         'CHUN Thavorac',
+    //         // room-side
+    //         'I-606',
+    //         'I4-GIC-A'
+    //     ],
+    //     start: '2023-09-20T09:00:00',
+    //     end: '2023-09-20T11:00:00',
+    // },
     // {
     //     // id: 'event1',
     //     titles: [
@@ -115,6 +116,7 @@ export default {
                     interactionPlugin,
                 ],
                 initialViews: 'weekGridPlugin, interactionPlugin',
+                defaultTimedEventDuration: '02:00:00',
                 eventContent: this.customEventContent,
                 eventAllow: this.handleEventAllow,
                 editable: true, // Enable dragging and resizing
@@ -191,40 +193,43 @@ export default {
         // })
     },
     methods: {
-        addHours(e,hour=1){
-            let date=new Date(e);
-            date.setHours(date.getHours()+hour)
+        addHours(e, hour = 1) {
+            let date = new Date(e);
+            date.setHours(date.getHours() + hour)
         },
         drop(e) {
             // alert("Dropped an element")
-//             {
-//     id: 'event1',
-//     titles: [
-//         // course-side
-//         'Internet Programming',
-//         '(Course)',
-//         'CHUN Thavorac',
-//         // room-side
-//         'I-606',
-//         'I4-GIC-A'
-//     ],
-//     start: '2023-09-20T09:00:00',
-//     end: '2023-09-20T11:00:00',
-// }
-// Date.prototype.addHours= function(h){
-//     this.setHours(this.getHours()+h);
-//     return this;
-// }
-            let course=JSON.parse(e.draggedEl.children[0].id)
-            this.calendarOptions.events=[...this.calendarOptions.events,         {
-                titles:[course.name_en],
-                start:e.date,
-                end:this.addHours(e.date,1)
+            //             {
+            //     id: 'event1',
+            //     titles: [
+            //         // course-side
+            //         'Internet Programming',
+            //         '(Course)',
+            //         'CHUN Thavorac',
+            //         // room-side
+            //         'I-606',
+            //         'I4-GIC-A'
+            //     ],
+            //     start: '2023-09-20T09:00:00',
+            //     end: '2023-09-20T11:00:00',
+            // }
+            // Date.prototype.addHours= function(h){
+            //     this.setHours(this.getHours()+h);
+            //     return this;
+            // }
+            let course = JSON.parse(e.draggedEl.children[0].dataset.course)
+            let type=e.draggedEl.children[0].dataset.coursetype
+            course.type=type;
+            this.calendarOptions.events = [...this.calendarOptions.events, {
+                titles: [course.name_en,course.type],
+                start: e.date,
+                // end: this.addHours(e.date, 1)
             }]
-            console.log()
+            console.log(course);
+            // let courseType = JSON.parse(e.draggedEl.children[0].id)
             // this.calendarOptions.events.push;
             // this.calendarOptions.events.push(...this.displayEvent())
-            
+
         },
         displayEvent() {
             return events
