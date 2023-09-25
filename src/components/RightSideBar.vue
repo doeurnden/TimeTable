@@ -21,7 +21,8 @@
             <div class="data">
                 <div class="items">
                     <div class="itemss" v-for="course in filteredCourses" :key="course.id">
-                        <div class="item" v-if="course.time_course != 0">
+                        <div  class="item" v-if="course.time_course != 0" draggable="true" >
+                            <input type="text" :data-course="JSON.stringify(course)"  :data-courseType="course.time_course != 0 ?'Course' :''" hidden>
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
@@ -36,7 +37,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item" v-if="course.time_tp != 0">
+                        <div class="item" v-if="course.time_tp != 0" draggable="true" >
+                            <input type="text" :data-course="JSON.stringify(course)" :data-courseType="course.time_tp != 0 ?'TP' :''" hidden>
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
@@ -51,7 +53,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item" v-if="course.time_td != 0" >
+                        <div class="item" v-if="course.time_td != 0" draggable="true">
+                            <input type="text" :data-course="JSON.stringify(course)" :data-courseType="course.time_td != 0 ?'TD' :''" hidden>
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
@@ -143,9 +146,9 @@
                     <div class="item-lecturer"
                         v-if="(lecturer_search != filteredLecturers) & (lecturer_search !== '') & (filteredLecturers.length == 0)"
                         style="
-                                        display: flex;
-                                        justify-content: center;
-                                        align-items: center;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
                                     ">
                         <h3>No Lecturer</h3>
                     </div>
@@ -160,7 +163,7 @@
 import 'primeicons/primeicons.css';
 import axios from 'axios';
 // import interactionPlugin from '@fullcalendar/interaction'
-// import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
+import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 
 export default {
     data() {
@@ -173,36 +176,42 @@ export default {
             room_search: '',
             lecturer_search: '',
             course_page: 1,
-            
+            container:undefined,
+        }
+    },
+    watch:{
+        container:(value)=>{
+            console.log(value);
         }
     },
     // components: {
     //     draggable
     // },
     methods: {
+        insertDataToApp(courseFake){
+            console.log(courseFake)
+            // this.$emit("insertDrag",)
+        },
         showInfo(buttonNumber) {
             this.activeButton = buttonNumber;
         },
-        displayItemId(courseId) {
-            let item = this.courses[courseId - 1]
-            // console.log(courseId);
-            console.log(item)
-            // console.log(this.courses);
-        },
-        fetchData(courseId) {
-            // console.log(this.courses);
-            console.log(this.$refs.text);
-            // alert("Hello")
-        },
         seeMore() {
             this.course_page += 1;
-            console.log(this.course_page);
 
             axios.get(`${import.meta.env.VITE_APP_COURSE}?page=${this.course_page}`)
-                .then(response => this.courses = response.data.data);
+                .then(response => this.courses = [...this.courses,...response.data.data]);
         }
     },
     mounted() {
+        var containerEl = this.$refs.contianer;
+            console.log(this.$refs);
+            // console.log(containerEl);
+            new Draggable(containerEl, {
+                itemSelector: '.item',
+                eventData: function (eventEl) {
+                    return eventEl;
+                }
+            });
         axios.get(import.meta.env.VITE_APP_ROOM)
             .then(response => {
                 this.rooms = response.data.data;
@@ -220,10 +229,11 @@ export default {
             });
         //move from fullcalender center
         this.fetchAcademyYears()
+          // document.addEventListener('DOMContentLoaded', function () {
+           
+        // })
         this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0];
-
-    },
-    watch: {
+        
     },
     computed: {
         filteredCourses() {
@@ -434,12 +444,12 @@ button.navbars.lecturer.active {
     background-color: #ffffff;
     /* padding: 5%; */
     margin: 4.5%;
-    transition: all 0.4s;
+    /* transition: all 0.4s; */
     border-left: 2px solid #ff0000;
     border-radius: 3px;
     cursor: move;
-    user-select: none;
-    touch-action: manipulation;
+    /* user-select: none; */
+    /* touch-action: manipulation; */
 }
 
 .contianer .sub-container .data .items .item:hover {
@@ -604,4 +614,5 @@ button.navbars.lecturer.active {
     display: flex;
     justify-content: center;
     align-items: center;
-}</style>
+}
+</style>

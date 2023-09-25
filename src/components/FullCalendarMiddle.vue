@@ -36,7 +36,7 @@
                     </form>
                 </div>
             </div>
-            <FullCalendar :options="calendarOptions"/>
+            <FullCalendar :options="calendarOptions" />
         </div>
     </div>
 </template>
@@ -48,6 +48,37 @@ import listPlugin from '@fullcalendar/list'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import axios from 'axios';
+// import { addDurations } from '@fullcalendar/core/internal';
+let events = [
+    // {
+    //     id: 'event1',
+    //     titles: [
+    //         // course-side
+    //         'Internet Programming',
+    //         '(Course)',
+    //         'CHUN Thavorac',
+    //         // room-side
+    //         'I-606',
+    //         'I4-GIC-A'
+    //     ],
+    //     start: '2023-09-20T09:00:00',
+    //     end: '2023-09-20T11:00:00',
+    // },
+    // {
+    //     // id: 'event1',
+    //     titles: [
+    //         // course-side
+    //         'Internet Programming',
+    //         '(Course)',
+    //         'CHUN Thavorac',
+    //         // room-side
+    //         'I-606',
+    //         'I4-GIC-A'
+    //     ],
+    //     start: '2023-09-19T09:00:00',
+    //     end: '2023-09-19T11:00:00',
+    // },
+];
 
 export default {
     props: ["selectedAcademyYear", "selectedDepartment", "selectedDegree", "selectedDepOption", "selectedGrade", "selectedSemester"],
@@ -61,26 +92,23 @@ export default {
             fetchedGroups: [], // To store the groups fetched from the API
             selectedWeek: '', // To store the selected week
             fetchedWeeks: [],
+            events: [],
             // To store the weeks fetched from the API
 
-            //from right side
-            events:  [
-                {
-                    id: 'event1',
-                    titles: [
-                        // course-side
-                        'Internet Programming',
-                        '(Course)',
-                        'CHUN Thavorac',
-                        // room-side
-                        'I-606',
-                        'I4-GIC-A'
-                    ],
-                    start: '2023-09-20T07:00:00',
-                    end: '2023-09-20T09:00:00',
-                }
-            ],
-
+            // events: {
+            //     // id: 'event1',
+            //     titles: [
+            //         // course-side
+            //         'Internet Programming',
+            //         '(Course)',
+            //         'CHUN Thavorac',
+            //         // room-side
+            //         'I-606',
+            //         'I4-GIC-A'
+            //     ],
+            //     // start: '2023-09-19T07:00:00',
+            //     // end: '2023-09-19T09:00:00',
+            // },
             calendarOptions: {
                 plugins: [
                     timeGridPlugin,
@@ -88,11 +116,12 @@ export default {
                     interactionPlugin,
                 ],
                 initialViews: 'weekGridPlugin, interactionPlugin',
+                defaultTimedEventDuration: '02:00:00',
                 eventContent: this.customEventContent,
                 eventAllow: this.handleEventAllow,
                 editable: true, // Enable dragging and resizing
-                eventDrop: this.handleDrop,
-                // events: this.events,
+                drop: this.drop,
+                events: [],
                 // eventClick: this.handleEventClick,
                 // dateClick: this.handleDateClick,
 
@@ -152,26 +181,82 @@ export default {
         });
         // this.fetchAcademyYears()
         // this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
-        document.addEventListener('DOMContentLoaded', function () {
-            var containerEl = document.querySelector('.contianer');
-            new Draggable(containerEl, {
-                itemSelector: '.item',
-                eventData: function (eventEl) {
-                    return {
-                        title: eventEl.innerText
-                    };
-                }
-            });
-        })
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     var containerEl = document.querySelector('.contianer');
+        //     new Draggable(containerEl, {
+        //         itemSelector: '.item',
+        //         eventData: function (eventEl) {
+        //             return {
+        //                 title: eventEl.innerText
+        //             };
+        //         }
+        //     });
+        // })
     },
-
     methods: {
-        checkPosition(e) {
-            console.log(e.target)
+        addHours(e, hour = 1) {
+            let date = new Date(e);
+            date.setHours(date.getHours() + hour)
         },
-        handleDrop(){
+        drop(e) {
+            // alert("Dropped an element")
+            //             {
+            //     id: 'event1',
+            //     titles: [
+            //         // course-side
+            //         'Internet Programming',
+            //         '(Course)',
+            //         'CHUN Thavorac',
+            //         // room-side
+            //         'I-606',
+            //         'I4-GIC-A'
+            //     ],
+            //     start: '2023-09-20T09:00:00',
+            //     end: '2023-09-20T11:00:00',
+            // }
+            // Date.prototype.addHours= function(h){
+            //     this.setHours(this.getHours()+h);
+            //     return this;
+            // }
+            let course = JSON.parse(e.draggedEl.children[0].dataset.course)
+            let type=e.draggedEl.children[0].dataset.coursetype
+            course.type=type;
+            this.calendarOptions.events = [...this.calendarOptions.events, {
+                titles: [course.name_en,course.type],
+                start: e.date,
+                // end: this.addHours(e.date, 1)
+            }]
+            console.log(course);
+            // let courseType = JSON.parse(e.draggedEl.children[0].id)
+            // this.calendarOptions.events.push;
+            // this.calendarOptions.events.push(...this.displayEvent())
 
         },
+        displayEvent() {
+            return events
+        },
+        // async drop() {
+        //     alert("added slot")
+        //     try {
+        //         const response = await axios.post(`http://127.0.0.1:8000/api/slots/create`, {
+        //             time_tp: 0,
+        //             time_td: 0,
+        //             time_course: 32,
+        //             academic_year_id: 2022,
+        //             course_program_id: 2022,
+        //             semester_id: 1,
+        //             lecturer_id: null,
+        //             group_id: 1,
+        //             time_used: null,
+        //             time_remaining: null,
+        //             created_uid: 1,
+        //             write_uid: null,
+        //         });
+        //         console.log(response.data);
+        //     } catch (error) {
+        //         console.log(error)
+        //     }
+        // },
         customDayHeaderContent(args) {
             const date = new Date(args.date);
             const day = date.toLocaleDateString('en-US', { weekday: 'long' }); // Change 'long' to 'short' if you prefer abbreviated names
