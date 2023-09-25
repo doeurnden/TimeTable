@@ -64,7 +64,22 @@ export default {
             // To store the weeks fetched from the API
 
             //from right side
-            events: [],
+            events:  [
+                {
+                    id: 'event1',
+                    titles: [
+                        // course-side
+                        'Internet Programming',
+                        '(Course)',
+                        'CHUN Thavorac',
+                        // room-side
+                        'I-606',
+                        'I4-GIC-A'
+                    ],
+                    start: '2023-09-20T07:00:00',
+                    end: '2023-09-20T09:00:00',
+                }
+            ],
 
             calendarOptions: {
                 plugins: [
@@ -77,7 +92,7 @@ export default {
                 eventAllow: this.handleEventAllow,
                 editable: true, // Enable dragging and resizing
                 eventDrop: this.handleDrop,
-                events: [],
+                // events: this.events,
                 // eventClick: this.handleEventClick,
                 // dateClick: this.handleDateClick,
 
@@ -253,6 +268,7 @@ export default {
             const index = this.events.findIndex((event) => event.id === eventId);
             if (index !== -1) {
                 this.events.splice(index, 1);
+                
             }
         },
 
