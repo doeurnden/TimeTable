@@ -299,6 +299,9 @@ button.navbars.room.active,
 button.navbars.lecturer.active {
     background-color: #0c356a;
 }
+button.navbars.course, button.navbars.room, button.navbars.lecturer{
+    cursor: pointer;
+}
 
 /* container */
 .contianer {

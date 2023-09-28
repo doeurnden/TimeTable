@@ -37,6 +37,7 @@
                 </div>
             </div>
             <FullCalendar :options="calendarOptions" />
+            <div id="flash-message-container"></div>
         </div>
     </div>
 </template>
@@ -48,6 +49,8 @@ import listPlugin from '@fullcalendar/list'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import axios from 'axios';
+
+// import {v4 as uuidv4} from "uuid";
 // import { addDurations } from '@fullcalendar/core/internal';
 let events = [
     // {
@@ -93,7 +96,6 @@ export default {
             selectedWeek: '', // To store the selected week
             fetchedWeeks: [],
             events: [],
-            // To store the weeks fetched from the API
 
             // events: {
             //     // id: 'event1',
@@ -119,11 +121,63 @@ export default {
                 defaultTimedEventDuration: '02:00:00',
                 eventContent: this.customEventContent,
                 eventAllow: this.handleEventAllow,
-                editable: true, // Enable dragging and resizing
+                editable: true,
                 drop: this.drop,
                 events: [],
-                // eventClick: this.handleEventClick,
-                // dateClick: this.handleDateClick,
+                eventDrop: (eventDropInfo) =>{
+                    // alert('Reverse <=3');
+
+                    // Alert message when move slot
+                    const flashMessage = document.createElement('div');
+                    flashMessage.classList.add('flash-message-move');
+
+                    // Create an SVG element for the custom icon
+                    const svgIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                    svgIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+                    svgIcon.setAttribute('width', '40');
+                    svgIcon.setAttribute('height', '40');
+                    svgIcon.setAttribute('viewBox', '0 0 24 24');
+                    
+                    // Create a <path> element for the icon path
+                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    path.setAttribute('fill', 'currentColor');
+                    path.setAttribute('d', 'M3 4v12c0 1.103.897 2 2 2h3.5l3.5 4l3.5-4H19c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2H5c-1.103 0-2 .897-2 2zm8 1h2v6h-2V5zm0 8h2v2h-2v-2z');
+
+                    // Add the <path> element to the SVG
+                    svgIcon.appendChild(path);
+
+                    // Create a container for the titles
+                    const titlesContainer = document.createElement('div');
+                    titlesContainer.classList.add('titles-add-container');
+
+                    const title1 = document.createElement('div');
+                    const title2 = document.createElement('div');
+
+                    title1.textContent = 'Move Timetalble Slot'; 
+                    title2.textContent = 'Timetalble Slot moved successfully!';
+
+                    // Add titles to titles container
+                    titlesContainer.appendChild(title1);
+                    titlesContainer.appendChild(title2);
+
+                    // Add icon and titles container to flash message
+                    flashMessage.appendChild(svgIcon);
+                    flashMessage.appendChild(titlesContainer);
+
+                    // Add flash message to the container
+                    const flashMessageContainer = document.getElementById('flash-message-container');
+                    flashMessageContainer.appendChild(flashMessage);
+
+                    flashMessage.style.display = 'flex';
+                    svgIcon.style.fontSize = '40px';
+                    svgIcon.style.marginTop = '5px';
+                    title1.style.fontSize = '17px';
+
+                    setTimeout(() => {
+                        flashMessage.style.display = 'none';
+                        flashMessageContainer.removeChild(flashMessage);
+                    }, 2500);
+                },
 
                 headerToolbar: {
                     start: '',
@@ -174,10 +228,16 @@ export default {
             container.addEventListener('click', function (event) {
                 const deleteButton = event.target.closest('.delete');
                 if (deleteButton) {
+                    console.log(deleteButton);
                     const eventId = deleteButton.getAttribute('data-event-id');
+                    console.log(eventId)
                     self.confirmDelete(eventId); // Call the confirmDelete method with the event ID
                 }
             });
+           
+        });
+        this.$nextTick(() => {
+            this.handleSlotEventMovement();
         });
         // this.fetchAcademyYears()
         // this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
@@ -218,6 +278,7 @@ export default {
             //     this.setHours(this.getHours()+h);
             //     return this;
             // }
+
             let course = JSON.parse(e.draggedEl.children[0].dataset.course)
             let type=e.draggedEl.children[0].dataset.coursetype
             course.type=type;
@@ -225,13 +286,64 @@ export default {
                 titles: [course.name_en,course.type],
                 start: e.date,
                 // end: this.addHours(e.date, 1)
-            }]
-            console.log(course);
-            // let courseType = JSON.parse(e.draggedEl.children[0].id)
-            // this.calendarOptions.events.push;
-            // this.calendarOptions.events.push(...this.displayEvent())
+            }];
 
+            // console.log(course);     
+            // alert(123);
+
+            // Alert message
+            const flashMessage = document.createElement('div');
+            flashMessage.classList.add('flash-message-add');
+
+            // Create an SVG element for the custom icon
+            const svgIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svgIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+            svgIcon.setAttribute('width', '40');
+            svgIcon.setAttribute('height', '40');
+            svgIcon.setAttribute('viewBox', '0 0 24 24');
+            
+            // Create a <path> element for the icon path
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('fill', 'currentColor');
+            path.setAttribute('d', 'M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10s10-4.5 10-10S17.5 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8m4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4l8-8l-1.41-1.42Z');
+
+            // Add the <path> element to the SVG
+            svgIcon.appendChild(path);
+
+            // Create a container for the titles
+            const titlesContainer = document.createElement('div');
+            titlesContainer.classList.add('titles-add-container');
+
+            const title1 = document.createElement('div');
+            const title2 = document.createElement('div');
+
+            title1.textContent = 'Add Timetalble Slot'; 
+            title2.textContent = 'Timetalble Slot added successfully!';
+
+            // Add titles to titles container
+            titlesContainer.appendChild(title1);
+            titlesContainer.appendChild(title2);
+
+            // Add icon and titles container to flash message
+            flashMessage.appendChild(svgIcon);
+            flashMessage.appendChild(titlesContainer);
+
+            // Add flash message to the container
+            const flashMessageContainer = document.getElementById('flash-message-container');
+            flashMessageContainer.appendChild(flashMessage);
+
+            flashMessage.style.display = 'flex';
+            svgIcon.style.fontSize = '40px';
+            svgIcon.style.marginTop = '5px';
+            title1.style.fontSize = '17px';
+
+            setTimeout(() => {
+                flashMessage.style.display = 'none';
+                flashMessageContainer.removeChild(flashMessage);
+            }, 2500);
         },
+
+
         displayEvent() {
             return events
         },
@@ -289,8 +401,9 @@ export default {
             }
         },
         customEventContent(eventInfo) {
-            const event = eventInfo.event;
-            const titles = event.extendedProps.titles || [];
+            const events = eventInfo.event;
+            console.log(events.extendedProps.titles);
+            const titles = events.extendedProps.titles || [];
             // Split titles into different sections //5
             const courseName = titles.slice(0, 1);
             const courseType = titles.slice(1, 2);
@@ -307,37 +420,40 @@ export default {
 
             return {
                 html: `
-                        <div class="container-room">
-                            <div class="delete"><h1>x</h1></div>
-                            <div class="sideCourse">
-                                <div class="courseName">
-                                    <div class="courseNameText">
-                                        ${courseNameHtml}
-                                    </div>
-                                    <span class="courseType">
-                                        ${courseTypeHtml}
-                                    </span>
-                                </div>    
-                                <div class="lecturer">
-                                        ${lecturerHtml}
+                    <div class="container-room">
+                        <div class="delete" data-event-id="${events.id}"><h1>x</h1></div>
+                        <div class="sideCourse">
+                            <div class="courseName">
+                                <div class="courseNameText">
+                                    ${courseNameHtml}
                                 </div>
+                                <span class="courseType">
+                                    ${courseTypeHtml}
+                                </span>
+                            </div>    
+                            <div class="lecturer">
+                                    ${lecturerHtml}
                             </div>
-          
-                            <div class="sideRoom">
-                                <div class="roomName">
-                                    ${roomNameHtml}
-                                </div>    
-                                <p class="roomGroup">
-                                    ${roomNumberHtml}
-                                </p>
-                            </div>
-                            <div class="delete" data-event-id="${event.id}">x</div>
                         </div>
-                    `,
+        
+                        <div class="sideRoom">
+                            <div class="roomName">
+                                ${roomNameHtml}
+                            </div>    
+                            <p class="roomGroup">
+                                ${roomNumberHtml}
+                            </p>
+                        </div>
+                        <div class="delete"  data-event-id="${events.id}">x</div>
+                    </div>
+                `,
             };
         },
+        
         // @sweetalert2
         async confirmDelete(eventId) {
+            console.log('confirmDelete function called with eventId:', eventId);
+
             const result = await Swal.fire({
                 title: 'Are you sure to delete?',
                 icon: 'warning',
@@ -349,15 +465,61 @@ export default {
                 this.deleteEvent(eventId);
             }
         },
-        deleteEvent(eventId) {
-            const index = this.events.findIndex((event) => event.id === eventId);
-            if (index !== -1) {
+        deleteEvent(eventId) {  
+            console.log('deleteEvent function called with eventId:', eventId);
+            const index = this.events.findIndex((events) => events.id === eventId);
+            if (index !== 0) {
                 this.events.splice(index, 1);
-                
             }
+            // Notify after deletion slot
+            const flashMessage = document.createElement('div');
+            flashMessage.classList.add('flash-message-remove');
+
+            // Create an SVG element for the custom icon
+            const svgIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svgIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+            svgIcon.setAttribute('width', '40');
+            svgIcon.setAttribute('height', '40');
+            svgIcon.setAttribute('viewBox', '0 0 24 24');
+            
+            // Create a <path> element for the icon path
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('fill', 'currentColor');
+            path.setAttribute('d', 'M7 21q-.825 0-1.413-.588T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.588 1.413T17 21H7Zm2-4h2V8H9v9Zm4 0h2V8h-2v9Z');
+
+            // Add the <path> element to the SVG
+            svgIcon.appendChild(path);
+
+            // Create a container for the titles
+            const titlesContainer = document.createElement('div');
+            titlesContainer.classList.add('titles-container-remove');
+
+            const title1 = document.createElement('div');
+            const title2 = document.createElement('div');
+
+            title1.textContent = 'Delete Timetalble Slot'; 
+            title2.textContent = 'Timetalble Slot deleted successfully!';
+
+            titlesContainer.appendChild(title1);
+            titlesContainer.appendChild(title2);
+
+            flashMessage.appendChild(svgIcon);
+            flashMessage.appendChild(titlesContainer);
+
+            // Add the flash message to the container
+            const flashMessageContainer = document.getElementById('flash-message-container');
+            flashMessageContainer.appendChild(flashMessage);
+
+            flashMessage.style.display = 'flex';
+            svgIcon.style.fontSize = '40px';
+            svgIcon.style.marginTop = '5px';
+            title1.style.fontSize = '17px';
+
+            setTimeout(() => {
+                flashMessage.style.display = 'none';
+                flashMessageContainer.removeChild(flashMessage);
+            }, 2500);
         },
-
-
         // Do on API Backend
         fetchGroups() {
             axios.get(import.meta.env.VITE_APP_GROUP)
@@ -443,29 +605,24 @@ export default {
         position: relative;
         padding-bottom: 0px;
     }
-
     .fullcalendar {
         margin-top: 57px;
         padding-left: 10px;
         padding-right: 10px;
     }
-
     .title-content {
         position: absolute;
         top: 19px;
     }
-
     .title-content h1 {
         font-size: 28px;
     }
-
     .hori {
         position: relative;
         width: 100%;
         height: 5px;
         overflow: hidden;
     }
-
     .hori hr {
         width: 100%;
         height: 5px;
@@ -475,7 +632,6 @@ export default {
         border: none;
         animation: slideFromLeft 6s linear forwards;
     }
-
     @keyframes slideFromLeft {
         0% {
             left: -100%;
@@ -485,7 +641,6 @@ export default {
             left: 0;
         }
     }
-
     .select-group-week {
         width: 200px;
         height: 35px;
@@ -496,13 +651,11 @@ export default {
         display: flex;
         justify-content: space-between;
     }
-
     .select-group-week .select-group {
         width: 96px;
         height: 35px;
         /* background-color: blue; */
     }
-
     .select-group-week .select-group select {
         width: 100%;
         height: 35px;
@@ -515,13 +668,11 @@ export default {
         padding: 3px;
         transition: all 0.5s;
     }
-
     .select-group-week .select-week {
         width: 96px;
         height: 100%;
         /* background-color: black; */
     }
-
     .select-group-week .select-week select {
         width: 100%;
         height: 35px;
@@ -534,28 +685,23 @@ export default {
         padding: 3px;
         transition: all 0.6s;
     }
-
     .select-group-week .select-group select:hover,
     .select-week select:hover {
         cursor: pointer;
         background-color: #0C356A;
         transition: all 0.7s;
     }
-
     /* @change-slot-time-height */
     td.fc-timegrid-slot {
         height: 37px !important;
     }
-
     .fc .fc-toolbar.fc-header-toolbar {
         margin-bottom: 0.54em;
     }
-
     /* @turn-off-color-current-day */
     .fc .fc-timegrid-col.fc-day-today {
         background-color: white;
     }
-
     /* @color-11-12pm */
     tbody tr:nth-child(9),
     tbody tr:nth-child(10),
@@ -564,78 +710,66 @@ export default {
     tbody tr:nth-child(21) {
         background-color: #f4f4f4 !important;
     }
-
     /* @like-colespan on 11 & 12pm */
     .fc .fc-non-business {
         background-color: transparent;
     }
-
     a.fc-event,
     a.fc-event {
         background-color: #3AA6B9;
         border: 1px solid #3AA6B9;
     }
+    .fc-timegrid-event .fc-event-main {
+        padding: 0px;
+    }
+    /* @event */
+    .container-room {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        background-color: #3AA6B9;
+        position: relative;
+    }
+    .container-room:hover .delete{
+        width: 13px;
+        height: 13px;
+        background-color: red;
+        border-top-right-radius: 3px;
+        color: white;
+        font-weight: bold;
+        position: absolute;
+        text-align: center;
+        justify-content: center;
+        z-index: 1;
+        right: 0;
+        top: 0;
+        font-size: 10px;
+        cursor: pointer;
+    }
+    .container-room:hover .sideCourse{
+        background-color: #FFF6E0 !important;
+    }
 
-.fc-timegrid-event .fc-event-main {
-    padding: 0px;
-}
-/* @event */
-.container-room {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    background-color: #3AA6B9;
-    position: relative;
-}
-.container-room:hover .delete{
-    width: 13px;
-    height: 13px;
-    background-color: red;
-    border-top-right-radius: 3px;
-    color: white;
-    font-weight: bold;
-    position: absolute;
-    text-align: center;
-    justify-content: center;
-    z-index: 1;
-    right: 0;
-    top: 0;
-    font-size: 10px;
-    cursor: pointer;
-}
-.container-room:hover .sideCourse{
-    background-color: #FFF6E0 !important;
-}
-
-/* @course-section */
-.sideCourse {
-    width: 100%;
-    height: 63%;
-    background-color: white;
-    padding: 6px 6px;
-    font-size: 13px;
-    position: absolute;
-    font-weight: 600;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-}
-.courseName .courseNameText {
-    font-size: 14px;
-    color: black;
-    /* margin-bottom: 6px;
-        line-height: 1.3em;
-        max-height: calc(2 * 1.2em);
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;  */
-}
-
+    /* @course-section */
+    .sideCourse {
+        width: 100%;
+        height: 63%;
+        background-color: white;
+        padding: 6px 6px;
+        font-size: 13px;
+        position: absolute;
+        font-weight: 600;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+    }
+    .courseName .courseNameText {
+        font-size: 14px;
+        color: black;
+    }
     .courseType {
         padding-bottom: 6px;
         color: red;
     }
-
     .lecturer {
         color: green;
     }
@@ -651,51 +785,50 @@ export default {
         font-weight: 500;
         font-size: 13px;
     }
-
-.roomName {
-    padding-bottom: 4px;
-}
-.delete h1{
-    width: 13px;
-    height: 13px;
-    display: none;
-    transition: all 0.5s;
-}
-.container-room:hover .delete{
-    width: 13px;
-    height: 13px;
-    background-color: red;
-    border-top-right-radius: 3px;
-    color: white;
-    font-weight: bold;
-    position: absolute;
-    text-align: center;
-    justify-content: center;
-    z-index: 1;
-    right: 0;
-    top: 0;
-    font-size: 10px;
-    cursor: pointer;
-    transition: all 0.5s;
-}
-/* 
-.delete {
-    width: 13px;
-    height: 13px;
-    background-color: red;
-    border-top-right-radius: 3px;
-    color: white;
-    font-weight: bold;
-    position: absolute;
-    text-align: center;
-    justify-content: center;
-    z-index: 1;
-    right: 0;
-    top: 0;
-    font-size: 10px;
-    cursor: pointer;
-} */
-
+    .roomName {
+        padding-bottom: 4px;
+    }
+    .container-room:hover .delete{
+        width: 13px;
+        height: 14px;
+        background-color: red;
+        border-top-right-radius: 3px;
+        color: white;
+        font-weight: bold;
+        position: absolute;
+        z-index: 1;
+        right: 0;
+        top: 0;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    .delete h1{
+        width: 13px;
+        height: 14px;
+        background-color: red;
+        display: none;
+        transition: all 0.5s;
+        font-size: 12px;
+        border-top-right-radius: 3px;
+    }
+    /* 
+    .delete {
+        width: 13px;
+        height: 13px;
+        background-color: red;
+        border-top-right-radius: 3px;
+        color: white;
+        font-weight: bold;
+        position: absolute;
+        text-align: center;
+        justify-content: center;
+        z-index: 1;
+        right: 0;
+        top: 0;
+        font-size: 10px;
+        cursor: pointer;
+    } */
     .swal2-container .swal2-popup {
         width: 25rem;
         height: 270px;
@@ -712,24 +845,20 @@ export default {
         font-family: inherit;
         font-size: 1rem;
     }
-
     .swal2-icon.swal2-warning {
         border-color: red;
         color: red;
         margin-bottom: -25px;
         /* font-size: 14px; */
     }
-
     .swal2-title {
         /* font-size: 25px; */
         color: black;
         font-family: Arial, Helvetica, sans-serif;
     }
-
     .swal2-actions .swal2-loader {
         position: relative;
     }
-
     .swal2-container .swal2-styled.swal2-confirm {
         border: 0;
         border-radius: 0.25em;
@@ -741,7 +870,6 @@ export default {
         position: absolute;
         right: 100px;
     }
-
     .swal2-container .swal2-styled.swal2-cancel {
         border: 0;
         border-radius: 0.25em;
@@ -752,6 +880,82 @@ export default {
         padding: 10px 25px;
         position: absolute;
         left: 100px;
+    }
+    /* Alert message after drop */
+    .flash-message-add {
+        width: 295px;
+        height: 90px;
+        background-color:green;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+        color: #fff;
+        display: none;
+        font-size: 14px;
+        position: fixed;
+        padding: 10px;
+        padding-top: 20px;
+        top: 10px;
+        right: 10px;
+        z-index: 9999;
+        line-height: 22px;
+    }
+    .flash-message-add div {
+        display: flex;
+        flex-direction: row; 
+        align-items: center;
+    }
+    .flash-message-add .titles-add-container {
+        display: block;
+    }
+
+    /* Alert message after remove */
+    .flash-message-remove {
+        width: 295px;
+        height: 90px;
+        background-color:red;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+        color: #fff;
+        display: none;
+        font-size: 14px;
+        position: fixed;
+        padding: 10px;
+        padding-top: 20px;
+        top: 10px;
+        right: 10px;
+        z-index: 9999;
+        line-height: 22px;
+    }
+    .flash-message-remove div {
+        align-items: center;
+    }
+    .flash-message-remove .titles-remove-container {
+        display: block; 
+    }
+
+    /* Alert message after move */
+    .flash-message-move {
+        width: 295px;
+        height: 90px;
+        background-color: #6499E9;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+        color: #fff;
+        display: none;
+        font-size: 14px;
+        position: fixed;
+        padding: 10px;
+        padding-top: 20px;
+        top: 10px;
+        right: 10px;
+        z-index: 9999999999999999999999999999999999999;
+        line-height: 22px;
+    }
+    .flash-message-remove div {
+        align-items: center;
+    }
+    .flash-message-remove .titles-remove-container {
+        display: block; 
     }
 
     @media screen and (min-width: 1369px) {
@@ -811,7 +1015,8 @@ export default {
             padding-top: 10px;
         }
 
-    .roomName {
-        padding-bottom: 4px;
+        .roomName {
+            padding-bottom: 4px;
+        }
     }
-}</style>
+</style>
