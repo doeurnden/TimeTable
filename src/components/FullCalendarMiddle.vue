@@ -36,7 +36,7 @@
                     </form>
                 </div>
             </div>
-            <FullCalendar :options="calendarOptions" />
+            <FullCalendar :options="calendarOptions"/>
             <div id="flash-message-container"></div>
         </div>
     </div>
@@ -124,6 +124,7 @@ export default {
                 editable: true,
                 drop: this.drop,
                 events: [],
+                eventOverlap: false,    // Prevent events from overlapping
                 eventDrop: (eventDropInfo) =>{
                     // alert('Reverse <=3');
 
@@ -134,8 +135,8 @@ export default {
                     // Create an SVG element for the custom icon
                     const svgIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                     svgIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-                    svgIcon.setAttribute('width', '40');
-                    svgIcon.setAttribute('height', '40');
+                    svgIcon.setAttribute('width', '50');
+                    svgIcon.setAttribute('height', '50');
                     svgIcon.setAttribute('viewBox', '0 0 24 24');
                     
                     // Create a <path> element for the icon path
@@ -169,9 +170,10 @@ export default {
                     flashMessageContainer.appendChild(flashMessage);
 
                     flashMessage.style.display = 'flex';
-                    svgIcon.style.fontSize = '40px';
-                    svgIcon.style.marginTop = '5px';
+                    // svgIcon.style.fontSize = '40px';
+                    svgIcon.style.marginTop = '3px';
                     title1.style.fontSize = '17px';
+                    title1.style.marginTop = '4px';
 
                     setTimeout(() => {
                         flashMessage.style.display = 'none';
@@ -286,20 +288,17 @@ export default {
                 titles: [course.name_en,course.type],
                 start: e.date,
                 // end: this.addHours(e.date, 1)
-            }];
-
-            // console.log(course);     
+            }];    
             // alert(123);
-
-            // Alert message
+            // Alert message when slot moved 
             const flashMessage = document.createElement('div');
             flashMessage.classList.add('flash-message-add');
 
             // Create an SVG element for the custom icon
             const svgIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
             svgIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-            svgIcon.setAttribute('width', '40');
-            svgIcon.setAttribute('height', '40');
+            svgIcon.setAttribute('width', '50');
+            svgIcon.setAttribute('height', '50');
             svgIcon.setAttribute('viewBox', '0 0 24 24');
             
             // Create a <path> element for the icon path
@@ -333,9 +332,10 @@ export default {
             flashMessageContainer.appendChild(flashMessage);
 
             flashMessage.style.display = 'flex';
-            svgIcon.style.fontSize = '40px';
-            svgIcon.style.marginTop = '5px';
+            // svgIcon.style.fontSize = '40px';
+            svgIcon.style.marginTop = '3px';
             title1.style.fontSize = '17px';
+            title1.style.marginTop = '4px';
 
             setTimeout(() => {
                 flashMessage.style.display = 'none';
@@ -371,7 +371,7 @@ export default {
         // },
         customDayHeaderContent(args) {
             const date = new Date(args.date);
-            const day = date.toLocaleDateString('en-US', { weekday: 'long' }); // Change 'long' to 'short' if you prefer abbreviated names
+            const day = date.toLocaleDateString('en-US', { weekday: 'long' });
             return day;
         },
         // handleEventClick(eventClickInfo) {
@@ -478,8 +478,8 @@ export default {
             // Create an SVG element for the custom icon
             const svgIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
             svgIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-            svgIcon.setAttribute('width', '40');
-            svgIcon.setAttribute('height', '40');
+            svgIcon.setAttribute('width', '47');
+            svgIcon.setAttribute('height', '47');
             svgIcon.setAttribute('viewBox', '0 0 24 24');
             
             // Create a <path> element for the icon path
@@ -511,9 +511,10 @@ export default {
             flashMessageContainer.appendChild(flashMessage);
 
             flashMessage.style.display = 'flex';
-            svgIcon.style.fontSize = '40px';
-            svgIcon.style.marginTop = '5px';
+            // svgIcon.style.fontSize = '40px';
+            svgIcon.style.marginTop = '3px';
             title1.style.fontSize = '17px';
+            title1.style.marginTop = '4px';
 
             setTimeout(() => {
                 flashMessage.style.display = 'none';
@@ -897,7 +898,7 @@ export default {
         top: 10px;
         right: 10px;
         z-index: 9999;
-        line-height: 22px;
+        line-height: 25px;
     }
     .flash-message-add div {
         display: flex;
@@ -924,7 +925,7 @@ export default {
         top: 10px;
         right: 10px;
         z-index: 9999;
-        line-height: 22px;
+        line-height: 25px;
     }
     .flash-message-remove div {
         align-items: center;
@@ -948,8 +949,8 @@ export default {
         padding-top: 20px;
         top: 10px;
         right: 10px;
-        z-index: 9999999999999999999999999999999999999;
-        line-height: 22px;
+        z-index: 999;
+        line-height: 25px;
     }
     .flash-message-remove div {
         align-items: center;
