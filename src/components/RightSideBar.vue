@@ -128,7 +128,7 @@
                 <div class="items">
                     <div class="item-lecturer" v-for="lecturer in filteredLecturers" :key="lecturer.id">
                         <div class="icon">
-                            <img src="../assets/image/avatar.png" alt="avatar">
+                            <img src="../as4s/image/avatar.png" alt="avatar">
                         </div>
                         <div class="info">
                             <h4>
@@ -298,6 +298,9 @@ button.navbars.course.active,
 button.navbars.room.active,
 button.navbars.lecturer.active {
     background-color: #0c356a;
+}
+button.navbars.course, button.navbars.room, button.navbars.lecturer{
+    cursor: pointer;
 }
 
 /* container */
