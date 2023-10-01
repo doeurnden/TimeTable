@@ -55,7 +55,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256"><path fill="currentColor" d="M216 32v160a8 8 0 0 1-8 8H72a16 16 0 0 0-16 16h136a8 8 0 0 1 0 16H48a8 8 0 0 1-8-8V56a32 32 0 0 1 32-32h136a8 8 0 0 1 8 8Z"/></svg>
         </div>
         <select v-model="selectedSemester" class="form-select" @change="emitSemesterSelected">
-          <!-- <option value="" disabled>Semesters</option> -->
+          <option value="" disabled>Semesters</option>
           <option v-for="semester in fetchedSemesters" :key="semester.id" :value="semester.id">{{ semester.name_en }}</option>
         </select>
       </div>
@@ -201,7 +201,7 @@
         axios.get(apiUrl)
           .then(response => {
             this.fetchedSemesters = response.data;
-            this.selectedSemester = this.fetchedSemesters[0]; // Set default selected value
+            this.selectedSemester = this.fetchedSemesters[0].id; // Set default selected value
           })
           .catch(error => {
             console.error('Error fetching semesters:', error);
@@ -267,9 +267,6 @@
       },
       selectedSemester() {
         this.selectedGroup = "";
-      },
-      selectedGroup() {
-        // Any logic needed when selectedGroup changes...
       },
     },
 

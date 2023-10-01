@@ -23,16 +23,12 @@
                 <!-- @button-week -->
                 <div class="select-week">
                     <form action="">
-                        <select name="group" v-model="selectedWeek" id="weekSelect">
+                        <select name="week" v-model="selectedWeek" id="weekSelect" @change="emitSelectedWeek">
                             <option value="" disabled>Weeks</option>
                             <option v-for="weekNumber in 16" :key="weekNumber" :value="weekNumber">
-                                {{ weekNumber }}
+                               Week {{ weekNumber }}
                             </option>
                         </select>
-                        <!-- <select name="group" v-model="selectedWeek">
-                            <option value="" disabled>Weeks</option>
-                            <option v-for="week in fetchedWeeks" :key="week.id" :value="week.id">{{ week.name_en }}</option>
-                        </select> -->
                     </form>
                 </div>
             </div>
@@ -92,23 +88,8 @@ export default {
             fetchedGroups: [], // To store the groups fetched from the API
             selectedWeek: '', // To store the selected week
             fetchedWeeks: [],
+            fetchedTimeTable:[],
             events: [],
-            // To store the weeks fetched from the API
-
-            // events: {
-            //     // id: 'event1',
-            //     titles: [
-            //         // course-side
-            //         'Internet Programming',
-            //         '(Course)',
-            //         'CHUN Thavorac',
-            //         // room-side
-            //         'I-606',
-            //         'I4-GIC-A'
-            //     ],
-            //     // start: '2023-09-19T07:00:00',
-            //     // end: '2023-09-19T09:00:00',
-            // },
             calendarOptions: {
                 plugins: [
                     timeGridPlugin,
@@ -178,19 +159,14 @@ export default {
                 }
             });
         });
-        // this.fetchAcademyYears()
-        // this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
-        // document.addEventListener('DOMContentLoaded', function () {
-        //     var containerEl = document.querySelector('.contianer');
-        //     new Draggable(containerEl, {
-        //         itemSelector: '.item',
-        //         eventData: function (eventEl) {
-        //             return {
-        //                 title: eventEl.innerText
-        //             };
-        //         }
-        //     });
-        // })
+        //DOM for get id of week
+        const weekSelect = document.getElementById('weekSelect'); // Get the select element by its ID
+            weekSelect.addEventListener('change', function() {
+            const selectedWeekId = this.value; // Get the selected value (week ID)
+            console.log('Selected Week ID:', selectedWeekId);
+            // You can now use 'selectedWeekId' as needed, such as sending it to an API.
+        });
+
     },
     methods: {
         addHours(e, hour = 1) {
@@ -234,28 +210,6 @@ export default {
         displayEvent() {
             return events
         },
-        // async drop() {
-        //     alert("added slot")
-        //     try {
-        //         const response = await axios.post(`http://127.0.0.1:8000/api/slots/create`, {
-        //             time_tp: 0,
-        //             time_td: 0,
-        //             time_course: 32,
-        //             academic_year_id: 2022,
-        //             course_program_id: 2022,
-        //             semester_id: 1,
-        //             lecturer_id: null,
-        //             group_id: 1,
-        //             time_used: null,
-        //             time_remaining: null,
-        //             created_uid: 1,
-        //             write_uid: null,
-        //         });
-        //         console.log(response.data);
-        //     } catch (error) {
-        //         console.log(error)
-        //     }
-        // },
         customDayHeaderContent(args) {
             const date = new Date(args.date);
             const day = date.toLocaleDateString('en-US', { weekday: 'long' }); // Change 'long' to 'short' if you prefer abbreviated names
@@ -362,23 +316,15 @@ export default {
                     console.error('Error fetching groups:', error);
                 });
         },
-        // fetchWeeks() {
-        //     const apiUrl = 'http://127.0.0.1:8000/api/get_all_weeks';
-        //     axios.get(apiUrl)
-        //         .then((response) => {
-        //             this.fetchedWeeks = response.data;
-        //             this.selectedWeek = this.fetchedWeeks[0].name_en;
-        //         })
-        //         .catch((error) => {
-        //             console.error('Error fetching weeks:', error);
-        //         });
-        // },
         fetchdata() {
             this.fetchGroups();
             // this.fetchWeeks();
         },
         emitSelectedGroup() {
             this.$emit('group-selected', this.selectedGroup);
+        },
+        emitSelectedWeek(){
+            this.$emit('week-selected', this.selectedWeek);
         },
         fetchGroups() {
             axios.get(import.meta.env.VITE_APP_GROUP + "?" + new URLSearchParams({
@@ -399,26 +345,62 @@ export default {
                 .catch((error) => {
                     console.error('Error fetching groups:', error);
                 });
+        },
+        fetchTimeTable() {
+        const requestData = {
+            academic_year_id: this.selectedAcademyYear,
+            department_id: this.selectedDepartment,
+            degree_id: this.selectedDegree,
+            department_option_id: this.selectedDepOption,
+            grade_id: this.selectedGrade,
+            semester_id: this.selectedSemester,
+            group_id: this.selectedGroup,
+            week_id: this.selectedWeek,
+            created_uid: 250,
+            updated_uid: 250,
+        };
+
+        axios.post(import.meta.env.VITE_APP_TIMETABLE, requestData)
+            .then((response) => {
+            this.fetchedTimeTable = response.data;
+            console.log('TimeTable:', response.data);
+            })
+            .catch((error) => {
+            console.error('Error fetching Timetable:', error);
+            });
         }
     },
     watch: {
+    
         selectedAcademyYear: function () {
-            this.fetchGroups()
+            this.fetchGroups();
+            this.fetchTimeTable();
         },
         selectedDepartment: function () {
             this.fetchGroups();
+            this.fetchTimeTable();
         },
         selectedDegree: function () {
             this.fetchGroups();
+            this.fetchTimeTable();
         },
         selectedDepOption: function () {
             this.fetchGroups();
+            this.fetchTimeTable();
         },
         selectedGrade: function () {
             this.fetchGroups();
+            this.fetchTimeTable();
         },
         selectedSemester: function () {
             this.fetchGroups();
+            this.fetchTimeTable();
+        },
+        selectedGroup: function (){
+            this.fetchTimeTable();
+        },
+        selectedWeek: function(){
+            this.fetchTimeTable();
         }
     },
     created() {
