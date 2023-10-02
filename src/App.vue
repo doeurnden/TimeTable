@@ -13,7 +13,10 @@
       :selectedDepartment="selectedDepartment" :selectedDegree="selectedDegree"
       :selectedDepOption="selectedDepOption" :selectedGrade="selectedGrade" :selectedSemester="selectedSemester">
     </FullCalendarMiddle>
-    <RightSideBar />
+    <RightSideBar :selectedAcademyYear="selectedAcademyYear" 
+      :selectedDepartment="selectedDepartment" :selectedDegree="selectedDegree"
+      :selectedDepOption="selectedDepOption" :selectedGrade="selectedGrade" :selectedSemester="selectedSemester">
+    </RightSideBar>
   </div>
 </template>
   

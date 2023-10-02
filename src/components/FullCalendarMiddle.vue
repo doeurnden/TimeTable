@@ -15,7 +15,8 @@
                     <form action="">
                         <select name="group" v-model="selectedGroup" @change="emitSelectedGroup">
                             <option value="" disabled>Groups</option>
-                            <option v-for="group in fetchedGroups" :key="group.id" :value="group.id">{{ group.code }}
+                            <option v-for="group in fetchedGroups" :key="group.id" :value="group.code">
+                                {{ group.code }}
                             </option>
                         </select>
                     </form>
@@ -49,37 +50,6 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import axios from 'axios';
 // import { addDurations } from '@fullcalendar/core/internal';
-let events = [
-    // {
-    //     id: 'event1',
-    //     titles: [
-    //         // course-side
-    //         'Internet Programming',
-    //         '(Course)',
-    //         'CHUN Thavorac',
-    //         // room-side
-    //         'I-606',
-    //         'I4-GIC-A'
-    //     ],
-    //     start: '2023-09-20T09:00:00',
-    //     end: '2023-09-20T11:00:00',
-    // },
-    // {
-    //     // id: 'event1',
-    //     titles: [
-    //         // course-side
-    //         'Internet Programming',
-    //         '(Course)',
-    //         'CHUN Thavorac',
-    //         // room-side
-    //         'I-606',
-    //         'I4-GIC-A'
-    //     ],
-    //     start: '2023-09-19T09:00:00',
-    //     end: '2023-09-19T11:00:00',
-    // },
-];
-
 export default {
     props: ["selectedAcademyYear", "selectedDepartment", "selectedDegree", "selectedDepOption", "selectedGrade", "selectedSemester"],
     components: {
@@ -92,7 +62,7 @@ export default {
             fetchedGroups: [], // To store the groups fetched from the API
             selectedWeek: '', // To store the selected week
             fetchedWeeks: [],
-            events: [],
+            // events: [],
             // To store the weeks fetched from the API
 
             // events: {
@@ -178,19 +148,6 @@ export default {
                 }
             });
         });
-        // this.fetchAcademyYears()
-        // this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
-        // document.addEventListener('DOMContentLoaded', function () {
-        //     var containerEl = document.querySelector('.contianer');
-        //     new Draggable(containerEl, {
-        //         itemSelector: '.item',
-        //         eventData: function (eventEl) {
-        //             return {
-        //                 title: eventEl.innerText
-        //             };
-        //         }
-        //     });
-        // })
     },
     methods: {
         addHours(e, hour = 1) {
@@ -198,38 +155,37 @@ export default {
             date.setHours(date.getHours() + hour)
         },
         drop(e) {
-            // alert("Dropped an element")
-            //             {
-            //     id: 'event1',
-            //     titles: [
-            //         // course-side
-            //         'Internet Programming',
-            //         '(Course)',
-            //         'CHUN Thavorac',
-            //         // room-side
-            //         'I-606',
-            //         'I4-GIC-A'
-            //     ],
-            //     start: '2023-09-20T09:00:00',
-            //     end: '2023-09-20T11:00:00',
-            // }
-            // Date.prototype.addHours= function(h){
-            //     this.setHours(this.getHours()+h);
-            //     return this;
-            // }
             let course = JSON.parse(e.draggedEl.children[0].dataset.course)
-            let type=e.draggedEl.children[0].dataset.coursetype
-            course.type=type;
+            let type = e.draggedEl.children[0].dataset.coursetype
+            course.type = type;
+            // console.log('selectedGroup',this.selectedGroup);
+            // console.log(this.fetchedGroups[0].code);
+            // console.log(this.selectedGroup);
+            course.group = this.selectedGroup
+
             this.calendarOptions.events = [...this.calendarOptions.events, {
-                titles: [course.name_en,course.type],
+                titles: [course.name_en, course.type, '', `${course.dg_code}${course.g_code}${course.d_code}-${course.group}`],
                 start: e.date,
                 // end: this.addHours(e.date, 1)
             }]
-            console.log(course);
+            // console.log(course);
             // let courseType = JSON.parse(e.draggedEl.children[0].id)
             // this.calendarOptions.events.push;
             // this.calendarOptions.events.push(...this.displayEvent())
-
+            // axios.post(`http://127.0.0.1:8000/api/slots/create`, {
+            //         time_tp: course.time_tp,
+            //         time_td: course.time_td,
+            //         time_course: course.time_course,
+            //         academic_year_id: 2022,
+            //         course_program_id: 2022,
+            //         semester_id: 1,
+            //         lecturer_id: null,
+            //         group_id: 1,
+            //         time_used: null,
+            //         time_remaining: null,
+            //         created_uid: 1,
+            //         write_uid: null,
+            // });
         },
         displayEvent() {
             return events
@@ -350,33 +306,6 @@ export default {
             }
         },
 
-
-        // Do on API Backend
-        fetchGroups() {
-            axios.get(import.meta.env.VITE_APP_GROUP)
-                .then((response) => {
-                    this.fetchedGroups = response.data;
-                    this.selectedGroup = this.fetchGroups[0].code;
-                })
-                .catch((error) => {
-                    console.error('Error fetching groups:', error);
-                });
-        },
-        // fetchWeeks() {
-        //     const apiUrl = 'http://127.0.0.1:8000/api/get_all_weeks';
-        //     axios.get(apiUrl)
-        //         .then((response) => {
-        //             this.fetchedWeeks = response.data;
-        //             this.selectedWeek = this.fetchedWeeks[0].name_en;
-        //         })
-        //         .catch((error) => {
-        //             console.error('Error fetching weeks:', error);
-        //         });
-        // },
-        fetchdata() {
-            this.fetchGroups();
-            // this.fetchWeeks();
-        },
         emitSelectedGroup() {
             this.$emit('group-selected', this.selectedGroup);
         },
@@ -392,12 +321,12 @@ export default {
                 .then((response) => {
                     this.fetchedGroups = response.data;
                     this.selectedGroup = this.fetchedGroups[0].code;
-                    console.log(response.data)
+                    // console.log(response.data)
                     // this.fetchedGroups = response.data;
                     // this.selectedGroup = this.fetchGroups[0].code;
                 })
                 .catch((error) => {
-                    console.error('Error fetching groups:', error);
+                    console.log('Error fetching groups:', error);
                 });
         }
     },
@@ -421,9 +350,9 @@ export default {
             this.fetchGroups();
         }
     },
-    created() {
-        this.fetchdata();
-    }
+    // created() {
+    //     this.fetchdata();
+    // }
 }
 </script>
 
