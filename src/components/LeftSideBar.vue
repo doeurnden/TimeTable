@@ -355,8 +355,3 @@
     color: white;
   }
   </style>
-=======
-<template>
-    <h1>I am Thearith</h1>
-</template>
->>>>>>> fe7933d (upload)
