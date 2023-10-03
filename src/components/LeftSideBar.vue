@@ -1,4 +1,3 @@
-<<<<<<< HEAD
   <template>
     <div class="sidebar">
       <h1>Content</h1>
@@ -356,8 +355,3 @@
     color: white;
   }
   </style>
-=======
-<template>
-    <h1>Hello all Friends</h1>
-</template>
->>>>>>> b19ce42 (update)
