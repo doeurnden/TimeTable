@@ -404,6 +404,7 @@ export default {
             this.fetchTimeTable();
         }
     },
+    
     created() {
         this.fetchdata();
     }
