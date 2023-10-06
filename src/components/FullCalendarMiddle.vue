@@ -655,7 +655,6 @@ export default {
             }
         },
     },
-    
     // computed: {
     //     filteredEvents() {
     //     // Filter events based on the selected week and refresh flag
