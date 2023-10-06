@@ -324,7 +324,7 @@ export default {
             }];    
             // console.log(this.calendarOptions.events)
             // alert(123);
-            // Alert message when slot moved 
+            // Alert message when slot add 
             const flashMessage = document.createElement('div');
             flashMessage.classList.add('flash-message-add');
 
