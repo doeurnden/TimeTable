@@ -128,7 +128,7 @@
                 <div class="items">
                     <div class="item-lecturer" v-for="lecturer in filteredLecturers" :key="lecturer.id">
                         <div class="icon">
-                            <img src="../as4s/image/avatar.png" alt="avatar">
+                            <img src="../assets/image/avatar.png" alt="avatar">
                         </div>
                         <div class="info">
                             <h4>
@@ -617,5 +617,21 @@ button.navbars.course, button.navbars.room, button.navbars.lecturer{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@media screen and (min-width: 1369px){
+    .contianer .sub-container .data .items .item-room{
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .contianer .sub-container .data .items .item-room .room-name h3 {
+        font-size: 18.5px;
+    }
+    .contianer .sub-container .data .items .item-room .room-name p {
+        font-size: 13px;
+    }
+
+    .contianer .sub-container .data .items .item-lecturer .info p {
+        font-size: 13px;
+    }
 }
 </style>

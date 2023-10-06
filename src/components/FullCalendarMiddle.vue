@@ -23,20 +23,19 @@
                 <!-- @button-week -->
                 <div class="select-week">
                     <form action="">
-                        <select name="group" v-model="selectedWeek" id="weekSelect">
+                        <select name="group" v-model="selectedWeek" id="weekSelect" @change="updateFullCalendar">
                             <option value="" disabled>Weeks</option>
                             <option v-for="weekNumber in 16" :key="weekNumber" :value="weekNumber">
-                                {{ weekNumber }}
+                                Week {{ weekNumber }}
                             </option>
                         </select>
-                        <!-- <select name="group" v-model="selectedWeek">
-                            <option value="" disabled>Weeks</option>
-                            <option v-for="week in fetchedWeeks" :key="week.id" :value="week.id">{{ week.name_en }}</option>
-                        </select> -->
                     </form>
                 </div>
             </div>
-            <FullCalendar :options="calendarOptions"/>
+            <!-- <FullCalendar :options="calendarOptions"/> -->
+            <div v-if="selectedWeek !== null">
+                <FullCalendar :options="calendarOptions" ref="calendar"/>
+            </div>
             <div id="flash-message-container"></div>
         </div>
     </div>
@@ -96,6 +95,7 @@ export default {
             selectedWeek: '', // To store the selected week
             fetchedWeeks: [],
             events: [],
+            currentWeek: 1, 
 
             // events: {
             //     // id: 'event1',
@@ -125,9 +125,8 @@ export default {
                 drop: this.drop,
                 events: [],
                 eventOverlap: false,    // Prevent events from overlapping
+                eventDrop: this.handleEventDrop, // Connect eventDrop callback
                 eventDrop: (eventDropInfo) =>{
-                    // alert('Reverse <=3');
-
                     // Alert message when move slot
                     const flashMessage = document.createElement('div');
                     flashMessage.classList.add('flash-message-move');
@@ -185,6 +184,7 @@ export default {
                     start: '',
                     center: '',
                     end: ''
+                    // end: 'prev, next'
                 },
                 hiddenDays: [0],
                 slotMinTime: '07:00:00 ',
@@ -215,7 +215,9 @@ export default {
                         endTime: '18:00'
                     }
                 ],
-            }
+            },
+            selectedWeek: "1",
+            // eventsByWeek: {}, // Store events for each week
 
         }
     },
@@ -255,11 +257,41 @@ export default {
         //     });
         // })
     },
+//     computed: {
+//     getCurrentCalendarOptions() {
+//       if (this.selectedWeek !== null) {
+//         return {
+//           ...this.calendarOptions,
+//           events: this.eventsByWeek[this.selectedWeek] || [], // Use events for the selected week
+//         };
+//       }
+//       return null;
+//     },
+//   },
     methods: {
         addHours(e, hour = 1) {
             let date = new Date(e);
             date.setHours(date.getHours() + hour)
         },
+        handleEventDrop(info) {
+           // Handle event drop and emit an event if refresh is needed
+            if (this.refresh === true) {
+                // Perform the necessary refresh logic here
+                this.calendarOptions.events = []; // Clear the events
+                // Add or fetch new events as needed
+
+                // Emit an event to notify the parent component (App.vue)
+                this.$emit("refreshCalendar");
+            }
+        },
+
+        // showSelectedWeek() {
+        //     const selectedWeek = this.selectedWeek;
+
+        //     if (selectedWeek !== null) {
+        //         alert(`Selected Week: ${selectedWeek}`);
+        //     }
+        // },
         drop(e) {
             // alert("Dropped an element")
             //             {
@@ -285,10 +317,12 @@ export default {
             let type=e.draggedEl.children[0].dataset.coursetype
             course.type=type;
             this.calendarOptions.events = [...this.calendarOptions.events, {
+
                 titles: [course.name_en,course.type],
                 start: e.date,
                 // end: this.addHours(e.date, 1)
             }];    
+            // console.log(this.calendarOptions.events)
             // alert(123);
             // Alert message when slot moved 
             const flashMessage = document.createElement('div');
@@ -402,7 +436,7 @@ export default {
         },
         customEventContent(eventInfo) {
             const events = eventInfo.event;
-            console.log(events.extendedProps.titles);
+            // console.log(events.extendedProps.titles);
             const titles = events.extendedProps.titles || [];
             // Split titles into different sections //5
             const courseName = titles.slice(0, 1);
@@ -420,7 +454,7 @@ export default {
 
             return {
                 html: `
-                    <div class="container-room">
+                    <div class="container-room" >
                         <div class="delete" data-event-id="${events.id}"><h1>x</h1></div>
                         <div class="sideCourse">
                             <div class="courseName">
@@ -569,8 +603,55 @@ export default {
                 .catch((error) => {
                     console.error('Error fetching groups:', error);
                 });
-        }
+        },
+        updateFullCalendar() {
+            // When the selected week changes, you can change the FullCalendar view
+            // and also update the events to show those for the selected week.
+            const selectedWeek = this.selectedWeek;
+            if (selectedWeek !== null) {
+                const calendarInstance = this.$refs.calendar;
+                if (calendarInstance) {
+                    const calendarApi = calendarInstance.getApi();
+                    // Change the FullCalendar view to week view
+                    calendarApi.changeView('timeGridWeek');
+                    // Set the events for the selected week (replace this with your logic)
+                    const eventsForWeek = this.getEventsForWeek(selectedWeek);
+                    calendarApi.removeAllEvents();
+                    calendarApi.addEventSource(eventsForWeek);
+                    // alert(`FullCalendar changed to Week ${selectedWeek}`);
+                    // console.log('FullCalendar View:', calendarApi.view.type);
+                }
+            }
+            this.selectedWeek = selectedWeek;
+        },
+
+        getEventsForWeek(weekNumber) {
+            const eventsForSelectedWeek = this.events.filter(event => event.week === weekNumber);
+            return eventsForSelectedWeek;
+        },
+        handlePrevWeek() {
+            if (this.currentWeek > 1) {
+                this.currentWeek -= 1;
+                this.$refs.calendar.getApi().updateSize(); // Force calendar update
+            }
+        },
+        handleNextWeek() {
+            if (this.currentWeek < 16) {
+                this.currentWeek += 1;
+                this.$refs.calendar.getApi().updateSize(); // Force calendar update
+            }
+        },
     },
+    
+    // computed: {
+    //     filteredEvents() {
+    //     // Filter events based on the selected week and refresh flag
+    //         return this.calendarOptions.events.filter((event) => {
+    //             const eventWeek = event.extendedProps.week;
+    //             return eventWeek === this.selectedWeek || this.refresh;
+    //         });
+    //     },
+    // },
     watch: {
         selectedAcademyYear: function () {
             this.fetchGroups()
@@ -589,11 +670,25 @@ export default {
         },
         selectedSemester: function () {
             this.fetchGroups();
-        }
+        }, 
+        
+        // refresh(newRefresh) {
+        //     if (newRefresh === true) {
+        //         // Perform the refresh logic here
+        //         this.calendarOptions.events = []; // Clear the events
+        //         // Add or fetch new events as needed
+        //     }
+        // },
+        // filteredEvents() {
+        //     // Update the FullCalendar events when filteredEvents change
+        //     this.calendarOptions.events = this.filteredEvents;
+        // },
     },
-    created() {
-        this.fetchdata();
-    }
+    // created() {
+    //     this.fetchdata();
+    //      // Set up the eventDrop handler
+    //     // this.calendarOptions.eventDrop = this.handleEventDrop;
+    // }
 }
 </script>
 
@@ -748,7 +843,11 @@ export default {
         cursor: pointer;
     }
     .container-room:hover .sideCourse{
-        background-color: #FFF6E0 !important;
+        background-color: #FFF6E0;
+    }
+    .sideCourse.acitve{
+        background-color: blue;
+        color: white;
     }
 
     /* @course-section */
@@ -938,7 +1037,7 @@ export default {
     .flash-message-move {
         width: 295px;
         height: 90px;
-        background-color: #6499E9;
+        background-color: #00C4FF;
         border-radius: 5px;
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
         color: #fff;
