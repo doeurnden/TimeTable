@@ -188,6 +188,7 @@ export default {
     //     draggable
     // },
     methods: {
+        
         insertDataToApp(courseFake){
             console.log(courseFake)
             // this.$emit("insertDrag",)
@@ -206,9 +207,14 @@ export default {
         var containerEl = this.$refs.contianer;
             console.log(this.$refs);
             // console.log(containerEl);
+                    
+            var refreshCalendar=()=>{
+                this.$emit("refreshCalendar",false);
+            }
             new Draggable(containerEl, {
                 itemSelector: '.item',
                 eventData: function (eventEl) {
+                    refreshCalendar();
                     return eventEl;
                 }
             });

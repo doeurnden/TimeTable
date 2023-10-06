@@ -83,7 +83,7 @@ let events = [
 ];
 
 export default {
-    props: ["selectedAcademyYear", "selectedDepartment", "selectedDegree", "selectedDepOption", "selectedGrade", "selectedSemester"],
+    props: ["selectedAcademyYear", "selectedDepartment", "selectedDegree", "selectedDepOption", "selectedGrade", "selectedSemester","refresh"],
     components: {
         FullCalendar,
     },
@@ -223,7 +223,7 @@ export default {
     },
     mounted() {
         const self = this; // Store a reference to the component instance
-
+        
         // Add a click event listener to the container of the delete buttons
         // Using event delegation to handle clicks on any delete button
         this.$nextTick(() => {
@@ -275,14 +275,7 @@ export default {
         },
         handleEventDrop(info) {
            // Handle event drop and emit an event if refresh is needed
-            if (this.refresh === true) {
-                // Perform the necessary refresh logic here
-                this.calendarOptions.events = []; // Clear the events
-                // Add or fetch new events as needed
-
-                // Emit an event to notify the parent component (App.vue)
-                this.$emit("refreshCalendar");
-            }
+         
         },
 
         // showSelectedWeek() {
@@ -315,13 +308,19 @@ export default {
 
             let course = JSON.parse(e.draggedEl.children[0].dataset.course)
             let type=e.draggedEl.children[0].dataset.coursetype
+            console.log(this.refresh);
             course.type=type;
-            this.calendarOptions.events = [...this.calendarOptions.events, {
-
-                titles: [course.name_en,course.type],
-                start: e.date,
-                // end: this.addHours(e.date, 1)
-            }];    
+                if(this.refresh){
+                    this.calendarOptions.events=[]
+                    this.$emit("refreshCalendar",false);
+                    //TODO: fetch
+                }else{
+                    this.calendarOptions.events = [...this.calendarOptions.events, {
+                    titles: [course.name_en,course.type],
+                    start: e.date,
+                    // end: this.addHours(e.date, 1)
+                    }]; 
+                }
             // console.log(this.calendarOptions.events)
             // alert(123);
             // Alert message when slot moved 
@@ -583,6 +582,7 @@ export default {
         },
         emitSelectedGroup() {
             this.$emit('group-selected', this.selectedGroup);
+            this.$emit("refreshCalendar",true)
         },
         fetchGroups() {
             axios.get(import.meta.env.VITE_APP_GROUP + "?" + new URLSearchParams({
@@ -604,7 +604,33 @@ export default {
                     console.error('Error fetching groups:', error);
                 });
         },
+        fetchTimeTable() {
+            const requestData = {
+                academic_year_id: this.selectedAcademyYear,
+                department_id: this.selectedDepartment,
+                degree_id: this.selectedDegree,
+                department_option_id: this.selectedDepOption,
+                grade_id: this.selectedGrade,
+                semester_id: this.selectedSemester,
+                group_id: this.selectedGroup,
+                week_id: this.selectedWeek,
+                created_uid: 250,
+                updated_uid: 250,
+                
+            };
+
+            axios.post(import.meta.env.VITE_APP_TIMETABLE, requestData)
+                .then((response) => {
+                this.fetchedTimeTable = response.data;
+                console.log('TimeTable:', response.data);
+                })
+                .catch((error) => {
+                console.error('Error fetching Timetable:', error);
+            });
+        },
         updateFullCalendar() {
+            this.$emit('week-selected',this.selectedWeek);
+            this.$emit("refreshCalendar",true)
             // When the selected week changes, you can change the FullCalendar view
             // and also update the events to show those for the selected week.
             const selectedWeek = this.selectedWeek;
@@ -671,6 +697,18 @@ export default {
         selectedSemester: function () {
             this.fetchGroups();
         }, 
+        selectedGroup: function (){
+            this.fetchTimeTable();
+        },
+        selectedWeek: function(){
+            this.fetchTimeTable();
+        },
+        refresh:function(value){
+            if(value==true){
+                this.calendarOptions.events = [];
+                //TODO: fetch timetable
+            }
+        }
         
         // refresh(newRefresh) {
         //     if (newRefresh === true) {
