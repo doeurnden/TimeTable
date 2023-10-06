@@ -606,7 +606,6 @@ export default {
                 week_id: this.selectedWeek,
                 created_uid: 250,
                 updated_uid: 250,
-            
         };
 
         axios.post(import.meta.env.VITE_APP_TIMETABLE, requestData)
