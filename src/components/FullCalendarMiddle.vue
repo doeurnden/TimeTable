@@ -1,5 +1,5 @@
 <template>
-    <div class="FullCalendar_Middle">
+    <div class="FullCalendar_Middle" @click="displayEvent">
         <div class="fullcalendar">
             <div class="hori">
                 <hr>
@@ -62,7 +62,7 @@ export default {
             fetchedGroups: [], // To store the groups fetched from the API
             selectedWeek: '', // To store the selected week
             fetchedWeeks: [],
-            // events: [],
+            event: [],
             // To store the weeks fetched from the API
 
             // events: {
@@ -91,7 +91,13 @@ export default {
                 eventAllow: this.handleEventAllow,
                 editable: true, // Enable dragging and resizing
                 drop: this.drop,
-                events: [],
+                events: [
+                    // {
+                    //     titles: ['hello', 'world'],
+                    //     start: '2023-10-04T09:00:00',
+                    //     // end: this.addHours(e.date, 1)
+                    // }
+                ],
                 // eventClick: this.handleEventClick,
                 // dateClick: this.handleDateClick,
 
@@ -150,6 +156,33 @@ export default {
         });
     },
     methods: {
+        displayEvent() {
+            // this.calendarOptions.events = [...this.calendarOptions.events, {
+            //     titles: [course.name_en, course.type, '', `${course.dg_code}${course.g_code}${course.d_code}-${course.group}`],
+            //     start: e.date,
+            //     // end: this.addHours(e.date, 1)
+            // }]
+            // axios.get(`http://127.0.0.1:8000/api/timetable_slots/read`).then(response => {
+            //     this.event = response.data.data;
+            //     // console.log(this.event[0]);
+            //     // console.log(this.event[0].course_name);
+            //     console.log(this.event[0].start);
+            //     // console.log(this.event[0].type);
+
+            //     // console.log(response.data.data);
+            //     console.log(this.event);
+            // }).catch(error => {
+            //     console.log('Error fetching events:', error);
+            // });
+
+            // this.calendarOptions.events = [...this.calendarOptions.events, {
+            //     titles: [this.event[6].course_name, this.event[6].type],
+            //     start: this.event[6].start,
+            //     start: '2023-10-05 07:00:00',
+            //     // end: this.addHours(e.date, 1)
+            // }]
+            // console.log(...this.calendarOptions.events)
+        },
         addHours(e, hour = 1) {
             let date = new Date(e);
             date.setHours(date.getHours() + hour)
@@ -168,49 +201,49 @@ export default {
                 start: e.date,
                 // end: this.addHours(e.date, 1)
             }]
-            // console.log(course);
+            console.log(course);
+            // console.log(e.date);
             // let courseType = JSON.parse(e.draggedEl.children[0].id)
             // this.calendarOptions.events.push;
             // this.calendarOptions.events.push(...this.displayEvent())
-            // axios.post(`http://127.0.0.1:8000/api/slots/create`, {
-            //         time_tp: course.time_tp,
-            //         time_td: course.time_td,
-            //         time_course: course.time_course,
-            //         academic_year_id: 2022,
-            //         course_program_id: 2022,
-            //         semester_id: 1,
-            //         lecturer_id: null,
-            //         group_id: 1,
-            //         time_used: null,
-            //         time_remaining: null,
-            //         created_uid: 1,
-            //         write_uid: null,
-            // });
+
+            // axios.post(`http://127.0.0.1:8000/api/timetable_slots/create`, {
+
+            //     timetable_id: 1,
+            //     course_program_id: 1,
+            //     slot_id: 1,
+            //     lecturer_id: null,
+            //     room_id: null,
+            //     group_merge_id: 1,
+            //     course_name: course.name_en,
+            //     type: course.type,
+            //     durations: 2,
+            //     start: e.date,
+            //     end: e.date,
+            //     created_uid: 1,
+            //     updated_uid: 1,
+            // }).then(response => console.log(response.data.message));
+
+            axios.post(`http://127.0.0.1:8000/api/slots/create`, {
+
+                time_tp: 0,
+                time_td: 0,
+                time_course: 32,
+                academic_year_id: 2023,
+                course_program_id: 2023,
+                semester_id: 1,
+                lecturer_id: null,
+                group_id: 1,
+                time_used: null,
+                time_remaining: null,
+                created_uid: 1,
+                write_uid: null,
+
+            }).then(response => console.log(response.data.message));
+
         },
-        displayEvent() {
-            return events
-        },
-        // async drop() {
-        //     alert("added slot")
-        //     try {
-        //         const response = await axios.post(`http://127.0.0.1:8000/api/slots/create`, {
-        //             time_tp: 0,
-        //             time_td: 0,
-        //             time_course: 32,
-        //             academic_year_id: 2022,
-        //             course_program_id: 2022,
-        //             semester_id: 1,
-        //             lecturer_id: null,
-        //             group_id: 1,
-        //             time_used: null,
-        //             time_remaining: null,
-        //             created_uid: 1,
-        //             write_uid: null,
-        //         });
-        //         console.log(response.data);
-        //     } catch (error) {
-        //         console.log(error)
-        //     }
+        // displayEvent() {
+        //     return events
         // },
         customDayHeaderContent(args) {
             const date = new Date(args.date);
@@ -321,7 +354,7 @@ export default {
                 .then((response) => {
                     this.fetchedGroups = response.data;
                     this.selectedGroup = this.fetchedGroups[0].code;
-                    // console.log(response.data)
+                    console.log(response.data)
                     // this.fetchedGroups = response.data;
                     // this.selectedGroup = this.fetchGroups[0].code;
                 })

@@ -7,7 +7,7 @@
       @depOption-selected="handleDepOptionSelected"
       @grade-selected="handleGradeSelected" 
       @semester-selected="handleSemesterSelected"
-      @group-selected="handleGroupSelected"></LeftSideBar>
+    ></LeftSideBar>
     <FullCalendarMiddle 
       @group-selected="handleGroupSelected" :selectedAcademyYear="selectedAcademyYear" 
       :selectedDepartment="selectedDepartment" :selectedDegree="selectedDegree"

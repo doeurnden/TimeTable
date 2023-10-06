@@ -94,7 +94,7 @@
             </div>
             <div class="data">
                 <div class="items">
-                    <div class="item-room" v-for="room in filteredRooms" :key="room.id">
+                    <div class="item-room" v-for="room in filteredRooms" :key="room.id" @click="checkRoom(room)">
                         <div class="room-number">
                             <h3>{{ room.building.code }}-{{ room.name }}</h3>
                         </div>
@@ -129,7 +129,8 @@
             </div>
             <div class="data">
                 <div class="items">
-                    <div class="item-lecturer" v-for="lecturer in filteredLecturers" :key="lecturer.id">
+                    <div class="item-lecturer" v-for="lecturer in filteredLecturers" :key="lecturer.id"
+                        @click="checkLecturer(lecturer)">
                         <div class="icon">
                             <img src="../assets/image/avatar.png" alt="avatar">
                         </div>
@@ -209,13 +210,25 @@ export default {
         "selectedSemester"
     ],
     methods: {
+        checkRoom(room) {
+            let room1 = room
+            console.log(room1);
+            // console.log(room1.name);
+            // console.log(room1.building.code);
+            console.log(room1.building.code, '-', room1.name);
+            // console.log(this.rooms[0]);
+        },
+        checkLecturer(lecturer) {
+            console.log(lecturer);
+            console.log(lecturer.name_latin);
+        },
         showInfo(buttonNumber) {
             this.activeButton = buttonNumber;
         },
         seeMore() {
             this.course_page += 1;
             axios.get(`http://127.0.0.1:8000/api/course_annuals/get_course?page=${this.course_page}`)
-                .then(response => this.courses = [...this.courses, ...response.data.data]);
+                .then(response => this.courses = [...this.courses, ...response.data]);
         },
         seeMoreRoom() {
             this.course_page += 1;
@@ -240,88 +253,87 @@ export default {
             }))
                 .then((response) => {
                     this.courses = response.data
+                    console.log(this.courses);
                 })
                 .catch((error) => {
-                    console.error('Error fetching courses:', error);
+                    console.log('Error fetching courses:', error);
                 });
+        }
+    },
+    mounted() {
+        var containerEl = this.$refs.container;
+        new Draggable(containerEl, {
+            itemSelector: '.item',
+            eventData: function (eventEl) {
+                return eventEl;
+            }
+        });
+        axios.get(import.meta.env.VITE_APP_ROOM)
+            .then(response => {
+                this.rooms = response.data.data;
+            });
+
+        axios.get(import.meta.env.VITE_APP_LECTURER)
+            .then(response => {
+                this.lecturers = response.data.data;
+            });
+        this.fetchAcademyYears()
+        this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
+    },
+    computed: {
+        filteredCourses() {
+            const searchTerm = this.course_search.toLowerCase().trim();
+
+            if (!searchTerm) {
+                return this.courses;
+            }
+
+            return this.courses.filter(course => {
+                return (
+                    course.name_en.toLowerCase().includes(searchTerm) ||
+                    (course.time_course != 0 && course.time_course.toString().includes(searchTerm)) ||
+                    (course.time_tp != 0 && course.time_tp.toString().includes(searchTerm)) ||
+                    (course.time_td != 0 && course.time_td.toString().includes(searchTerm))
+                );
+            });
+        },
+        filteredRooms() {
+            const searchTerm = this.room_search.toLowerCase().trim();
+
+            if (!searchTerm) {
+                return this.rooms;
+            }
+
+            return this.rooms.filter(room => {
+                const fullRoomName = `${room.building.code}-${room.name}`.toLowerCase();
+
+                return (
+                    fullRoomName.includes(searchTerm) ||
+                    room.building.code.toLowerCase().includes(searchTerm) ||
+                    room.room_type.name.toLowerCase().includes(searchTerm) ||
+                    (room.nb_desk !== null && room.nb_desk.toString().includes(searchTerm)) ||
+                    (room.nb_chair !== null && room.nb_chair.toString().includes(searchTerm))
+                );
+            })
+        },
+        filteredLecturers() {
+            const searchTerm = this.lecturer_search.toLowerCase().trim();
+
+            if (!searchTerm) {
+                return this.lecturers;
+            }
+
+            return this.lecturers.filter(lecturer => {
+                const idCard = `${lecturer.id_card}`;
+                const lecturerNameLatin = lecturer.name_latin.toLowerCase();
+
+                return (
+                    idCard.includes(searchTerm) ||
+                    lecturerNameLatin.includes(searchTerm)
+                );
+            });
+        },
     }
-},
-mounted() {
-    var containerEl = this.$refs.container;
-    new Draggable(containerEl, {
-        itemSelector: '.item',
-        eventData: function (eventEl) {
-            return eventEl;
-        }
-    });
-    axios.get(import.meta.env.VITE_APP_ROOM)
-        .then(response => {
-            this.rooms = response.data.data;
-        });
-
-    axios.get(import.meta.env.VITE_APP_LECTURER)
-        .then(response => {
-            this.lecturers = response.data.data;
-        });
-
-    //move from fullcalender center
-    this.fetchAcademyYears()
-    this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0];
-},
-computed: {
-    filteredCourses() {
-        const searchTerm = this.course_search.toLowerCase().trim();
-
-        if (!searchTerm) {
-            return this.courses;
-        }
-
-        return this.courses.filter(course => {
-            return (
-                course.name_en.toLowerCase().includes(searchTerm) ||
-                (course.time_course != 0 && course.time_course.toString().includes(searchTerm)) ||
-                (course.time_tp != 0 && course.time_tp.toString().includes(searchTerm)) ||
-                (course.time_td != 0 && course.time_td.toString().includes(searchTerm))
-            );
-        });
-    },
-    filteredRooms() {
-        const searchTerm = this.room_search.toLowerCase().trim();
-
-        if (!searchTerm) {
-            return this.rooms;
-        }
-
-        return this.rooms.filter(room => {
-            const fullRoomName = `${room.building.code}-${room.name}`.toLowerCase();
-
-            return (
-                fullRoomName.includes(searchTerm) ||
-                room.building.code.toLowerCase().includes(searchTerm) ||
-                room.room_type.name.toLowerCase().includes(searchTerm) ||
-                (room.nb_desk !== null && room.nb_desk.toString().includes(searchTerm)) ||
-                (room.nb_chair !== null && room.nb_chair.toString().includes(searchTerm))
-            );
-        })
-    },
-    filteredLecturers() {
-        const searchTerm = this.lecturer_search.toLowerCase().trim();
-
-        if (!searchTerm) {
-            return this.lecturers;
-        }
-
-        return this.lecturers.filter(lecturer => {
-            const idCard = `${lecturer.id_card}`;
-            const lecturerNameLatin = lecturer.name_latin.toLowerCase();
-
-            return (
-                idCard.includes(searchTerm) ||
-                lecturerNameLatin.includes(searchTerm)
-            );
-        });
-    },
-}
 }
 </script>
 
