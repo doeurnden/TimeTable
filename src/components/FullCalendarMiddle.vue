@@ -124,10 +124,18 @@ export default {
                 editable: true,
                 drop: this.drop,
                 events: [],
-                eventOverlap: false,    // Prevent events from overlapping
-                eventDrop: this.handleEventDrop, // Connect eventDrop callback
+                eventOverlap: false, 
+                eventResize: function(info) {
+    alert(info.event.title + " end is now " + info.event.end.toISOString());
+
+    if (!confirm("is this okay?")) {
+      info.revert();
+    }
+  },   // Prevent events from overlapping
                 eventDrop: (eventDropInfo) =>{
+                    // console.log(eventDropInfo.event.title);
                     // Alert message when move slot
+                    console.log(this.calendarOptions.events)
                     const flashMessage = document.createElement('div');
                     flashMessage.classList.add('flash-message-move');
 
@@ -216,6 +224,7 @@ export default {
                     }
                 ],
             },
+            
             selectedWeek: "1",
             // eventsByWeek: {}, // Store events for each week
 
@@ -269,11 +278,15 @@ export default {
 //     },
 //   },
     methods: {
+        handleSlotEventMovement(e){
+
+        },
         addHours(e, hour = 1) {
             let date = new Date(e);
             date.setHours(date.getHours() + hour)
         },
         handleEventDrop(info) {
+            console.log(info);
            // Handle event drop and emit an event if refresh is needed
          
         },
@@ -286,6 +299,7 @@ export default {
         //     }
         // },
         drop(e) {
+            console.log(e);
             // alert("Dropped an element")
             //             {
             //     id: 'event1',
@@ -554,17 +568,7 @@ export default {
                 flashMessageContainer.removeChild(flashMessage);
             }, 2500);
         },
-        // Do on API Backend
-        fetchGroups() {
-            axios.get(import.meta.env.VITE_APP_GROUP)
-                .then((response) => {
-                    this.fetchedGroups = response.data;
-                    this.selectedGroup = this.fetchGroups[0].code;
-                })
-                .catch((error) => {
-                    console.error('Error fetching groups:', error);
-                });
-        },
+   
         // fetchWeeks() {
         //     const apiUrl = 'http://127.0.0.1:8000/api/get_all_weeks';
         //     axios.get(apiUrl)
@@ -595,10 +599,7 @@ export default {
             }))
                 .then((response) => {
                     this.fetchedGroups = response.data;
-                    this.selectedGroup = this.fetchedGroups[0].code;
-                    console.log(response.data)
-                    // this.fetchedGroups = response.data;
-                    // this.selectedGroup = this.fetchGroups[0].code;
+                    this.selectedGroup = this.fetchedGroups[0].id;
                 })
                 .catch((error) => {
                     console.error('Error fetching groups:', error);

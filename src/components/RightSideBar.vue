@@ -107,7 +107,7 @@
                             </p>
                         </div>
                     </div>
-                    <div class="item-room"
+                    <div class="item-room   "
                         v-if="(room_search != filteredRooms) && (room_search != '') && (filteredRooms.length == 0)" style="
                                         display: flex;
                                         justify-content: center;
@@ -125,8 +125,8 @@
                 <!-- <i class="icon pi pi-search"></i> -->
             </div>
             <div class="data">
-                <div class="items">
-                    <div class="item-lecturer" v-for="lecturer in filteredLecturers" :key="lecturer.id">
+                <div class="items ">
+                    <div class="item-lecturer bg-gray-600" v-for="lecturer in filteredLecturers" :key="lecturer.id">
                         <div class="icon">
                             <img src="../assets/image/avatar.png" alt="avatar">
                         </div>
@@ -234,11 +234,12 @@ export default {
                 this.lecturers = response.data.data;
             });
         //move from fullcalender center
-        this.fetchAcademyYears()
+            this.fetchAcademyYears()
+            
           // document.addEventListener('DOMContentLoaded', function () {
            
         // })
-        this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0];
+        // this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0];
         
     },
     computed: {
