@@ -76,9 +76,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="see_more" v-if="course_search == ''">
+                    <!-- <div class="see_more" v-if="course_search == ''">
                         <button @click="seeMore">see more..</button>
-                    </div>
+                    </div> -->
                     <div class="no_course"
                         v-if="(course_search != filteredCourses) && (course_search != '') && (filteredCourses.length == 0)">
                         <h3>No Course!</h3>
