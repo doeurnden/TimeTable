@@ -222,6 +222,10 @@ export default {
             console.log(lecturer);
             console.log(lecturer.name_latin);
         },
+        insertDataToApp(courseFake){
+            console.log(courseFake)
+            // this.$emit("insertDrag",)
+        },
         showInfo(buttonNumber) {
             this.activeButton = buttonNumber;
         },
@@ -261,13 +265,20 @@ export default {
         }
     },
     mounted() {
-        var containerEl = this.$refs.container;
-        new Draggable(containerEl, {
-            itemSelector: '.item',
-            eventData: function (eventEl) {
-                return eventEl;
+        var containerEl = this.$refs.contianer;
+            console.log(this.$refs);
+            // console.log(containerEl);
+                    
+            var refreshCalendar=()=>{
+                this.$emit("refreshCalendar",false);
             }
-        });
+            new Draggable(containerEl, {
+                itemSelector: '.item',
+                eventData: function (eventEl) {
+                    refreshCalendar();
+                    return eventEl;
+                }
+            });
         axios.get(import.meta.env.VITE_APP_ROOM)
             .then(response => {
                 this.rooms = response.data.data;
@@ -343,6 +354,9 @@ button.navbars.course.active,
 button.navbars.room.active,
 button.navbars.lecturer.active {
     background-color: #0c356a;
+}
+button.navbars.course, button.navbars.room, button.navbars.lecturer{
+    cursor: pointer;
 }
 
 /* container */
@@ -662,5 +676,21 @@ button.navbars.lecturer.active {
     color: white;
     background-color: #3aa6b9;
     cursor: pointer;
+}
+
+@media screen and (min-width: 1369px){
+    .contianer .sub-container .data .items .item-room{
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .contianer .sub-container .data .items .item-room .room-name h3 {
+        font-size: 18.5px;
+    }
+    .contianer .sub-container .data .items .item-room .room-name p {
+        font-size: 13px;
+    }
+
+    .contianer .sub-container .data .items .item-lecturer .info p {
+        font-size: 13px;
+    }
 }
 </style>

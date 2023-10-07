@@ -7,16 +7,29 @@
       @depOption-selected="handleDepOptionSelected"
       @grade-selected="handleGradeSelected" 
       @semester-selected="handleSemesterSelected"
-    ></LeftSideBar>
+      @group-selected="handleGroupSelected"
+      @refreshCalendar="refreshCalendar"
+      ></LeftSideBar>
     <FullCalendarMiddle 
-      @group-selected="handleGroupSelected" :selectedAcademyYear="selectedAcademyYear" 
-      :selectedDepartment="selectedDepartment" :selectedDegree="selectedDegree"
-      :selectedDepOption="selectedDepOption" :selectedGrade="selectedGrade" :selectedSemester="selectedSemester">
+      @group-selected="handleGroupSelected" 
+      :selectedAcademyYear="selectedAcademyYear" 
+      :selectedDepartment="selectedDepartment" 
+      :selectedDegree="selectedDegree"
+      :selectedDepOption="selectedDepOption" 
+      :selectedGrade="selectedGrade" 
+      :selectedSemester="selectedSemester"
+      :selectedGroup="selectedGroup"
+      :selectedWeek="selectedWeek"
+      @week-selected="handleWeekSelected"
+      @refreshCalendar="refreshCalendar"
+      :refresh="refresh"
+      >
     </FullCalendarMiddle>
     <RightSideBar :selectedAcademyYear="selectedAcademyYear" 
       :selectedDepartment="selectedDepartment" :selectedDegree="selectedDegree"
-      :selectedDepOption="selectedDepOption" :selectedGrade="selectedGrade" :selectedSemester="selectedSemester">
-    </RightSideBar>
+      :selectedDepOption="selectedDepOption" :selectedGrade="selectedGrade" :selectedSemester="selectedSemester"
+      @refreshCalendar="refreshCalendar"
+    />
   </div>
 </template>
   
@@ -25,6 +38,7 @@
 import LeftSideBar from './components/LeftSideBar.vue';
 import FullCalendarMiddle from './components/FullCalendarMiddle.vue'
 import RightSideBar from './components/RightSideBar.vue';
+import axios from 'axios';
 // import timeGridPlugin from '@fullcalendar/timegrid'
 
 export default {
@@ -43,13 +57,18 @@ export default {
       selectedSemester: "",       // Selected semester
       //Fullcalendar//
       selectedGroup: "",          // Selected group
+      selectedWeek:"",
       events:[],
+      refresh:false,
       tmpEvent:{}
     };
   },
   methods: {
+    refreshCalendar(data){
+      console.log(data);
+      this.refresh=data;
+    },
     handleAcademicYearSelected(selectedValue) {
-      // this.selectedAcademyYear = selectedValue;
       this.selectedAcademyYear=selectedValue;
       console.log('Academy Year Selected:', selectedValue);
     },
@@ -74,10 +93,69 @@ export default {
       console.log('Semester Selected:', selectedValue);
     },
     handleGroupSelected(selectedValue) {
-      // this.selectedSemester = selectedValue;
+      this.selectedGroup = selectedValue;
       console.log('Group selected:', selectedValue);
     },
+    handleWeekSelected(selectedValue){
+      this.selectedWeek = selectedValue;
+      console.log('Week selected:', selectedValue);
+    },
+    sendDataToAPI() {
+    // Check if any required fields are null before making the API request
+    if (
+      this.selectedAcademyYear === null ||
+      this.selectedDepartment === null ||
+      this.selectedDegree === null ||
+      this.selectedDepOption === null ||
+      this.selectedGrade === null ||
+      this.selectedSemester === null ||
+      this.selectedGroup === null || 
+      this.selectedWeek === null
+    ) {
+      console.error('One or more required fields are null. API request not sent.');
+      return; // Don't send the API request if required fields are null
+    }
+
+    // Create a data object with the selected values
+    // const dataToSend = {
+    //   academyYear: this.selectedAcademyYear,
+    //   department: this.selectedDepartment,
+    //   degree: this.selectedDegree,
+    //   depOption: this.selectedDepOption,
+    //   grade: this.selectedGrade,
+    //   semester: this.selectedSemester,
+    //   group: this.selectedGroup,
+    //   week: this.selectedWeek,
+    //   created_uid: 250,
+    //   updated_uid: 250,
+    //   // Add any other data you want to send to the API here
+    // };
+
+    // Make the API POST request
+    // axios
+    //   .post('http://127.0.0.1:8000/api/create_timetable', dataToSend)
+    //   .then(response => {
+    //     // Handle the API response here if needed
+    //     console.log('API Response:', response.data);
+    //   })
+    //   .catch(error => {
+    //     // Handle API request error here
+    //     console.error('API Request Error:', error);
+    //   });
   },
+
+  },
+  // watch: {
+  //   // Watch for changes in the selected data properties
+  //   selectedAcademyYear: 'sendDataToAPI',
+  //   selectedDepartment: 'sendDataToAPI',
+  //   selectedDegree: 'sendDataToAPI',
+  //   selectedDepOption: 'sendDataToAPI',
+  //   selectedGrade: 'sendDataToAPI',
+  //   selectedSemester: 'sendDataToAPI',
+  //   selectedGroup: 'sendDataToAPI',
+  //   selectedWeek: 'sendDataToAPI',
+  // },
 };
 </script>
 
