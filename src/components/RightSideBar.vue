@@ -265,7 +265,7 @@ export default {
         }
     },
     mounted() {
-        var containerEl = this.$refs.contianer;
+        var containerEl = this.$refs.container;
             console.log(this.$refs);
             // console.log(containerEl);
                     
