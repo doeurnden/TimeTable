@@ -25,8 +25,10 @@
       :refresh="refresh"
       >
     </FullCalendarMiddle>
-    <RightSideBar 
-    @refreshCalendar="refreshCalendar"
+    <RightSideBar :selectedAcademyYear="selectedAcademyYear" 
+      :selectedDepartment="selectedDepartment" :selectedDegree="selectedDegree"
+      :selectedDepOption="selectedDepOption" :selectedGrade="selectedGrade" :selectedSemester="selectedSemester"
+      @refreshCalendar="refreshCalendar"
     />
   </div>
 </template>
