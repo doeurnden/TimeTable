@@ -7,7 +7,9 @@
       @depOption-selected="handleDepOptionSelected"
       @grade-selected="handleGradeSelected" 
       @semester-selected="handleSemesterSelected"
-      @group-selected="handleGroupSelected"></LeftSideBar>
+      @group-selected="handleGroupSelected"
+      @refreshCalendar="refreshCalendar"
+      ></LeftSideBar>
     <FullCalendarMiddle 
       @group-selected="handleGroupSelected" 
       :selectedAcademyYear="selectedAcademyYear" 
@@ -18,9 +20,16 @@
       :selectedSemester="selectedSemester"
       :selectedGroup="selectedGroup"
       :selectedWeek="selectedWeek"
-      @week-selected="handleWeekSelected">
+      @week-selected="handleWeekSelected"
+      @refreshCalendar="refreshCalendar"
+      :refresh="refresh"
+      >
     </FullCalendarMiddle>
-    <RightSideBar />
+    <RightSideBar :selectedAcademyYear="selectedAcademyYear" 
+      :selectedDepartment="selectedDepartment" :selectedDegree="selectedDegree"
+      :selectedDepOption="selectedDepOption" :selectedGrade="selectedGrade" :selectedSemester="selectedSemester"
+      @refreshCalendar="refreshCalendar"
+    />
   </div>
 </template>
   
@@ -50,10 +59,15 @@ export default {
       selectedGroup: "",          // Selected group
       selectedWeek:"",
       events:[],
+      refresh:false,
       tmpEvent:{}
     };
   },
   methods: {
+    refreshCalendar(data){
+      console.log(data);
+      this.refresh=data;
+    },
     handleAcademicYearSelected(selectedValue) {
       this.selectedAcademyYear=selectedValue;
       console.log('Academy Year Selected:', selectedValue);

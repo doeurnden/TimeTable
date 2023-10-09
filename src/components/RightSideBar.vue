@@ -1,6 +1,6 @@
 <template>
     <!--container-->
-    <div class="contianer" ref="contianer">
+    <div class="container" ref="container">
         <nav class="navbar">
             <button class="navbars course" @click="showInfo(1)" :class="{ active: activeButton === 1 }">
                 <span><i class="icon pi pi-book"></i>Course</span>
@@ -13,7 +13,7 @@
             </button>
         </nav>
         <!-- course  -->
-        <div class="sub-container" v-if="activeButton === 1">
+        <div class="sub_container" v-if="activeButton === 1">
             <div class="search">
                 <input type="text" placeholder="Search Subject .." v-model="course_search">
                 <!-- <i class="icon pi pi-search"></i> -->
@@ -21,13 +21,15 @@
             <div class="data">
                 <div class="items">
                     <div class="itemss" v-for="course in filteredCourses" :key="course.id">
-                        <div  class="item" v-if="course.time_course != 0" draggable="true" >
-                            <input type="text" :data-course="JSON.stringify(course)"  :data-courseType="course.time_course != 0 ?'Course' :''" hidden>
+                        <!-- course -->
+                        <div class="item" v-if="course.time_course != 0" draggable="true">
+                            <input type="text" :data-course="JSON.stringify(course)"
+                                :data-courseType="course.time_course != 0 ? 'Course' : ''" hidden>
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
                             </div>
-                            <div class="course-info">
+                            <div class="course_info">
                                 <div>
                                     <h1>{{ course.name_en }}</h1>
                                 </div>
@@ -37,13 +39,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item" v-if="course.time_tp != 0" draggable="true" >
-                            <input type="text" :data-course="JSON.stringify(course)" :data-courseType="course.time_tp != 0 ?'TP' :''" hidden>
+                        <!-- TP -->
+                        <div class="item" v-if="course.time_tp != 0" draggable="true">
+                            <input type="text" :data-course="JSON.stringify(course)"
+                                :data-courseType="course.time_tp != 0 ? 'TP' : ''" hidden>
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
                             </div>
-                            <div class="course-info">
+                            <div class="course_info">
                                 <div>
                                     <h1>{{ course.name_en }}</h1>
                                 </div>
@@ -53,13 +57,15 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- TD -->
                         <div class="item" v-if="course.time_td != 0" draggable="true">
-                            <input type="text" :data-course="JSON.stringify(course)" :data-courseType="course.time_td != 0 ?'TD' :''" hidden>
+                            <input type="text" :data-course="JSON.stringify(course)"
+                                :data-courseType="course.time_td != 0 ? 'TD' : ''" hidden>
                             <div class="icons">
                                 <i class="icon pi pi-ellipsis-v"></i>
                                 <i class="icon pi pi-ellipsis-v"></i>
                             </div>
-                            <div class="course-info">
+                            <div class="course_info">
                                 <div>
                                     <h1>{{ course.name_en }}</h1>
                                 </div>
@@ -70,10 +76,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="item see_more" v-if="course_search == ''">
+                    <!-- <div class="see_more" v-if="course_search == ''">
                         <button @click="seeMore">see more..</button>
-                    </div>
-                    <div class="item no_course"
+                    </div> -->
+                    <div class="no_course"
                         v-if="(course_search != filteredCourses) && (course_search != '') && (filteredCourses.length == 0)">
                         <h3>No Course!</h3>
                     </div>
@@ -81,14 +87,14 @@
             </div>
         </div>
         <!-- room  -->
-        <div class="sub-container" v-if="activeButton === 2">
+        <div class="sub_container" v-if="activeButton === 2">
             <div class="search">
                 <input type="text" placeholder="Search Room .." v-model="room_search">
                 <!-- <i class="icon pi pi-search"></i> -->
             </div>
             <div class="data">
                 <div class="items">
-                    <div class="item-room" v-for="room in filteredRooms" :key="room.id">
+                    <div class="item-room" v-for="room in filteredRooms" :key="room.id" @click="checkRoom(room)">
                         <div class="room-number">
                             <h3>{{ room.building.code }}-{{ room.name }}</h3>
                         </div>
@@ -97,38 +103,36 @@
                             <!-- <p>{{ room.nb_desk }} Desk</p> -->
                             <p>
                                 <span v-if="room.nb_desk === null">N/A</span>
-                                <span v-else>{{ room.nb_desk }}</span>
-                                Desk
+                                <span v-else>{{ room.nb_desk }}</span> Desk
                             </p>
                             <p>
                                 <span v-if="room.nb_chair === null">N/A</span>
-                                <span v-else>{{ room.nb_chair }}</span>
-                                Chair
+                                <span v-else>{{ room.nb_chair }}</span> Chair
                             </p>
                         </div>
                     </div>
-                    <div class="item-room"
-                        v-if="(room_search != filteredRooms) && (room_search != '') && (filteredRooms.length == 0)" style="
-                                        display: flex;
-                                        justify-content: center;
-                                        align-items: center;
-                                    ">
+                    <div class="see_more" v-if="room_search == ''">
+                        <button @click="seeMoreRoom">see more..</button>
+                    </div>
+                    <div class="no_room"
+                        v-if="(room_search != filteredRooms) && (room_search != '') && (filteredRooms.length == 0)">
                         <h3>No Room</h3>
                     </div>
                 </div>
             </div>
         </div>
         <!-- lecturer -->
-        <div class="sub-container" v-if="activeButton === 3">
+        <div class="sub_container" v-if="activeButton === 3">
             <div class="search">
                 <input type="text" placeholder="Search Lecturer .." v-model="lecturer_search">
                 <!-- <i class="icon pi pi-search"></i> -->
             </div>
             <div class="data">
                 <div class="items">
-                    <div class="item-lecturer" v-for="lecturer in filteredLecturers" :key="lecturer.id">
+                    <div class="item-lecturer" v-for="lecturer in filteredLecturers" :key="lecturer.id"
+                        @click="checkLecturer(lecturer)">
                         <div class="icon">
-                            <img src="../as4s/image/avatar.png" alt="avatar">
+                            <img src="../assets/image/avatar.png" alt="avatar">
                         </div>
                         <div class="info">
                             <h4>
@@ -143,13 +147,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="item-lecturer"
-                        v-if="(lecturer_search != filteredLecturers) & (lecturer_search !== '') & (filteredLecturers.length == 0)"
-                        style="
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                                    ">
+                    <div class="see_more" v-if="lecturer_search == ''">
+                        <button @click="seeMoreLecturer">see more..</button>
+                    </div>
+                    <div class="no_lecturer"
+                        v-if="(lecturer_search != filteredLecturers) & (lecturer_search !== '') & (filteredLecturers.length == 0)">
                         <h3>No Lecturer</h3>
                     </div>
                 </div>
@@ -176,18 +178,50 @@ export default {
             room_search: '',
             lecturer_search: '',
             course_page: 1,
-            container:undefined,
+            container: undefined,
         }
     },
-    watch:{
-        container:(value)=>{
-            console.log(value);
+    watch: {
+        selectedAcademyYear: function () {
+            this.fetchCourses()
+        },
+        selectedDepartment: function () {
+            this.fetchCourses();
+        },
+        selectedDegree: function () {
+            this.fetchCourses();
+        },
+        selectedDepOption: function () {
+            this.fetchCourses();
+        },
+        selectedGrade: function () {
+            this.fetchCourses();
+        },
+        selectedSemester: function () {
+            this.fetchCourses();
         }
     },
-    // components: {
-    //     draggable
-    // },
+    props: [
+        "selectedAcademyYear",
+        "selectedDepartment",
+        "selectedDegree",
+        "selectedDepOption",
+        "selectedGrade",
+        "selectedSemester"
+    ],
     methods: {
+        checkRoom(room) {
+            let room1 = room
+            console.log(room1);
+            // console.log(room1.name);
+            // console.log(room1.building.code);
+            console.log(room1.building.code, '-', room1.name);
+            // console.log(this.rooms[0]);
+        },
+        checkLecturer(lecturer) {
+            console.log(lecturer);
+            console.log(lecturer.name_latin);
+        },
         insertDataToApp(courseFake){
             console.log(courseFake)
             // this.$emit("insertDrag",)
@@ -197,43 +231,65 @@ export default {
         },
         seeMore() {
             this.course_page += 1;
+            axios.get(`http://127.0.0.1:8000/api/course_annuals/get_course?page=${this.course_page}`)
+                .then(response => this.courses = [...this.courses, ...response.data]);
+        },
+        seeMoreRoom() {
+            this.course_page += 1;
 
-            axios.get(`${import.meta.env.VITE_APP_COURSE}?page=${this.course_page}`)
-                .then(response => this.courses = [...this.courses,...response.data.data]);
+            axios.get(`${import.meta.env.VITE_APP_ROOM}?page=${this.course_page}`)
+                .then(response => this.rooms = [...this.rooms, ...response.data.data]);
+        },
+        seeMoreLecturer() {
+            this.course_page += 1;
+
+            axios.get(`${import.meta.env.VITE_APP_LECTURER}?page=${this.course_page}`)
+                .then(response => this.lecturers = [...this.lecturers, ...response.data.data]);
+        },
+        fetchCourses() {
+            axios.get(`http://127.0.0.1:8000/api/course_annuals/get_course` + "?" + new URLSearchParams({
+                academic_year_id: this.selectedAcademyYear,
+                department_id: this.selectedDepartment,
+                degree_id: this.selectedDegree,
+                department_option_id: this.selectedDepOption,
+                grade_id: this.selectedGrade,
+                semester_id: this.selectedSemester,
+            }))
+                .then((response) => {
+                    this.courses = response.data
+                    console.log(this.courses);
+                })
+                .catch((error) => {
+                    console.log('Error fetching courses:', error);
+                });
         }
     },
     mounted() {
         var containerEl = this.$refs.contianer;
             console.log(this.$refs);
             // console.log(containerEl);
+                    
+            var refreshCalendar=()=>{
+                this.$emit("refreshCalendar",false);
+            }
             new Draggable(containerEl, {
                 itemSelector: '.item',
                 eventData: function (eventEl) {
+                    refreshCalendar();
                     return eventEl;
                 }
             });
         axios.get(import.meta.env.VITE_APP_ROOM)
             .then(response => {
                 this.rooms = response.data.data;
-            })
-        // axios.get(`http://127.0.0.1:8000/api/employees/get_lecturer`)
-        //     .then(response => {
-        //         this.lecturers = response.data.data;
-        //     });
-        axios.get(import.meta.env.VITE_APP_COURSE)
-            .then(response => this.courses = response.data.data);
+            });
 
         axios.get(import.meta.env.VITE_APP_LECTURER)
             .then(response => {
                 this.lecturers = response.data.data;
             });
-        //move from fullcalender center
         this.fetchAcademyYears()
-          // document.addEventListener('DOMContentLoaded', function () {
-           
-        // })
-        this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0];
-        
+        this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
     },
     computed: {
         filteredCourses() {
@@ -304,7 +360,7 @@ button.navbars.course, button.navbars.room, button.navbars.lecturer{
 }
 
 /* container */
-.contianer {
+.container {
     width: 20%;
     height: 94.6vh;
     /* background-color: rgb(190, 190, 190); */
@@ -313,19 +369,13 @@ button.navbars.course, button.navbars.room, button.navbars.lecturer{
 }
 
 /* navbar */
-.contianer .navbar {
-    width: 100%;
+.container .navbar {
     height: 35px;
     display: flex;
-    justify-content: space-between;
-    align-items: end;
-    /* background-color: antiquewhite; */
-    padding-bottom: 5px;
-    /* padding-left: 5%; */
     position: relative;
 }
 
-.contianer .navbar .navbars {
+.container .navbar .navbars {
     width: 84px;
     height: 35px;
     border: none;
@@ -336,42 +386,42 @@ button.navbars.course, button.navbars.room, button.navbars.lecturer{
     transition: all 0.6s;
 }
 
-.contianer .navbar .navbars:nth-child(1) {
+.container .navbar .course {
     top: 17px;
 }
 
-.contianer .navbar .navbars:nth-child(2) {
+.container .navbar .room {
     top: 17px;
     left: 92px;
 }
 
-.contianer .navbar .navbars:nth-child(3) {
+.container .navbar .lecturer {
     top: 17px;
     left: 184px;
 }
 
-.contianer .navbar .navbars:hover {
+.container .navbar .navbars:hover {
     background-color: #0c356a;
     transition: all 0.6s;
 }
 
-.contianer .navbar .navbars span {
+.container .navbar .navbars span {
     font-size: 15px;
 }
 
-.contianer .navbar .navbars span .icon {
+.container .navbar .navbars span .icon {
     padding-right: 9px;
 }
 
-/* .sub-container */
-.contianer .sub-container {
+/* .sub_container */
+.container .sub_container {
     width: 100%;
     height: 95%;
-    /* background-color: aqua; */
+    margin-top: 2.2rem;
 }
 
 /* .search */
-.contianer .sub-container .search {
+.container .sub_container .search {
     width: 100%;
     height: 35px;
     /* background-color: aqua; */
@@ -384,7 +434,7 @@ button.navbars.course, button.navbars.room, button.navbars.lecturer{
     outline: 0px;
 }
 
-.contianer .sub-container .search input {
+.container .sub_container .search input {
     width: 100%;
     padding: .4rem;
     outline: none;
@@ -395,34 +445,14 @@ button.navbars.course, button.navbars.room, button.navbars.lecturer{
     border-radius: 3px;
 }
 
-.contianer .sub-container .search input::placeholder {
+.container .sub_container .search input::placeholder {
     font-size: 15px;
     padding-left: 4px;
     font-weight: medium;
     color: #9DB2BF;
 }
 
-.contianer .sub-container .search .icon {
-    position: absolute;
-    right: 0.45rem;
-    width: 43px;
-    height: 33px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #35A29F;
-    border-radius: 3px;
-    color: white;
-    transition: all 0.6s;
-}
-
-.contianer .sub-container .search .icon:hover {
-    cursor: pointer;
-    background-color: #3E7C17;
-    transition: all 0.6s;
-}
-
-.contianer .sub-container .data {
+.container .sub_container .data {
     width: 100%;
     height: 94%;
     background-color: rgb(255, 255, 255);
@@ -430,7 +460,7 @@ button.navbars.course, button.navbars.room, button.navbars.lecturer{
     border-radius: 3px;
 }
 
-.contianer .sub-container .data .items {
+.container .sub_container .data .items {
     width: 95%;
     height: 95%;
     background-color: #ece8e8;
@@ -440,8 +470,13 @@ button.navbars.course, button.navbars.room, button.navbars.lecturer{
     border-radius: 3px;
 }
 
+/* course only*/
+.container .sub_container .data .items .itemss {
+    width: 100%;
+}
+
 /* item course  */
-.contianer .sub-container .data .items .item {
+.container .sub_container .data .items .itemss .item {
     height: 100px;
     /* width: 100%; */
     background-color: #ffffff;
@@ -455,14 +490,14 @@ button.navbars.course, button.navbars.room, button.navbars.lecturer{
     /* touch-action: manipulation; */
 }
 
-.contianer .sub-container .data .items .item:hover {
+.container .sub_container .data .items .item:hover {
     background-color: #A7ECEE;
     box-shadow: -2px 2px 6px -4px rgba(0, 0, 0, 0.79);
     /* cursor: move; */
     transition: all 0.4s;
 }
 
-.contianer .sub-container .data .items .item .icons {
+.container .sub_container .data .items .item .icons {
     width: 100%;
     height: 20%;
     /* background-color: aliceblue; */
@@ -472,7 +507,7 @@ button.navbars.course, button.navbars.room, button.navbars.lecturer{
     padding: 12px 0px 12px 6px;
 }
 
-.contianer .sub-container .data .items .item .course-info {
+.container .sub_container .data .items .item .course_info {
     height: 80%;
     width: 100%;
     background-color: aliceblue;
@@ -483,11 +518,11 @@ button.navbars.course, button.navbars.room, button.navbars.lecturer{
     border-radius: 3px;
 }
 
-.contianer .sub-container .data .items .item .course-info h1 {
+.container .sub_container .data .items .item .course_info h1 {
     font-size: 15px;
 }
 
-.contianer .sub-container .data .items .item .course-info .btn button {
+.container .sub_container .data .items .item .course_info .btn button {
     color: white;
     background-color: #ff0000;
     border: none;
@@ -497,7 +532,7 @@ button.navbars.course, button.navbars.room, button.navbars.lecturer{
 }
 
 /* item-room */
-.contianer .sub-container .data .items .item-room {
+.container .sub_container .data .items .item-room {
     height: 83px;
     background-color: #ffffff;
     margin: 5%;
@@ -507,14 +542,14 @@ button.navbars.course, button.navbars.room, button.navbars.lecturer{
     border-radius: 3px;
 }
 
-.contianer .sub-container .data .items .item-room:hover {
+.container .sub_container .data .items .item-room:hover {
     background-color: #ECF2FF;
     box-shadow: -2px 2px 6px -4px rgba(0, 0, 0, 0.75);
     cursor: pointer;
     transition: all 0.4s;
 }
 
-.contianer .sub-container .data .items .item-room .room-number {
+.container .sub_container .data .items .item-room .room-number {
     width: 30%;
     display: flex;
     justify-content: center;
@@ -525,11 +560,11 @@ button.navbars.course, button.navbars.room, button.navbars.lecturer{
     border-bottom-left-radius: 3px;
 }
 
-.contianer .sub-container .data .items .item-room .room-number h4 {
+.container .sub_container .data .items .item-room .room-number h4 {
     font-size: 21px;
 }
 
-.contianer .sub-container .data .items .item-room .room-name {
+.container .sub_container .data .items .item-room .room-name {
     width: 70%;
     display: flex;
     flex-direction: column;
@@ -538,17 +573,17 @@ button.navbars.course, button.navbars.room, button.navbars.lecturer{
     padding-left: .5rem;
 }
 
-.contianer .sub-container .data .items .item-room .room-name h3 {
+.container .sub_container .data .items .item-room .room-name h3 {
     font-size: 18px;
     padding-bottom: 4.60px;
 }
 
-.contianer .sub-container .data .items .item-room .room-name p {
+.container .sub_container .data .items .item-room .room-name p {
     font-size: 12px;
 }
 
 /* item-lecturer */
-.contianer .sub-container .data .items .item-lecturer {
+.container .sub_container .data .items .item-lecturer {
     height: 85px;
     background-color: #ffffff;
     border-left: 2px solid #002aff;
@@ -558,64 +593,104 @@ button.navbars.course, button.navbars.room, button.navbars.lecturer{
     transition: all 0.5s;
 }
 
-.contianer .sub-container .data .items .item-lecturer:hover {
+.container .sub_container .data .items .item-lecturer:hover {
     background-color: #ECF2FF;
     box-shadow: -2px 2px 6px -4px rgba(0, 0, 0, 0.75);
     cursor: pointer;
     transition: all 0.5s;
 }
 
-.contianer .sub-container .data .items .item-lecturer .icon {
+.container .sub_container .data .items .item-lecturer .icon {
     width: 20%;
     height: 100%;
     display: flex;
     align-items: center;
 }
 
-.contianer .sub-container .data .items .item-lecturer .icon img {
+.container .sub_container .data .items .item-lecturer .icon img {
     width: 100%;
     object-fit: cover;
 }
 
-.contianer .sub-container .data .items .item-lecturer .info {
+.container .sub_container .data .items .item-lecturer .info {
     width: 80%;
     padding-top: 0.57rem;
     padding-left: .5rem;
 }
 
-.contianer .sub-container .data .items .item-lecturer .info h4 {
+.container .sub_container .data .items .item-lecturer .info h4 {
     font-size: 16px;
     padding-bottom: 5px;
 }
 
-.contianer .sub-container .data .items .item-lecturer .info p {
+.container .sub_container .data .items .item-lecturer .info p {
     font-size: 14px;
 }
 
-.contianer .sub-container .data .items .item-lecturer .info .depart-gen {
+.container .sub_container .data .items .item-lecturer .info .depart-gen {
     width: 100%;
     display: flex;
     /* gap: .5rem; */
 }
 
-.contianer .sub-container .data .items .item-lecturer .info .depart-gen div {
+.container .sub_container .data .items .item-lecturer .info .depart-gen div {
     width: 50%;
     display: flex;
     font-size: 12px;
     padding-top: 9.3px;
 }
 
-/* course css*/
-.contianer .sub-container .data .items .itemss {
-    width: 100%;
-    /* position: fixed; */
-}
+
 
 /*see_more and no_course */
 .see_more,
-.no_course {
+.no_course,
+.no_room,
+.no_lecturer {
     display: flex;
     justify-content: center;
     align-items: center;
+    border-left: none;
+
+    height: 100px;
+    /* width: 100%; */
+    background-color: #ffffff;
+    /* padding: 5%; */
+    margin: 4.5%;
+    /* transition: all 0.4s; */
+    /* border-left: 2px solid #ff0000; */
+    border-radius: 3px;
+    /* cursor: move; */
+}
+
+.see_more button {
+    padding: .25rem .5rem;
+    border: none;
+    color: black;
+    /* background-color: #0c356a; */
+    z-index: 1;
+    border-radius: .3rem;
+}
+
+.see_more button:hover {
+    color: white;
+    background-color: #3aa6b9;
+    cursor: pointer;
+}
+
+@media screen and (min-width: 1369px){
+    .contianer .sub-container .data .items .item-room{
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .contianer .sub-container .data .items .item-room .room-name h3 {
+        font-size: 18.5px;
+    }
+    .contianer .sub-container .data .items .item-room .room-name p {
+        font-size: 13px;
+    }
+
+    .contianer .sub-container .data .items .item-lecturer .info p {
+        font-size: 13px;
+    }
 }
 </style>
