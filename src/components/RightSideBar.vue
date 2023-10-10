@@ -256,7 +256,7 @@ export default {
                 semester_id: this.selectedSemester,
             }))
                 .then((response) => {
-                    this.courses = response.data
+                    this.courses = response.data;
                     console.log(this.courses);
                 })
                 .catch((error) => {
@@ -288,8 +288,8 @@ export default {
             .then(response => {
                 this.lecturers = response.data.data;
             });
-        this.fetchAcademyYears()
-        this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
+        this.fetchAcademyYears();
+        this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0];
     },
     computed: {
         filteredCourses() {

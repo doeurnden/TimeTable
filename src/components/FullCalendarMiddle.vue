@@ -582,7 +582,6 @@ export default {
         // },
         fetchdata() {
             this.fetchGroups();
-            // this.fetchWeeks();
         },
         emitSelectedGroup() {
             this.$emit('group-selected', this.selectedGroup);

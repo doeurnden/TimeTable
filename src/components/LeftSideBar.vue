@@ -223,27 +223,27 @@
 
       //Function send signal from child to parent
       emitAcademyYearSelected() {
-        this.$emit("refreshCalendar",true)
+        this.$emit("refreshCalendar",true);
         this.$emit('academy-year-selected', this.selectedAcademyYear);
       },
       emitDepartmentSelected() {
-        this.$emit("refreshCalendar",true)
+        this.$emit("refreshCalendar",true);
         this.$emit('department-selected', this.selectedDepartment);
       },
       emitDegreeSelected() {
-        this.$emit("refreshCalendar",true)
+        this.$emit("refreshCalendar",true);
         this.$emit('degree-selected', this.selectedDegree);
       },
       emitDepOptionSelected() {
-        this.$emit("refreshCalendar",true)
+        this.$emit("refreshCalendar",true);
         this.$emit('depOption-selected', this.selectedDepOption);
       },
       emitGradeSelected() {
-        this.$emit("refreshCalendar",true)
+        this.$emit("refreshCalendar",true);
         this.$emit('grade-selected', this.selectedGrade);
       },
       emitSemesterSelected() {
-        this.$emit("refreshCalendar",true)
+        this.$emit("refreshCalendar",true);
         this.$emit('semester-selected', this.selectedSemester);
       },
     },

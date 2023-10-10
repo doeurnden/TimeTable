@@ -70,35 +70,35 @@ export default {
     },
     handleAcademicYearSelected(selectedValue) {
       this.selectedAcademyYear=selectedValue;
-      console.log('Academy Year Selected:', selectedValue);
+      // console.log('Academy Year Selected:', selectedValue);
     },
     handleDepartmentSelected(selectedValue) {
       this.selectedDepartment = selectedValue;
-      console.log('Department Selected:', selectedValue);
+      // console.log('Department Selected:', selectedValue);
     },
     handleDegreeSelected(selectedValue) {
       this.selectedDegree = selectedValue;
-      console.log('Degree Selected::', selectedValue);
+      // console.log('Degree Selected::', selectedValue);
     },
     handleDepOptionSelected(selectedValue) {
       this.selectedDepOption = selectedValue;
-      console.log('Department Option Selected:', selectedValue);
+      // console.log('Department Option Selected:', selectedValue);
     },
     handleGradeSelected(selectedValue) {
       this.selectedGrade = selectedValue;
-      console.log('Grade Selected:', selectedValue);
+      // console.log('Grade Selected:', selectedValue);
     },
     handleSemesterSelected(selectedValue) {
       this.selectedSemester = selectedValue;
-      console.log('Semester Selected:', selectedValue);
+      // console.log('Semester Selected:', selectedValue);
     },
     handleGroupSelected(selectedValue) {
       this.selectedGroup = selectedValue;
-      console.log('Group selected:', selectedValue);
+      // console.log('Group selected:', selectedValue);
     },
     handleWeekSelected(selectedValue){
       this.selectedWeek = selectedValue;
-      console.log('Week selected:', selectedValue);
+      // console.log('Week selected:', selectedValue);
     },
     sendDataToAPI() {
     // Check if any required fields are null before making the API request
