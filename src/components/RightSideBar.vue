@@ -22,7 +22,7 @@
                 <div class="items">
                     <div class="itemss" v-for="course in filteredCourses" :key="course.id">
                         <!-- course -->
-                        <div class="item" v-if="course.time_course != 0" draggable="true">
+                        <div class="item" v-if="course.time_course != 0" >
                             <input type="text" :data-course="JSON.stringify(course)"
                                 :data-courseType="course.time_course != 0 ? 'Course' : ''" hidden>
                             <div class="icons">
@@ -80,9 +80,13 @@
                         <button @click="seeMore">see more..</button>
                     </div> -->
                     <div class="no_course"
-                        v-if="(course_search != filteredCourses) && (course_search != '') && (filteredCourses.length == 0)">
+                        v-if="(course_search != filteredCourses) && (course_search != '') && (filteredCourses.length == 0) || (courses == '')">
                         <h3>No Course!</h3>
                     </div>
+                    <!-- <div class="no_course"
+                        v-if="courses == ''">
+                        <h3>No Course!</h3>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -266,7 +270,7 @@ export default {
     },
     mounted() {
         var containerEl = this.$refs.container;
-            console.log(this.$refs);
+            // console.log(this.$refs);
             // console.log(containerEl);
                     
             var refreshCalendar=()=>{
@@ -350,6 +354,9 @@ export default {
 
 <style scoped>
 /* navbar button color change */
+
+
+
 button.navbars.course.active,
 button.navbars.room.active,
 button.navbars.lecturer.active {
@@ -529,6 +536,64 @@ button.navbars.course, button.navbars.room, button.navbars.lecturer{
     border-radius: 5px;
     padding: .2rem;
     font-size: 12px;
+}
+
+
+
+/* DragUi */
+.fc-event-dragging {
+    height: 100px !important;
+    /* width: 100%; */
+    background-color: #ffffff !important;
+    /* padding: 5%; */
+    margin: 4.5% !important;
+    /* transition: all 0.4s; */
+    border-left: 2px solid #ff0000 !important;
+    border-radius: 3px !important;
+    cursor: move !important;
+    /* user-select: none; */
+    /* touch-action: manipulation; */
+}
+
+ .fc-event-dragging:hover {
+    background-color: #A7ECEE !important;
+    box-shadow: -2px 2px 6px -4px rgba(0, 0, 0, 0.79) !important;
+    /* cursor: move; */
+    transition: all 0.4s !important;
+}
+
+.fc-event-dragging .icons {
+    width: 100% !important;
+    height: 20% !important;
+    /* background-color: aliceblue; */
+    font-size: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 12px 0px 12px 6px !important;
+}
+
+ .fc-event-dragging .course_info {
+    height: 80% !important;
+    width: 100% !important;
+    background-color: aliceblue !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-around !important;
+    padding-left: 5% !important;
+    border-radius: 3px !important;
+}
+
+.fc-event-dragging .course_info h1 {
+    font-size: 15px !important;
+}
+
+.fc-event-dragging .course_info .btn button {
+    color: white !important;
+    background-color: #ff0000 !important;
+    border: none !important;
+    border-radius: 5px !important;
+    padding: .2rem !important;
+    font-size: 12px !important;
 }
 
 /* item-room */

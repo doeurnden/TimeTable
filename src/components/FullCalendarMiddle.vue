@@ -49,39 +49,6 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import axios from 'axios';
 
-// import {v4 as uuidv4} from "uuid";
-// import { addDurations } from '@fullcalendar/core/internal';
-let events = [
-    // {
-    //     id: 'event1',
-    //     titles: [
-    //         // course-side
-    //         'Internet Programming',
-    //         '(Course)',
-    //         'CHUN Thavorac',
-    //         // room-side
-    //         'I-606',
-    //         'I4-GIC-A'
-    //     ],
-    //     start: '2023-09-20T09:00:00',
-    //     end: '2023-09-20T11:00:00',
-    // },
-    // {
-    //     // id: 'event1',
-    //     titles: [
-    //         // course-side
-    //         'Internet Programming',
-    //         '(Course)',
-    //         'CHUN Thavorac',
-    //         // room-side
-    //         'I-606',
-    //         'I4-GIC-A'
-    //     ],
-    //     start: '2023-09-19T09:00:00',
-    //     end: '2023-09-19T11:00:00',
-    // },
-];
-
 export default {
     props: ["selectedAcademyYear", "selectedDepartment", "selectedDegree", "selectedDepOption", "selectedGrade", "selectedSemester","refresh"],
     components: {
@@ -681,22 +648,28 @@ export default {
     // },
     watch: {
         selectedAcademyYear: function () {
-            this.fetchGroups()
+            this.fetchGroups();
+            this.fetchTimeTable();
         },
         selectedDepartment: function () {
             this.fetchGroups();
+            this.fetchTimeTable();
         },
         selectedDegree: function () {
             this.fetchGroups();
+            this.fetchTimeTable();
         },
         selectedDepOption: function () {
             this.fetchGroups();
+            this.fetchTimeTable();
         },
         selectedGrade: function () {
             this.fetchGroups();
+            this.fetchTimeTable();
         },
         selectedSemester: function () {
             this.fetchGroups();
+            this.fetchTimeTable();
         }, 
         selectedGroup: function (){
             this.fetchTimeTable();
@@ -723,11 +696,11 @@ export default {
         //     this.calendarOptions.events = this.filteredEvents;
         // },
     },
-    // created() {
-    //     this.fetchdata();
-    //      // Set up the eventDrop handler
-    //     // this.calendarOptions.eventDrop = this.handleEventDrop;
-    // }
+    created() {
+        this.fetchdata();
+         // Set up the eventDrop handler
+        // this.calendarOptions.eventDrop = this.handleEventDrop;
+    }
 }
 </script>
 

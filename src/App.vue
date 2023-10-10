@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     refreshCalendar(data){
-      console.log(data);
+      console.log(data,"Hello");
       this.refresh=data;
     },
     handleAcademicYearSelected(selectedValue) {
