@@ -681,22 +681,28 @@ export default {
     // },
     watch: {
         selectedAcademyYear: function () {
-            this.fetchGroups()
+            this.fetchGroups();
+            this.fetchTimeTable();
         },
         selectedDepartment: function () {
             this.fetchGroups();
+            this.fetchTimeTable();
         },
         selectedDegree: function () {
             this.fetchGroups();
+            this.fetchTimeTable();
         },
         selectedDepOption: function () {
             this.fetchGroups();
+            this.fetchTimeTable();
         },
         selectedGrade: function () {
             this.fetchGroups();
+            this.fetchTimeTable();
         },
         selectedSemester: function () {
             this.fetchGroups();
+            this.fetchTimeTable();
         }, 
         selectedGroup: function (){
             this.fetchTimeTable();
@@ -723,11 +729,11 @@ export default {
         //     this.calendarOptions.events = this.filteredEvents;
         // },
     },
-    // created() {
-    //     this.fetchdata();
-    //      // Set up the eventDrop handler
-    //     // this.calendarOptions.eventDrop = this.handleEventDrop;
-    // }
+    created() {
+        this.fetchdata();
+         // Set up the eventDrop handler
+        // this.calendarOptions.eventDrop = this.handleEventDrop;
+    }
 }
 </script>
 
