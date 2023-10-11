@@ -10,7 +10,8 @@
       @group-selected="handleGroupSelected"
       @refreshCalendar="refreshCalendar"
       ></LeftSideBar>
-    <FullCalendarMiddle 
+    <FullCalendarMiddle
+      @set-timetable-id="setTimetable"
       @group-selected="handleGroupSelected" 
       :selectedAcademyYear="selectedAcademyYear" 
       :selectedDepartment="selectedDepartment" 
@@ -42,7 +43,7 @@ import FullCalendarMiddle from './components/FullCalendarMiddle.vue'
 import RightSideBar from './components/RightSideBar.vue';
 import axios from 'axios';
 // import timeGridPlugin from '@fullcalendar/timegrid'
-
+// TODO: get the id of the timetable -> option( has->option/not->no_option)
 export default {
   components: {
     LeftSideBar,
@@ -60,12 +61,17 @@ export default {
       //Fullcalendar//
       selectedGroup: "",          // Selected group
       selectedWeek:"",
+      timetableId:"",
       events:[],
       refresh:false,
       tmpEvent:{}
     };
   },
   methods: {
+    setTimetable(id){
+      this.timetableId=id;
+      console.log("timetable_id",id);
+    },
     refreshCalendar(data){
       this.refresh=data;
     },
