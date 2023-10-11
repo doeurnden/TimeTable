@@ -73,10 +73,6 @@ export default {
       console.log("timetable_id",id);
     },
     refreshCalendar(data){
-<<<<<<< HEAD
-      console.log(data,"Hello");
-=======
->>>>>>> 2f70afac8866932e6d9cccd4c7a9688d41dd6c31
       this.refresh=data;
     },
     handleAcademicYearSelected(selectedValue) {

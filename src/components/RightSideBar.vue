@@ -288,13 +288,7 @@ export default {
     },
     mounted() {
         var containerEl = this.$refs.container;
-<<<<<<< HEAD
-            // console.log(this.$refs);
-            // console.log(containerEl);
-                    
-=======
             console.log(this.$refs);
->>>>>>> 2f70afac8866932e6d9cccd4c7a9688d41dd6c31
             var refreshCalendar=()=>{
                 this.$emit("refreshCalendar",false);
             }
