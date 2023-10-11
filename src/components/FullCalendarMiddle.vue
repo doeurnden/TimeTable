@@ -81,7 +81,14 @@ let events = [
 ];
 
 export default {
-    props: ["selectedAcademyYear", "selectedDepartment", "selectedDegree", "selectedDepOption", "selectedGrade", "selectedSemester", "refresh"],
+    props: ["selectedAcademyYear",
+        "selectedDepartment",
+        "selectedDegree",
+        "selectedDepOption",
+        "selectedGrade",
+        "selectedSemester",
+        "refresh",
+        "firstInitialize"],
     components: {
         FullCalendar,
     },
@@ -592,7 +599,6 @@ export default {
                 });
         },
         fetchTimeTable() {
-            console.log(this.selectedAcademyYear)
             const requestData = {
                 academic_year_id: this.selectedAcademyYear,
                 department_id: this.selectedDepartment,
@@ -610,7 +616,7 @@ export default {
             axios.post(import.meta.env.VITE_APP_TIMETABLE, requestData)
                 .then((response) => {
                     this.fetchedTimeTable = response.data;
-                    this.$emit("setTimetableId",response.data[0].id)
+                    this.$emit("setTimetableId", response.data[0]?.id)
                 })
                 .catch((error) => {
                     console.error('Error fetching Timetable:', error);
@@ -659,27 +665,35 @@ export default {
 
     watch: {
         selectedAcademyYear: function () {
+            if(this.firstInitialize) return;
             this.fetchGroups()
         },
         selectedDepartment: function () {
+            if(this.firstInitialize) return;
             this.fetchGroups();
         },
         selectedDegree: function () {
+            if(this.firstInitialize) return;
             this.fetchGroups();
         },
         selectedDepOption: function () {
+            if(this.firstInitialize) return;
             this.fetchGroups();
         },
         selectedGrade: function () {
+            if(this.firstInitialize) return;
             this.fetchGroups();
         },
         selectedSemester: function () {
+            if(this.firstInitialize) return;
             this.fetchGroups();
         },
         selectedGroup: function () {
+            if(this.firstInitialize) return ;
             this.fetchTimeTable();
         },
         selectedWeek: function () {
+            if(this.firstInitialize) return;
             this.fetchTimeTable();
         },
         refresh: function (value) {
@@ -687,8 +701,14 @@ export default {
                 this.calendarOptions.events = [];
                 //TODO: fetch timetable
             }
+        },
+        firstInitialize:function(value){
+            if(value){
+                console.log(value);
+                this.fetchGroups();
+                this.fetchTimeTable();
+            }
         }
-
 
     },
 
@@ -1163,4 +1183,5 @@ a.fc-event {
     .roomName {
         padding-bottom: 4px;
     }
-}</style>
+}
+</style>

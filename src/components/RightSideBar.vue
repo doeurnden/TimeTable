@@ -183,22 +183,33 @@ export default {
     },
     watch: {
         selectedAcademyYear: function () {
+            if(this.firstInitialize) return;
             this.fetchCourses()
         },
         selectedDepartment: function () {
+            if(this.firstInitialize) return;
             this.fetchCourses();
         },
         selectedDegree: function () {
+            if(this.firstInitialize) return;
             this.fetchCourses();
         },
         selectedDepOption: function () {
+            if(this.firstInitialize) return;
             this.fetchCourses();
         },
         selectedGrade: function () {
+            if(this.firstInitialize) return;
             this.fetchCourses();
         },
         selectedSemester: function () {
+            if(this.firstInitialize) return;
             this.fetchCourses();
+        },
+        firstInitialize:function(value){
+            if(value){
+                this.fetchCourses();
+            }
         }
     },
     props: [
@@ -207,7 +218,8 @@ export default {
         "selectedDegree",
         "selectedDepOption",
         "selectedGrade",
-        "selectedSemester"
+        "selectedSemester",
+        "firstInitialize",
     ],
     methods: {
         checkRoom(room) {
