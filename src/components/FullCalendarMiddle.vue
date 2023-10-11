@@ -330,9 +330,9 @@ export default {
             //     return this;
             // }
                 // TODO: check group-> then assign course to get slot
-                // TODO: create time table
-                // TODO: console update data timetable
-                // TODO: frontend update slot (lecture and room)
+                //TODO: create time table
+                //TODO: console update data timetable
+                //TODO: frontend update slot (lecture and room)
                 
 
                 // Internshipt student
