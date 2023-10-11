@@ -13,7 +13,7 @@
                 <!-- @button-group -->
                 <div class="select-group">
                     <form action="">
-                        <select name="group" v-model="selectedGroup" @change="emitSelectedGroup">
+                        <select name="group" v-model="selectedGroup " @change="emitSelectedGroup">
                             <option value="" disabled>Groups</option>
                             <option v-for="group in fetchedGroups" :key="group.id" :value="group.id">{{ group.code }}
                             </option>
@@ -599,7 +599,7 @@ export default {
             }))
                 .then((response) => {
                     this.fetchedGroups = response.data;
-                    this.selectedGroup = this.fetchedGroups[0].id;
+                    this.selectedGroup = this.fetchedGroups[0]?.id;
                 })
                 .catch((error) => {
                     console.error('Error fetching groups:', error);

@@ -27,7 +27,9 @@
     </FullCalendarMiddle>
     <RightSideBar :selectedAcademyYear="selectedAcademyYear" 
       :selectedDepartment="selectedDepartment" :selectedDegree="selectedDegree"
-      :selectedDepOption="selectedDepOption" :selectedGrade="selectedGrade" :selectedSemester="selectedSemester"
+      :selectedDepOption="selectedDepOption" 
+      :selectedGrade="selectedGrade"
+       :selectedSemester="selectedSemester"
       @refreshCalendar="refreshCalendar"
     />
   </div>
@@ -65,12 +67,10 @@ export default {
   },
   methods: {
     refreshCalendar(data){
-      console.log(data);
       this.refresh=data;
     },
     handleAcademicYearSelected(selectedValue) {
       this.selectedAcademyYear=selectedValue;
-      console.log('Academy Year Selected:', selectedValue);
     },
     handleDepartmentSelected(selectedValue) {
       this.selectedDepartment = selectedValue;
@@ -116,46 +116,11 @@ export default {
       return; // Don't send the API request if required fields are null
     }
 
-    // Create a data object with the selected values
-    // const dataToSend = {
-    //   academyYear: this.selectedAcademyYear,
-    //   department: this.selectedDepartment,
-    //   degree: this.selectedDegree,
-    //   depOption: this.selectedDepOption,
-    //   grade: this.selectedGrade,
-    //   semester: this.selectedSemester,
-    //   group: this.selectedGroup,
-    //   week: this.selectedWeek,
-    //   created_uid: 250,
-    //   updated_uid: 250,
-    //   // Add any other data you want to send to the API here
-    // };
-
-    // Make the API POST request
-    // axios
-    //   .post('http://127.0.0.1:8000/api/create_timetable', dataToSend)
-    //   .then(response => {
-    //     // Handle the API response here if needed
-    //     console.log('API Response:', response.data);
-    //   })
-    //   .catch(error => {
-    //     // Handle API request error here
-    //     console.error('API Request Error:', error);
-    //   });
+    
   },
 
   },
-  // watch: {
-  //   // Watch for changes in the selected data properties
-  //   selectedAcademyYear: 'sendDataToAPI',
-  //   selectedDepartment: 'sendDataToAPI',
-  //   selectedDegree: 'sendDataToAPI',
-  //   selectedDepOption: 'sendDataToAPI',
-  //   selectedGrade: 'sendDataToAPI',
-  //   selectedSemester: 'sendDataToAPI',
-  //   selectedGroup: 'sendDataToAPI',
-  //   selectedWeek: 'sendDataToAPI',
-  // },
+
 };
 </script>
 

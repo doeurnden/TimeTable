@@ -145,7 +145,7 @@
         axios.get(apiUrl)
           .then(response => {
             this.fetchedDepartments = response.data;
-            this.selectedDepartment = this.fetchedDepartments[0]; // Set default selected value
+            this.selectedDepartment = this.fetchedDepartments[0].id; // Set default selected value
           })
           .catch(error => {
             console.error('Error fetching departments:', error);
@@ -157,21 +157,21 @@
         axios.get(apiUrl)
           .then(response => {
             this.fetchedDegrees = response.data;
-            this.selectedDegree = this.fetchedDegrees[0]; // Set default selected value
+            this.selectedDegree = this.fetchedDegrees[0].id; // Set default selected value
           })
           .catch(error => {
             console.error('Error fetching degrees:', error);
           });
       },
-  
       fetchDepOptions() {
         const apiUrl = 'http://127.0.0.1:8000/api/get_all_depOptions';
 
         axios.get(apiUrl)
           .then(response => {
             this.fetchedDepOptions = response.data;
+            console.log(this.fetchedDepOptions)
             // this.tmpDeptOption=response.data;
-            this.selectedDepOption = this.fetchedDepOptions[0]; // Set default selected value
+            // this.selectedDepOption = this.fetchedDepOptions[0].id; // Set default selected value
           })
           .catch(error => {
             console.error('Error fetching department options:', error);
@@ -183,7 +183,7 @@
         axios.get(apiUrl)
           .then(response => {
             this.fetchedGrades = response.data;
-            this.selectedGrade = this.fetchedGrades[0]; // Set default selected value
+            this.selectedGrade = this.fetchedGrades[0].id; // Set default selected value
           })
           .catch(error => {
             console.error('Error fetching grades:', error);
@@ -217,7 +217,6 @@
         this.fetchDepOptions();
         this.fetchGrades();
         this.fetchSemesters();
-        // this.fetchGroups();
         // Call other fetch methods here...
       },
 
