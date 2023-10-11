@@ -103,9 +103,9 @@
 
 <script>
 import axios from 'axios';
-import { toHandlers } from 'vue';
+import { defineComponent, toHandlers } from 'vue';
 
-export default {
+export default defineComponent({
   data() {
     return {
       fetchedAcademyYears: [],    // Array to hold fetched academy years
@@ -175,9 +175,10 @@ export default {
         this.fetchedDegrees = localData?.degrees;
         this.selectedDegree = this.fetchedDegrees[0]?.id;
         this.fetchedGrades = localData?.grades;
-        this.selectedGrade = this.fetchedGrades[0]?.id;
+        this.selectedGrade = this.fetchedGrades[2]?.id;
         this.fetchedSemesters = localData?.semesters;
         this.selectedSemester = this.fetchedSemesters[0]?.id
+        this.fetchedDepOptions=localData?.department_options
         this.emitAllRequiredField();
       }
     },
@@ -229,7 +230,7 @@ export default {
       this.$emit('setInitialize', false);
     });
   },
-};
+});
 </script>
 
 <style scoped>
