@@ -235,7 +235,14 @@ export default {
         },
         seeMore() {
             this.course_page += 1;
-            axios.get(`http://127.0.0.1:8000/api/course_annuals/get_course?page=${this.course_page}`)
+            axios.get(`http://127.0.0.1:8000/api/course_annuals/get_course?page=${this.course_page}`+ new URLSearchParams({
+                academic_year_id: this.selectedAcademyYear,
+                department_id: this.selectedDepartment,
+                degree_id: this.selectedDegree,
+                department_option_id: this.selectedDepOption,
+                grade_id: this.selectedGrade,
+                semester_id: this.selectedSemester,
+            }))
                 .then(response => this.courses = [...this.courses, ...response.data]);
         },
         seeMoreRoom() {
@@ -260,19 +267,34 @@ export default {
                 semester_id: this.selectedSemester,
             }))
                 .then((response) => {
-                    this.courses = response.data
-                    console.log(this.courses);
+                    this.courses=[];
+                    this.courses = [...response.data]
                 })
                 .catch((error) => {
                     console.log('Error fetching courses:', error);
                 });
         }
     },
+    created(){
+        axios.get(import.meta.env.VITE_APP_ROOM)
+            .then(response => {
+                this.rooms = response.data.data;
+            });
+
+        axios.get(import.meta.env.VITE_APP_LECTURER)
+            .then(response => {
+                this.lecturers = response.data.data;
+            });
+    },
     mounted() {
         var containerEl = this.$refs.container;
+<<<<<<< HEAD
             // console.log(this.$refs);
             // console.log(containerEl);
                     
+=======
+            console.log(this.$refs);
+>>>>>>> 2f70afac8866932e6d9cccd4c7a9688d41dd6c31
             var refreshCalendar=()=>{
                 this.$emit("refreshCalendar",false);
             }
@@ -283,17 +305,7 @@ export default {
                     return eventEl;
                 }
             });
-        axios.get(import.meta.env.VITE_APP_ROOM)
-            .then(response => {
-                this.rooms = response.data.data;
-            });
-
-        axios.get(import.meta.env.VITE_APP_LECTURER)
-            .then(response => {
-                this.lecturers = response.data.data;
-            });
-        this.fetchAcademyYears()
-        this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
+    
     },
     computed: {
         filteredCourses() {
