@@ -88,7 +88,9 @@ export default {
         "selectedGrade",
         "selectedSemester",
         "refresh",
-        "firstInitialize"],
+        "firstInitialize",
+        "timetableId"
+    ],
     components: {
         FullCalendar,
     },
@@ -287,8 +289,11 @@ export default {
 
         },
         addHours(e, hour = 1) {
-            let date = new Date(e);
-            date.setHours(date.getHours() + hour)
+            let date = new Date(e.getTime()+(hour*60*60*1000));
+            return date;
+        },
+        getDuration(start,end){
+            return (end.getTime()-start.getTime())/3600000;
         },
         handleEventDrop(info) {
             console.log(info);
@@ -324,16 +329,28 @@ export default {
             //     this.setHours(this.getHours()+h);
             //     return this;
             // }
+                // TODO: check group-> then assign course to get slot
+                // TODO: create time table
+                // TODO: console update data timetable
+                // TODO: frontend update slot (lecture and room)
+                
 
+                // Internshipt student
+                // TODO: not me (API update check conflict group, lecture, room)
+                // TODO: create api (check conflict group, lecture, room)
+                // TODO: clone timetable base on (week)
+                // TODO: merge group (when conflict, show do they want to merge or not?)
+                
             let course = JSON.parse(e.draggedEl.children[0].dataset.course)
             let type = e.draggedEl.children[0].dataset.coursetype
-            console.log(this.refresh);
             course.type = type;
             if (this.refresh) {
                 this.calendarOptions.events = []
                 this.$emit("refreshCalendar", false);
-                //TODO: fetch
+                //TODO: fetch time table
             } else {
+                // console.log((new Date(e.date.getTime()+ (2*60*60*1000)).getTime()-e.date.getTime())/3600000);
+
                 this.calendarOptions.events = [...this.calendarOptions.events, {
                     titles: [course.name_en, course.type],
                     start: e.date,
@@ -610,7 +627,6 @@ export default {
                 week_id: this.selectedWeek,
                 created_uid: 250,
                 updated_uid: 250,
-
             };
 
             axios.post(import.meta.env.VITE_APP_TIMETABLE, requestData)
@@ -667,26 +683,32 @@ export default {
         selectedAcademyYear: function () {
             if(this.firstInitialize) return;
             this.fetchGroups()
+            this.fetchTimeTable();
         },
         selectedDepartment: function () {
             if(this.firstInitialize) return;
             this.fetchGroups();
+            this.fetchTimeTable();
         },
         selectedDegree: function () {
             if(this.firstInitialize) return;
             this.fetchGroups();
+            this.fetchTimeTable();
         },
         selectedDepOption: function () {
             if(this.firstInitialize) return;
             this.fetchGroups();
+            this.fetchTimeTable();
         },
         selectedGrade: function () {
             if(this.firstInitialize) return;
             this.fetchGroups();
+            this.fetchTimeTable();
         },
         selectedSemester: function () {
             if(this.firstInitialize) return;
             this.fetchGroups();
+            this.fetchTimeTable()
         },
         selectedGroup: function () {
             if(this.firstInitialize) return ;

@@ -328,7 +328,6 @@ export default {
         },
         filteredRooms() {
             const searchTerm = this.room_search.toLowerCase().trim();
-
             if (!searchTerm) {
                 return this.rooms;
             }

@@ -15,6 +15,7 @@
       ></LeftSideBar>
     <FullCalendarMiddle
       @set-timetable-id="setTimetable"
+      :timetable-id="timetableId"
       @group-selected="handleGroupSelected" 
       :selectedAcademyYear="selectedAcademyYear" 
       :selectedDepartment="selectedDepartment" 
