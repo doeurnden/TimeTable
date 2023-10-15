@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container max-w-full font-sans text-slate-700  subpixel-antialiased">
     
     <LeftSideBar 
       @set-initialize="setFirstInitialize"
@@ -11,7 +11,6 @@
       @semester-selected="handleSemesterSelected"
       @group-selected="handleGroupSelected"
       @refreshCalendar="refreshCalendar"
-    
       ></LeftSideBar>
     <FullCalendarMiddle
       @set-timetable-id="setTimetable"
@@ -84,7 +83,6 @@ export default {
     },
     setTimetable(id){
       this.timetableId=id;
-      console.log("timetable_id",id);
     },
     refreshCalendar(data){
       this.refresh=data;
