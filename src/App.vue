@@ -1,6 +1,8 @@
 <template>
-  <div class="container">
+  <div class="container max-w-full font-sans text-slate-700  subpixel-antialiased">
+    
     <LeftSideBar 
+      @set-initialize="setFirstInitialize"
       @academy-year-selected="handleAcademicYearSelected" 
       @department-selected="handleDepartmentSelected"
       @degree-selected="handleDegreeSelected" 
@@ -12,6 +14,7 @@
       ></LeftSideBar>
     <FullCalendarMiddle
       @set-timetable-id="setTimetable"
+      :timetable-id="timetableId"
       @group-selected="handleGroupSelected" 
       :selectedAcademyYear="selectedAcademyYear" 
       :selectedDepartment="selectedDepartment" 
@@ -21,16 +24,20 @@
       :selectedSemester="selectedSemester"
       :selectedGroup="selectedGroup"
       :selectedWeek="selectedWeek"
+      :first-initialize="firstInitialize"
       @week-selected="handleWeekSelected"
       @refreshCalendar="refreshCalendar"
       :refresh="refresh"
+      
       >
     </FullCalendarMiddle>
     <RightSideBar :selectedAcademyYear="selectedAcademyYear" 
-      :selectedDepartment="selectedDepartment" :selectedDegree="selectedDegree"
+      :selectedDepartment="selectedDepartment" 
+      :selectedDegree="selectedDegree"
       :selectedDepOption="selectedDepOption" 
       :selectedGrade="selectedGrade"
        :selectedSemester="selectedSemester"
+       :first-initialize="firstInitialize"
       @refreshCalendar="refreshCalendar"
     />
   </div>
@@ -52,12 +59,15 @@ export default {
   },
   data() {
     return {
+      /**@type {boolean} */
+      firstInitialize:true,
       selectedAcademyYear: "",    // Selected academy year
       selectedDepartment: "",     // Selected department
       selectedDegree: "",         // Selected degree
       selectedDepOption: "",      // Selected department option
       selectedGrade: "",          // Selected grade
       selectedSemester: "",       // Selected semester
+     
       //Fullcalendar//
       selectedGroup: "",          // Selected group
       selectedWeek:"",
@@ -68,9 +78,11 @@ export default {
     };
   },
   methods: {
+    setFirstInitialize(status){
+      this.firstInitialize=status;
+    },
     setTimetable(id){
       this.timetableId=id;
-      console.log("timetable_id",id);
     },
     refreshCalendar(data){
       this.refresh=data;
@@ -80,31 +92,25 @@ export default {
     },
     handleDepartmentSelected(selectedValue) {
       this.selectedDepartment = selectedValue;
-      console.log('Department Selected:', selectedValue);
+
     },
     handleDegreeSelected(selectedValue) {
       this.selectedDegree = selectedValue;
-      console.log('Degree Selected::', selectedValue);
     },
     handleDepOptionSelected(selectedValue) {
       this.selectedDepOption = selectedValue;
-      console.log('Department Option Selected:', selectedValue);
     },
     handleGradeSelected(selectedValue) {
       this.selectedGrade = selectedValue;
-      console.log('Grade Selected:', selectedValue);
     },
     handleSemesterSelected(selectedValue) {
       this.selectedSemester = selectedValue;
-      console.log('Semester Selected:', selectedValue);
     },
     handleGroupSelected(selectedValue) {
       this.selectedGroup = selectedValue;
-      console.log('Group selected:', selectedValue);
     },
     handleWeekSelected(selectedValue){
       this.selectedWeek = selectedValue;
-      console.log('Week selected:', selectedValue);
     },
     sendDataToAPI() {
     // Check if any required fields are null before making the API request

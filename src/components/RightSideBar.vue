@@ -2,13 +2,13 @@
     <!--container-->
     <div class="container" ref="container">
         <nav class="navbar">
-            <button class="navbars course" @click="showInfo(1)" :class="{ active: activeButton === 1 }">
+            <button class="navbars course active:font-bold" @click="showInfo(1)" :class="{ active: activeButton === 1 }">
                 <span><i class="icon pi pi-book"></i>Course</span>
             </button>
-            <button class="navbars room" @click="showInfo(2)" :class="{ active: activeButton === 2 }">
+            <button class="navbars room text-white active:font-bold" @click="showInfo(2)" :class="{ active: activeButton === 2 }">
                 <span><i class="icon pi pi-building"></i>Room</span>
             </button>
-            <button class="navbars lecturer" @click="showInfo(3)" :class="{ active: activeButton === 3 }">
+            <button class="navbars lecturer active:font-bold" @click="showInfo(3)" :class="{ active: activeButton === 3 }">
                 <span><i class="icon pi pi-users"></i>Lecturer</span>
             </button>
         </nav>
@@ -31,7 +31,7 @@
                             </div>
                             <div class="course_info">
                                 <div>
-                                    <h1>{{ course.name_en }}</h1>
+                                    <h1 class="  font-bold">{{ course.name_en }}</h1>
                                 </div>
                                 <div class="btn"><button>Unsigned</button></div>
                                 <div>
@@ -49,7 +49,7 @@
                             </div>
                             <div class="course_info">
                                 <div>
-                                    <h1>{{ course.name_en }}</h1>
+                                    <h1 class=" font-bold">{{ course.name_en }}</h1>
                                 </div>
                                 <div class="btn"><button>Unsigned</button></div>
                                 <div>
@@ -67,7 +67,7 @@
                             </div>
                             <div class="course_info">
                                 <div>
-                                    <h1>{{ course.name_en }}</h1>
+                                    <h1 class=" font-bold">{{ course.name_en }}</h1>
                                 </div>
                                 <div class="btn"><button>Unsigned</button></div>
                                 <div>
@@ -100,10 +100,10 @@
                 <div class="items">
                     <div class="item-room" v-for="room in filteredRooms" :key="room.id" @click="checkRoom(room)">
                         <div class="room-number">
-                            <h3>{{ room.building.code }}-{{ room.name }}</h3>
+                            <h3 class="font-bold">{{ room.building.code }}-{{ room.name }}</h3>
                         </div>
                         <div class="room-name">
-                            <h4>{{ room.room_type.name }}</h4>
+                            <h4 class="font-bold text-slate-600">{{ room.room_type.name }}</h4>
                             <!-- <p>{{ room.nb_desk }} Desk</p> -->
                             <p>
                                 <span v-if="room.nb_desk === null">N/A</span>
@@ -132,14 +132,14 @@
                 <!-- <i class="icon pi pi-search"></i> -->
             </div>
             <div class="data">
-                <div class="items">
-                    <div class="item-lecturer" v-for="lecturer in filteredLecturers" :key="lecturer.id"
+                <div class="items ">
+                    <div class="item-lecturer rounded-[3px]" v-for="lecturer in filteredLecturers" :key="lecturer.id"
                         @click="checkLecturer(lecturer)">
                         <div class="icon">
                             <img src="../assets/image/avatar.png" alt="avatar">
                         </div>
                         <div class="info">
-                            <h4>
+                            <h4 class="font-bold text-slate-600">
                                 <span v-if="lecturer.id_card === null">No ID Card</span>
                                 <span v-else>{{ lecturer.id_card }}</span>
                                 | {{ lecturer.name_latin }}
@@ -186,23 +186,35 @@ export default {
         }
     },
     watch: {
+        
         selectedAcademyYear: function () {
+            if(this.firstInitialize) return;
             this.fetchCourses()
         },
         selectedDepartment: function () {
+            if(this.firstInitialize) return;
             this.fetchCourses();
         },
         selectedDegree: function () {
+            if(this.firstInitialize) return;
             this.fetchCourses();
         },
         selectedDepOption: function () {
+            if(this.firstInitialize) return;
             this.fetchCourses();
         },
         selectedGrade: function () {
+            if(this.firstInitialize) return;
             this.fetchCourses();
         },
         selectedSemester: function () {
+            if(this.firstInitialize) return;
             this.fetchCourses();
+        },
+        firstInitialize:function(value){
+            if(value){
+                this.fetchCourses();
+            }
         }
     },
     props: [
@@ -211,7 +223,8 @@ export default {
         "selectedDegree",
         "selectedDepOption",
         "selectedGrade",
-        "selectedSemester"
+        "selectedSemester",
+        "firstInitialize",
     ],
     methods: {
         checkRoom(room) {
@@ -320,7 +333,6 @@ export default {
         },
         filteredRooms() {
             const searchTerm = this.room_search.toLowerCase().trim();
-
             if (!searchTerm) {
                 return this.rooms;
             }
@@ -655,10 +667,9 @@ button.navbars.course, button.navbars.room, button.navbars.lecturer{
 
 /* item-lecturer */
 .container .sub_container .data .items .item-lecturer {
-    height: 85px;
+    height: 96px;
     background-color: #ffffff;
     border-left: 2px solid #002aff;
-    border-radius: 3px;
     display: flex;
     margin: 4.5%;
     transition: all 0.5s;

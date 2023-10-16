@@ -6,7 +6,7 @@
             </div>
             <!-- @title -->
             <div class="title-content">
-                <h1>Schedule Management</h1>
+                <h1 class="font-bold">Schedule Management</h1>
             </div>
             <!-- @button-select-group & week -->
             <div class="select-group-week">
@@ -48,7 +48,7 @@ import listPlugin from '@fullcalendar/list'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import axios from 'axios';
-
+import { serializePostTimetable } from '../repository/serializeSlot';
 let events = [
     // {
     //     id: 'event1',
@@ -81,7 +81,17 @@ let events = [
 ];
 
 export default {
-    props: ["selectedAcademyYear", "selectedDepartment", "selectedDegree", "selectedDepOption", "selectedGrade", "selectedSemester", "refresh"],
+    props: [
+        "selectedAcademyYear",
+        "selectedDepartment",
+        "selectedDegree",
+        "selectedDepOption",
+        "selectedGrade",
+        "selectedSemester",
+        "refresh",
+        "firstInitialize",
+        "timetableId"
+    ],
     components: {
         FullCalendar,
     },
@@ -115,6 +125,7 @@ export default {
                     listPlugin,
                     interactionPlugin,
                 ],
+                selectable: true,
                 initialViews: 'weekGridPlugin, interactionPlugin',
                 defaultTimedEventDuration: '02:00:00',
                 eventContent: this.customEventContent,
@@ -280,8 +291,11 @@ export default {
 
         },
         addHours(e, hour = 1) {
-            let date = new Date(e);
-            date.setHours(date.getHours() + hour)
+            let date = new Date(e.getTime() + (hour * 60 * 60 * 1000));
+            return date;
+        },
+        getDuration(start, end) {
+            return (end.getTime() - start.getTime()) / 3600000;
         },
         handleEventDrop(info) {
             console.log(info);
@@ -297,7 +311,6 @@ export default {
         //     }
         // },
         drop(e) {
-            console.log(e);
             // alert("Dropped an element")
             //             {
             //     id: 'event1',
@@ -317,21 +330,49 @@ export default {
             //     this.setHours(this.getHours()+h);
             //     return this;
             // }
+            //TODO: create time table
+            //TODO: console update data timetable
+            //TODO: frontend update slot (lecture and room)
+
+
+            // Internshipt student
+            // TODO: not me (API update check conflict group, lecture, room)
+            // TODO: create api (check conflict group, lecture, room)
+            // TODO: clone timetable base on (week)
+            // TODO: merge group (when conflict, show do they want to merge or not?)
 
             let course = JSON.parse(e.draggedEl.children[0].dataset.course)
             let type = e.draggedEl.children[0].dataset.coursetype
-            console.log(this.refresh);
-            course.type = type;
             if (this.refresh) {
                 this.calendarOptions.events = []
                 this.$emit("refreshCalendar", false);
-                //TODO: fetch
+                //TODO: fetch time table
+
             } else {
-                this.calendarOptions.events = [...this.calendarOptions.events, {
-                    titles: [course.name_en, course.type],
-                    start: e.date,
-                    // end: this.addHours(e.date, 1)
-                }];
+                // axios.post()
+                let end = this.addHours(e.date, 2)
+                let data = serializePostTimetable({
+                    course: course,
+                    semester_id: this.selectedSemester,
+                    academic_year_id: this.selectedAcademyYear,
+                    duration: this.getDuration(e.date, end),
+                    start: e.date.toLocaleString(),
+                    end: end.toLocaleString(),
+                    type: type,
+                    timetable_id: this.timetableId,
+                    group_id: this.selectedGroup,
+                })
+                axios.post(import.meta.env.VITE_APP_URL + "/createSlot", data).then(response => {
+                    this.calendarOptions.events = [...this.calendarOptions.events, {
+                        titles: [{}, course.name_en, type],
+                        start: e.date,
+                        // end: this.addHours(e.date, 1)
+                    }];
+                }).catch(err => {
+                    console.log(err.response);
+                });
+                // console.log((new Date(e.date.getTime()+ (2*60*60*1000)).getTime()-e.date.getTime())/3600000);
+
             }
             // console.log(this.calendarOptions.events)
             // alert(123);
@@ -450,11 +491,12 @@ export default {
             // console.log(events.extendedProps.titles);
             const titles = events.extendedProps.titles || [];
             // Split titles into different sections //5
-            const courseName = titles.slice(0, 1);
-            const courseType = titles.slice(1, 2);
-            const lecturer = titles.slice(2, 3);
-            const roomName = titles.slice(3, 4);
-            const roomNumber = titles.slice(4, 5);
+            const course_data = titles.slice(0, 1);
+            const courseName = titles.slice(1, 2);
+            const courseType = titles.slice(2, 3);
+            const lecturer = titles.slice(3, 4);
+            const roomName = titles.slice(4, 5);
+            const roomNumber = titles.slice(5, 6);
 
             const courseNameHtml = courseName.map(title => `<div class="courseName">${title}</div>`).join('');
             const courseTypeHtml = courseType.map(title => `<div class="courseType">${title}</div>`).join('');
@@ -466,13 +508,13 @@ export default {
             return {
                 html: `
                     <div class="container-room" >
-                        <div class="delete" data-event-id="${events.id}"><h1>x</h1></div>
+                        <div class="delete" data-event-id="${course_data?.[0]?.id}"><h1>x</h1></div>
                         <div class="sideCourse">
                             <div class="courseName">
-                                <div class="courseNameText">
+                                <div class="courseNameText text-stale-700">
                                     ${courseNameHtml}
                                 </div>
-                                <span class="courseType">
+                                <span class="courseType text-rose-500">
                                     ${courseTypeHtml}
                                 </span>
                             </div>    
@@ -489,7 +531,7 @@ export default {
                                 ${roomNumberHtml}
                             </p>
                         </div>
-                        <div class="delete"  data-event-id="${events.id}">x</div>
+                        <div class="delete"  data-event-id="${course_data?.[0]?.id}">x</div>
                     </div>
                 `,
             };
@@ -498,7 +540,7 @@ export default {
         // @sweetalert2
         async confirmDelete(eventId) {
             console.log('confirmDelete function called with eventId:', eventId);
-
+            console.log()
             const result = await Swal.fire({
                 title: 'Are you sure to delete?',
                 icon: 'warning',
@@ -512,10 +554,12 @@ export default {
         },
         deleteEvent(eventId) {
             console.log('deleteEvent function called with eventId:', eventId);
-            const index = this.events.findIndex((events) => events.id === eventId);
-            if (index !== 0) {
-                this.events.splice(index, 1);
-            }
+            const index = this.calendarOptions.events.findIndex((events) => {
+                return events.titles?.[0].id == eventId
+            });
+            axios.post(import.meta.env.VITE_APP_URL +"/delete/"+eventId).then(response=>{
+                this.calendarOptions.events.splice(index, 1);
+            })
             // Notify after deletion slot
             const flashMessage = document.createElement('div');
             flashMessage.classList.add('flash-message-remove');
@@ -592,7 +636,6 @@ export default {
                 });
         },
         fetchTimeTable() {
-            console.log(this.selectedAcademyYear)
             const requestData = {
                 academic_year_id: this.selectedAcademyYear,
                 department_id: this.selectedDepartment,
@@ -604,13 +647,12 @@ export default {
                 week_id: this.selectedWeek,
                 created_uid: 250,
                 updated_uid: 250,
-
             };
 
             axios.post(import.meta.env.VITE_APP_TIMETABLE, requestData)
                 .then((response) => {
                     this.fetchedTimeTable = response.data;
-                    this.$emit("setTimetableId",response.data[0].id)
+                    this.$emit("setTimetableId", response.data[0]?.id)
                 })
                 .catch((error) => {
                     console.error('Error fetching Timetable:', error);
@@ -659,41 +701,70 @@ export default {
 
     watch: {
         selectedAcademyYear: function () {
-            this.fetchGroups();
+            if (this.firstInitialize) return;
+            this.fetchGroups()
             this.fetchTimeTable();
         },
         selectedDepartment: function () {
+            if (this.firstInitialize) return;
             this.fetchGroups();
             this.fetchTimeTable();
         },
         selectedDegree: function () {
+            if (this.firstInitialize) return;
             this.fetchGroups();
             this.fetchTimeTable();
         },
         selectedDepOption: function () {
+            if (this.firstInitialize) return;
             this.fetchGroups();
             this.fetchTimeTable();
         },
         selectedGrade: function () {
+            if (this.firstInitialize) return;
             this.fetchGroups();
             this.fetchTimeTable();
         },
         selectedSemester: function () {
+            if (this.firstInitialize) return;
             this.fetchGroups();
+            this.fetchTimeTable()
         },
         selectedGroup: function () {
+            if (this.firstInitialize) return;
             this.fetchTimeTable();
         },
         selectedWeek: function () {
+            if (this.firstInitialize) return;
             this.fetchTimeTable();
         },
-        refresh: function (value) {
-            if (value == true) {
+        timetableId: function (value) {
+            if (this.refresh) {
                 this.calendarOptions.events = [];
-                //TODO: fetch timetable
+                axios.get(import.meta.env.VITE_APP_URL + "/get_slot_from_timetable_slote/" + value).then(response => {
+                    if (response.data) {
+                        response.data.forEach(element => {
+                            // console.log(element);
+                            // this.calendarOptions.events = [...this.calendarOptions.events, ];
+                            this.calendarOptions.events = [...this.calendarOptions.events, {
+                                titles: [element, element.course_name, element.type],
+                                start: element.start,
+                                // end: this.addHours(e.date, 1)
+                            },
+                            ]
+                        })
+                    }
+                })
+            }
+
+        },
+        firstInitialize: function (value) {
+            if (value) {
+                console.log(value);
+                this.fetchGroups();
+                this.fetchTimeTable();
             }
         }
-
 
     },
 }
@@ -1167,4 +1238,5 @@ a.fc-event {
     .roomName {
         padding-bottom: 4px;
     }
-}</style>
+}
+</style>
