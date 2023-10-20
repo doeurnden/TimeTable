@@ -34,7 +34,7 @@
             </div>
             <!-- <FullCalendar :options="calendarOptions"/> -->
             <div v-if="selectedWeek !== null">
-                <FullCalendar :options="calendarOptions" ref="calendar" />
+                <FullCalendar :options="calendarOptions" ref="calendar"/>
             </div>
             <div id="flash-message-container"></div>
         </div>
@@ -103,7 +103,7 @@ export default {
             selectedWeek: '', // To store the selected week
             fetchedWeeks: [],
             events: [],
-            currentWeek: 1,
+            currentWeek: 1, 
 
             // events: {
             //     // id: 'event1',
@@ -133,16 +133,9 @@ export default {
                 editable: true,
                 drop: this.drop,
                 events: [],
-                eventOverlap: false,
-                eventResize: function (info) {
-                    alert(info.event.title + " end is now " + info.event.end.toISOString());
-
-                    if (!confirm("is this okay?")) {
-                        info.revert();
-                    }
-                },   // Prevent events from overlapping
-                eventDrop: (eventDropInfo) => {
-                    // console.log(eventDropInfo.event.title);
+                eventOverlap: false,    // Prevent events from overlapping
+                eventDrop: this.handleEventDrop, // Connect eventDrop callback
+                eventDrop: (eventDropInfo) =>{
                     // Alert message when move slot
                     console.log(this.calendarOptions.events)
                     const flashMessage = document.createElement('div');
@@ -233,7 +226,6 @@ export default {
                     }
                 ],
             },
-
             selectedWeek: "1",
             // eventsByWeek: {}, // Store events for each week
 
@@ -275,32 +267,31 @@ export default {
         //     });
         // })
     },
-    //     computed: {
-    //     getCurrentCalendarOptions() {
-    //       if (this.selectedWeek !== null) {
-    //         return {
-    //           ...this.calendarOptions,
-    //           events: this.eventsByWeek[this.selectedWeek] || [], // Use events for the selected week
-    //         };
-    //       }
-    //       return null;
-    //     },
-    //   },
+//     computed: {
+//     getCurrentCalendarOptions() {
+//       if (this.selectedWeek !== null) {
+//         return {
+//           ...this.calendarOptions,
+//           events: this.eventsByWeek[this.selectedWeek] || [], // Use events for the selected week
+//         };
+//       }
+//       return null;
+//     },
+//   },
     methods: {
         handleSlotEventMovement(e) {
 
         },
-        addHours(e, hour = 1) {
-            let date = new Date(e.getTime() + (hour * 60 * 60 * 1000));
-            return date;
-        },
-        getDuration(start, end) {
-            return (end.getTime() - start.getTime()) / 3600000;
-        },
         handleEventDrop(info) {
-            console.log(info);
-            // Handle event drop and emit an event if refresh is needed
+           // Handle event drop and emit an event if refresh is needed
+            if (this.refresh === true) {
+                // Perform the necessary refresh logic here
+                this.calendarOptions.events = []; // Clear the events
+                // Add or fetch new events as needed
 
+                // Emit an event to notify the parent component (App.vue)
+                this.$emit("refreshCalendar");
+            }
         },
 
         // showSelectedWeek() {
@@ -342,41 +333,17 @@ export default {
             // TODO: merge group (when conflict, show do they want to merge or not?)
 
             let course = JSON.parse(e.draggedEl.children[0].dataset.course)
-            let type = e.draggedEl.children[0].dataset.coursetype
-            if (this.refresh) {
-                this.calendarOptions.events = []
-                this.$emit("refreshCalendar", false);
-                //TODO: fetch time table
+            let type=e.draggedEl.children[0].dataset.coursetype
+            course.type=type;
+            this.calendarOptions.events = [...this.calendarOptions.events, {
 
-            } else {
-                // axios.post()
-                let end = this.addHours(e.date, 2)
-                let data = serializePostTimetable({
-                    course: course,
-                    semester_id: this.selectedSemester,
-                    academic_year_id: this.selectedAcademyYear,
-                    duration: this.getDuration(e.date, end),
-                    start: e.date.toLocaleString(),
-                    end: end.toLocaleString(),
-                    type: type,
-                    timetable_id: this.timetableId,
-                    group_id: this.selectedGroup,
-                })
-                axios.post(import.meta.env.VITE_APP_URL + "/createSlot", data).then(response => {
-                    this.calendarOptions.events = [...this.calendarOptions.events, {
-                        titles: [{}, course.name_en, type],
-                        start: e.date,
-                        // end: this.addHours(e.date, 1)
-                    }];
-                }).catch(err => {
-                    console.log(err.response);
-                });
-                // console.log((new Date(e.date.getTime()+ (2*60*60*1000)).getTime()-e.date.getTime())/3600000);
-
-            }
+                titles: [course.name_en,course.type],
+                start: e.date,
+                // end: this.addHours(e.date, 1)
+            }];    
             // console.log(this.calendarOptions.events)
             // alert(123);
-            // Alert message when slot moved 
+            // Alert message when slot add 
             const flashMessage = document.createElement('div');
             flashMessage.classList.add('flash-message-add');
 
@@ -508,7 +475,7 @@ export default {
             return {
                 html: `
                     <div class="container-room" >
-                        <div class="delete" data-event-id="${course_data?.[0]?.id}"><h1>x</h1></div>
+                        <div class="delete" data-event-id="${events.id}"><h1>x</h1></div>
                         <div class="sideCourse">
                             <div class="courseName">
                                 <div class="courseNameText text-stale-700">
@@ -610,7 +577,18 @@ export default {
                 flashMessageContainer.removeChild(flashMessage);
             }, 2500);
         },
-
+        // Do on API Backend
+        // fetchWeeks() {
+        //     const apiUrl = 'http://127.0.0.1:8000/api/get_all_weeks';
+        //     axios.get(apiUrl)
+        //         .then((response) => {
+        //             this.fetchedWeeks = response.data;
+        //             this.selectedWeek = this.fetchedWeeks[0].name_en;
+        //         })
+        //         .catch((error) => {
+        //             console.error('Error fetching weeks:', error);
+        //         });
+        // },
         fetchdata() {
             this.fetchGroups();
         },
@@ -647,20 +625,18 @@ export default {
                 week_id: this.selectedWeek,
                 created_uid: 250,
                 updated_uid: 250,
-            };
+        };
 
-            axios.post(import.meta.env.VITE_APP_TIMETABLE, requestData)
-                .then((response) => {
-                    this.fetchedTimeTable = response.data;
-                    this.$emit("setTimetableId", response.data[0]?.id)
-                })
-                .catch((error) => {
-                    console.error('Error fetching Timetable:', error);
-                });
+        axios.post(import.meta.env.VITE_APP_TIMETABLE, requestData)
+            .then((response) => {
+            this.fetchedTimeTable = response.data;
+            console.log('TimeTable:', response.data);
+            })
+            .catch((error) => {
+            console.error('Error fetching Timetable:', error);
+            });
         },
         updateFullCalendar() {
-            this.$emit('week-selected', this.selectedWeek);
-            this.$emit("refreshCalendar", true)
             // When the selected week changes, you can change the FullCalendar view
             // and also update the events to show those for the selected week.
             const selectedWeek = this.selectedWeek;
@@ -698,11 +674,18 @@ export default {
             }
         },
     },
-
+    // computed: {
+    //     filteredEvents() {
+    //     // Filter events based on the selected week and refresh flag
+    //         return this.calendarOptions.events.filter((event) => {
+    //             const eventWeek = event.extendedProps.week;
+    //             return eventWeek === this.selectedWeek || this.refresh;
+    //         });
+    //     },
+    // },
     watch: {
         selectedAcademyYear: function () {
-            if (this.firstInitialize) return;
-            this.fetchGroups()
+            this.fetchGroups();
             this.fetchTimeTable();
         },
         selectedDepartment: function () {
@@ -728,45 +711,21 @@ export default {
         selectedSemester: function () {
             if (this.firstInitialize) return;
             this.fetchGroups();
-            this.fetchTimeTable()
-        },
-        selectedGroup: function () {
-            if (this.firstInitialize) return;
             this.fetchTimeTable();
         },
-        selectedWeek: function () {
-            if (this.firstInitialize) return;
+        selectedGroup: function (){
             this.fetchTimeTable();
         },
-        timetableId: function (value) {
-            if (this.refresh) {
-                this.calendarOptions.events = [];
-                axios.get(import.meta.env.VITE_APP_URL + "/get_slot_from_timetable_slote/" + value).then(response => {
-                    if (response.data) {
-                        response.data.forEach(element => {
-                            // console.log(element);
-                            // this.calendarOptions.events = [...this.calendarOptions.events, ];
-                            this.calendarOptions.events = [...this.calendarOptions.events, {
-                                titles: [element, element.course_name, element.type],
-                                start: element.start,
-                                // end: this.addHours(e.date, 1)
-                            },
-                            ]
-                        })
-                    }
-                })
-            }
-
-        },
-        firstInitialize: function (value) {
-            if (value) {
-                console.log(value);
-                this.fetchGroups();
-                this.fetchTimeTable();
-            }
+        selectedWeek: function(){
+            this.fetchTimeTable();
         }
 
     },
+    // created() {
+    //     this.fetchdata();
+    //      // Set up the eventDrop handler
+    //     // this.calendarOptions.eventDrop = this.handleEventDrop;
+    // }
 }
 </script>
 
