@@ -138,12 +138,15 @@ export default {
                 drop: this.drop,
                 events: [],
                 eventOverlap: false,
-                eventResize: function (info) {
-                    alert(info.event.title + " end is now " + info.event.end.toISOString());
+                eventResize:async  (info)=> {
 
-                    if (!confirm("is this okay?")) {
-                        info.revert();
-                    }
+                    // alert(info.event.title + " end is now " + info.event.end.toISOString());
+                    let start = info.event.start.toLocaleString();
+                    let end = info.event.end.toLocaleString();
+                    console.log(start,end)
+                    let id = info.event.extendedProps?.titles?.[0]?.id
+                    this.updateSlot(id, { start: start, end });
+                    
                 },   // Prevent events from overlapping
                 eventDrop: async (eventDropInfo) => {
                     // console.log(eventDropInfo.event.title);
