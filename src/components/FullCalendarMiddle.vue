@@ -90,7 +90,8 @@ export default {
         "selectedSemester",
         "refresh",
         "firstInitialize",
-        "timetableId"
+        "timetableId",
+        "updateTimeTable"
     ],
     components: {
         FullCalendar,
@@ -104,21 +105,6 @@ export default {
             fetchedWeeks: [],
             events: [],
             currentWeek: 1,
-
-            // events: {
-            //     // id: 'event1',
-            //     titles: [
-            //         // course-side
-            //         'Internet Programming',
-            //         '(Course)',
-            //         'CHUN Thavorac',
-            //         // room-side
-            //         'I-606',
-            //         'I4-GIC-A'
-            //     ],
-            //     // start: '2023-09-19T07:00:00',
-            //     // end: '2023-09-19T09:00:00',
-            // },
             calendarOptions: {
                 plugins: [
                     timeGridPlugin,
@@ -138,26 +124,20 @@ export default {
                 drop: this.drop,
                 events: [],
                 eventOverlap: false,
-                eventResize:async  (info)=> {
-
-                    // alert(info.event.title + " end is now " + info.event.end.toISOString());
+                eventResize: async (info) => {
                     let start = info.event.start.toLocaleString();
                     let end = info.event.end.toLocaleString();
-                    console.log(start,end)
                     let id = info.event.extendedProps?.titles?.[0]?.id
-                    this.updateSlot(id, { start: start, end });
-                    
+                    this.updateSlot(id, { start: start, end, duration: this.getDuration(info.event.start, info.event.end) });
                 },   // Prevent events from overlapping
                 eventDrop: async (eventDropInfo) => {
-                    // console.log(eventDropInfo.event.title);
                     // Alert message when move slot
                     let start = eventDropInfo.event.start.toLocaleString();
                     let end = eventDropInfo.event.end.toLocaleString();
                     let id = eventDropInfo.event.extendedProps?.titles?.[0]?.id
-                    this.updateSlot(id, { start: start, end });
+                    this.updateSlot(id, { start: start, end, duration: this.getDuration(eventDropInfo.event.start, eventDropInfo.event.end) });
                     const flashMessage = document.createElement('div');
                     flashMessage.classList.add('flash-message-move');
-
                     // Create an SVG element for the custom icon
                     const svgIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                     svgIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
@@ -256,9 +236,10 @@ export default {
         // Using event delegation to handle clicks on any delete button
         this.$nextTick(() => {
             const container = document.querySelector('.fullcalendar');
-
             container.addEventListener('click', function (event) {
                 const deleteButton = event.target.closest('.delete');
+                const updateButton = event.target.closest('.sideCourse');
+                self.clickActive(updateButton);
                 if (deleteButton) {
                     const eventId = deleteButton.getAttribute('data-event-id');
                     self.confirmDelete(eventId); // Call the confirmDelete method with the event ID
@@ -269,33 +250,30 @@ export default {
         this.$nextTick(() => {
             this.handleSlotEventMovement();
         });
-        // this.fetchAcademyYears()
-        // this.selectedAcademyYear = this.selectedAcademyYear ?? this.fetchedAcademyYears[0]
-        // document.addEventListener('DOMContentLoaded', function () {
-        //     var containerEl = document.querySelector('.contianer');
-        //     new Draggable(containerEl, {
-        //         itemSelector: '.item',
-        //         eventData: function (eventEl) {
-        //             return {
-        //                 title: eventEl.innerText
-        //             };
-        //         }
-        //     });
-        // })
+
     },
-    //     computed: {
-    //     getCurrentCalendarOptions() {
-    //       if (this.selectedWeek !== null) {
-    //         return {
-    //           ...this.calendarOptions,
-    //           events: this.eventsByWeek[this.selectedWeek] || [], // Use events for the selected week
-    //         };
-    //       }
-    //       return null;
-    //     },
-    //   },
     methods: {
         handleSlotEventMovement(e) {
+
+        },
+        clickActive(ev) {
+            if (ev.getAttribute("id-slot")) {
+                let evId = ev.getAttribute("id-slot");
+                this.calendarOptions.events = [...this.calendarOptions.events.map(el => {
+                    if (el.titles?.[0]?.id == evId) {
+                        if (el.titles?.[0]?.activeSlot) {
+                            delete el.titles?.[0]?.activeSlot;
+                            this.$emit("setUpdateTimeTable", {})
+                        } else {
+                            el.titles[0].activeSlot = true;
+                            this.$emit("setUpdateTimeTable", { id: evId },);
+                        }
+                    } else {
+                        delete el.titles?.[0]?.activeSlot;
+                    }
+                    return el;
+                })]
+            }
 
         },
         async updateSlot(id, params) {
@@ -318,33 +296,8 @@ export default {
 
         },
 
-        // showSelectedWeek() {
-        //     const selectedWeek = this.selectedWeek;
 
-        //     if (selectedWeek !== null) {
-        //         alert(`Selected Week: ${selectedWeek}`);
-        //     }
-        // },
         drop(e) {
-            // alert("Dropped an element")
-            //             {
-            //     id: 'event1',
-            //     titles: [
-            //         // course-side
-            //         'Internet Programming',
-            //         '(Course)',
-            //         'CHUN Thavorac',
-            //         // room-side
-            //         'I-606',
-            //         'I4-GIC-A'
-            //     ],
-            //     start: '2023-09-20T09:00:00',
-            //     end: '2023-09-20T11:00:00',
-            // }
-            // Date.prototype.addHours= function(h){
-            //     this.setHours(this.getHours()+h);
-            //     return this;
-            // }
             //TODO: create time table
             //TODO: console update data timetable
             //TODO: frontend update slot (lecture and room)
@@ -515,21 +468,21 @@ export default {
 
             const courseNameHtml = courseName.map(title => `<div class="courseName">${title}</div>`).join('');
             const courseTypeHtml = courseType.map(title => `<div class="courseType">${title}</div>`).join('');
-            const lecturerHtml = lecturer.map(title => `<p class="lecturer">${title}</p>`).join(''); // Use .join() to join multiple lecturers
+            const lecturerHtml = lecturer.map(title => `<p class="lecturer">${title ?? ""}</p>`).join(''); // Use .join() to join multiple lecturers
 
-            const roomNameHtml = roomName.map(title => `<div class="roomName">${title}</div>`).join('');
+            const roomNameHtml = roomName.map(title => `<div class="roomName">${title ?? ''}</div>`).join('');
             const roomNumberHtml = roomNumber.map(title => `<div class="roomNumber">${title}</div>`).join('');
 
             return {
                 html: `
-                    <div class="container-room" >
+                    <div class="container-room "    >
                         <div class="delete" data-event-id="${course_data?.[0]?.id}"><h1>x</h1></div>
-                        <div class="sideCourse">
+                        <div class="sideCourse " style="${course_data?.[0]?.activeSlot ? 'background-color:#FFF6E0' : ''}" id-slot="${course_data?.[0]?.id}">
                             <div class="courseName">
-                                <div class="courseNameText text-stale-700">
+                                <div class="courseNameText  text-stale-700">
                                     ${courseNameHtml}
                                 </div>
-                                <span class="courseType text-rose-500">
+                                <span class="courseType  text-rose-500">
                                     ${courseTypeHtml}
                                 </span>
                             </div>    
@@ -761,7 +714,7 @@ export default {
                             // console.log(element);
                             // this.calendarOptions.events = [...this.calendarOptions.events, ];
                             this.calendarOptions.events = [...this.calendarOptions.events, {
-                                titles: [element, element.course_name, element.type],
+                                titles: [element, element.course_name, element.type, element.lecturer?.name_latin, element.room?.name ?( element.room?.building?.code  +"-" + element.room?.name ): ''],
                                 start: element.start,
                                 end: element.end,
                                 // end: this.addHours(e.date, 1)
@@ -772,6 +725,23 @@ export default {
                 })
             }
 
+        },
+        updateTimeTable: function (value) {
+            if(value?.id){
+                console.log(value);
+                this.updateSlot(value?.id,value);
+                this.calendarOptions.events=this.calendarOptions.events.map(el=>{
+                   if(value?.id==el.titles?.[0]?.id){
+                    if(value?.lecturer_id){
+                        el.titles[3]=value.lecturer_name
+                    }
+                    if(value?.room_id){
+                        el.titles[4]=value.room_name;
+                    }
+                   }
+                    return el;
+                })
+            }
         },
         firstInitialize: function (value) {
             if (value) {
@@ -977,6 +947,10 @@ a.fc-event {
     font-weight: 600;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
+}
+
+.activeCourse {
+    background-color: #FFF6E0;
 }
 
 .courseName .courseNameText {

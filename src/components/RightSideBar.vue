@@ -221,20 +221,28 @@ export default {
         "selectedDepOption",
         "selectedGrade",
         "selectedSemester",
+        "updateTimeTable",
         "firstInitialize",
     ],
     methods: {
         checkRoom(room) {
-            let room1 = room
-            console.log(room1);
             // console.log(room1.name);
             // console.log(room1.building.code);
-            console.log(room1.building.code, '-', room1.name);
+            // console.log(room1.building.code, '-', room1.name);
             // console.log(this.rooms[0]);
+            if(this.updateTimeTable?.id){
+                if(room?.id){
+                    this.$emit("setUpdateTimeTable",{...this.updateTimeTable,room_id:room.id,room_name:`${room.building.code}-${room.name}`})
+                }
+            }
         },
         checkLecturer(lecturer) {
-            console.log(lecturer);
-            console.log(lecturer.name_latin);
+            if(this.updateTimeTable?.id){
+                if(lecturer?.id){
+                    this.$emit("setUpdateTimeTable",{...this.updateTimeTable,lecturer_id:lecturer.id,lecturer_name:lecturer.name_latin})
+                }
+            }
+          
         },
         insertDataToApp(courseFake){
             console.log(courseFake)

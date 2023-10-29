@@ -16,6 +16,8 @@
       @set-timetable-id="setTimetable"
       :timetable-id="timetableId"
       @group-selected="handleGroupSelected" 
+      :updateTimeTable="updateTimeTable"
+      @setUpdateTimeTable="setUpdateTimeTable"
       :selectedAcademyYear="selectedAcademyYear" 
       :selectedDepartment="selectedDepartment" 
       :selectedDegree="selectedDegree"
@@ -35,6 +37,8 @@
       :selectedDepartment="selectedDepartment" 
       :selectedDegree="selectedDegree"
       :selectedDepOption="selectedDepOption" 
+      :updateTimeTable="updateTimeTable"
+      @setUpdateTimeTable="setUpdateTimeTable"
       :selectedGrade="selectedGrade"
        :selectedSemester="selectedSemester"
        :first-initialize="firstInitialize"
@@ -45,10 +49,9 @@
   
 <script>
 
+import FullCalendarMiddle from './components/FullCalendarMiddle.vue';
 import LeftSideBar from './components/LeftSideBar.vue';
-import FullCalendarMiddle from './components/FullCalendarMiddle.vue'
 import RightSideBar from './components/RightSideBar.vue';
-import axios from 'axios';
 // import timeGridPlugin from '@fullcalendar/timegrid'
 // TODO: get the id of the timetable -> option( has->option/not->no_option)
 export default {
@@ -74,10 +77,14 @@ export default {
       timetableId:"",
       events:[],
       refresh:false,
-      tmpEvent:{}
+      tmpEvent:{},
+      updateTimeTable:{},
     };
   },
   methods: {
+    setUpdateTimeTable(timetableProperty){
+      this.updateTimeTable=timetableProperty;
+    },
     setFirstInitialize(status){
       this.firstInitialize=status;
     },
