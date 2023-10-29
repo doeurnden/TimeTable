@@ -125,6 +125,10 @@ export default {
                     listPlugin,
                     interactionPlugin,
                 ],
+                validRange: {
+                    start: "2023-10-23", //limit to get the specific date
+                    end: "2023-10-29"
+                },
                 selectable: true,
                 initialViews: 'weekGridPlugin, interactionPlugin',
                 defaultTimedEventDuration: '02:00:00',
@@ -141,10 +145,13 @@ export default {
                         info.revert();
                     }
                 },   // Prevent events from overlapping
-                eventDrop: (eventDropInfo) => {
+                eventDrop: async (eventDropInfo) => {
                     // console.log(eventDropInfo.event.title);
                     // Alert message when move slot
-                    console.log(this.calendarOptions.events)
+                    let start = eventDropInfo.event.start.toLocaleString();
+                    let end = eventDropInfo.event.end.toLocaleString();
+                    let id = eventDropInfo.event.extendedProps?.titles?.[0]?.id
+                    this.updateSlot(id, { start: start, end });
                     const flashMessage = document.createElement('div');
                     flashMessage.classList.add('flash-message-move');
 
@@ -250,9 +257,7 @@ export default {
             container.addEventListener('click', function (event) {
                 const deleteButton = event.target.closest('.delete');
                 if (deleteButton) {
-                    console.log(deleteButton);
                     const eventId = deleteButton.getAttribute('data-event-id');
-                    console.log(eventId)
                     self.confirmDelete(eventId); // Call the confirmDelete method with the event ID
                 }
             });
@@ -289,6 +294,13 @@ export default {
     methods: {
         handleSlotEventMovement(e) {
 
+        },
+        async updateSlot(id, params) {
+            return new Promise((resolve, reject) => {
+                axios.post(import.meta.env.VITE_APP_URL + "/updateSlot/" + id, params).then(response => {
+                    resolve(response.data);
+                }).catch((e) => reject(e));
+            })
         },
         addHours(e, hour = 1) {
             let date = new Date(e.getTime() + (hour * 60 * 60 * 1000));
@@ -540,7 +552,6 @@ export default {
         // @sweetalert2
         async confirmDelete(eventId) {
             console.log('confirmDelete function called with eventId:', eventId);
-            console.log()
             const result = await Swal.fire({
                 title: 'Are you sure to delete?',
                 icon: 'warning',
@@ -557,7 +568,7 @@ export default {
             const index = this.calendarOptions.events.findIndex((events) => {
                 return events.titles?.[0].id == eventId
             });
-            axios.post(import.meta.env.VITE_APP_URL +"/delete/"+eventId).then(response=>{
+            axios.post(import.meta.env.VITE_APP_URL + "/delete/" + eventId).then(response => {
                 this.calendarOptions.events.splice(index, 1);
             })
             // Notify after deletion slot
@@ -749,6 +760,7 @@ export default {
                             this.calendarOptions.events = [...this.calendarOptions.events, {
                                 titles: [element, element.course_name, element.type],
                                 start: element.start,
+                                end: element.end,
                                 // end: this.addHours(e.date, 1)
                             },
                             ]
@@ -760,7 +772,6 @@ export default {
         },
         firstInitialize: function (value) {
             if (value) {
-                console.log(value);
                 this.fetchGroups();
                 this.fetchTimeTable();
             }

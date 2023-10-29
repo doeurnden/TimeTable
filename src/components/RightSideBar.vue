@@ -196,6 +196,7 @@ export default {
             this.fetchCourses();
         },
         selectedDepOption: function () {
+        console.log(this.firstInitialize);
             if(this.firstInitialize) return;
             this.fetchCourses();
         },
