@@ -19,25 +19,38 @@
       :selectedAcademyYear="selectedAcademyYear" 
       :selectedDepartment="selectedDepartment" 
       :selectedDegree="selectedDegree"
+      :selectedDegreeText="selectedDegreeText"
       :selectedDepOption="selectedDepOption" 
+      :selectedDepartmentText="selectedDepartmentText" 
       :selectedGrade="selectedGrade" 
       :selectedSemester="selectedSemester"
       :selectedGroup="selectedGroup"
       :selectedWeek="selectedWeek"
       :first-initialize="firstInitialize"
+      :Room="Room"
+      :Lecturer="Lecturer"
       @week-selected="handleWeekSelected"
       @refreshCalendar="refreshCalendar"
       :refresh="refresh"
       
       >
     </FullCalendarMiddle>
-    <RightSideBar />
+    <RightSideBar
+      :selectedAcademyYear="selectedAcademyYear" 
+      :selectedDepartment="selectedDepartment" 
+      :selectedDegree="selectedDegree"
+      :selectedDepOption="selectedDepOption" 
+      :selectedGrade="selectedGrade" 
+      :selectedSemester="selectedSemester"
+      :first-initialize="firstInitialize"
+      @roomChoosed="roomChoosed"
+      @lecturerChoosed="lecturerChoosed"
+     />
     <!-- <FullCalendar :refresh="refresh" @setRefresh="setRefresh"/> -->
   </div>
 </template>
   
 <script>
-
 import LeftSideBar from './components/LeftSideBar.vue';
 import FullCalendarMiddle from './components/FullCalendarMiddle.vue'
 import RightSideBar from './components/RightSideBar.vue';
@@ -56,7 +69,9 @@ export default {
       firstInitialize:true,
       selectedAcademyYear: "",    // Selected academy year
       selectedDepartment: "",     // Selected department
+      selectedDepartmentText: "",     // Selected department
       selectedDegree: "",         // Selected degree
+      selectedDegreeText: "",         // Selected degree
       selectedDepOption: "",      // Selected department option
       selectedGrade: "",          // Selected grade
       selectedSemester: "",       // Selected semester
@@ -67,12 +82,20 @@ export default {
       timetableId:"",
       events:[],
       tmpEvent:{},
+      Lecturer:null, //Selected
+      Room:null // Selected
       // refresh: false,
     };
   },
   methods: {
     setFirstInitialize(status){
       this.firstInitialize=status;
+    },
+    roomChoosed(data){
+      this.Room=data
+    },
+    lecturerChoosed(data){
+      this.Lecturer=data
     },
     setTimetable(id){
       this.timetableId=id;
@@ -83,18 +106,21 @@ export default {
     handleAcademicYearSelected(selectedValue) {
       this.selectedAcademyYear=selectedValue;
     },
-    handleDepartmentSelected(selectedValue) {
+    handleDepartmentSelected(selectedValue,textSelectedValue) {
       this.selectedDepartment = selectedValue;
+      this.selectedDepartmentText=textSelectedValue
 
     },
-    handleDegreeSelected(selectedValue) {
+    handleDegreeSelected(selectedValue,TextselectedValue) {
       this.selectedDegree = selectedValue;
+      this.selectedDegreeText=TextselectedValue;
     },
     handleDepOptionSelected(selectedValue) {
       this.selectedDepOption = selectedValue;
     },
     handleGradeSelected(selectedValue) {
       this.selectedGrade = selectedValue;
+      console.log(selectedValue);
     },
     handleSemesterSelected(selectedValue) {
       this.selectedSemester = selectedValue;

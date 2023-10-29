@@ -15,7 +15,7 @@
                     <form action="">
                         <select name="group" v-model="selectedGroup" @change="emitSelectedGroup">
                             <option value="" disabled>Groups</option>
-                            <option v-for="group in fetchedGroups" :key="group.id" :value="group.id">{{ group.code }}
+                            <option v-for="(group,index) in fetchedGroups" :key="group.id" :value="index">{{ group.code }}
                             </option>
                         </select>
                     </form>
@@ -49,6 +49,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import axios from 'axios';
 import { serializePostTimetable } from '../repository/serializeSlot';
+import * as randomId from 'random-id'
 let events = [
     // {
     //     id: 'event1',
@@ -90,7 +91,11 @@ export default {
         "selectedSemester",
         "refresh",
         "firstInitialize",
-        "timetableId"
+        "timetableId",
+        "Lecturer",
+        "Room",
+        "selectedDepartmentText",
+        "selectedDegreeText"
     ],
     components: {
         FullCalendar,
@@ -104,7 +109,8 @@ export default {
             fetchedWeeks: [],
             events: [],
             currentWeek: 1, 
-
+            selectedSlotId:null,
+            selectedGroupText:"",
             // events: {
             //     // id: 'event1',
             //     titles: [
@@ -244,8 +250,23 @@ export default {
                 if (deleteButton) {
                     console.log(deleteButton);
                     const eventId = deleteButton.getAttribute('data-event-id');
-                    console.log(eventId)
-                    self.confirmDelete(eventId); // Call the confirmDelete method with the event ID
+                    const ele_id = deleteButton.getAttribute('data-id');
+                    self.confirmDelete(ele_id,eventId); // Call the confirmDelete method with the event ID
+                }
+            });
+
+        });
+        this.$nextTick(() => {
+            const container = document.querySelector('.fullcalendar');
+
+            container.addEventListener('click', function (event) {
+                const deleteButton = event.target.closest('.container-room');
+                if (deleteButton) {
+                    let id= (deleteButton.getAttribute('data-id'));
+                    self.clearSelectedStyle()
+                    deleteButton.classList.add('selected')
+                    self.selectedSlotId=id
+                    console.log("Slot with uniqueId: " + self.selectedSlotId +" Selected");
                 }
             });
 
@@ -279,6 +300,32 @@ export default {
 //     },
 //   },
     methods: {
+        clearSelectedStyle(){
+            document.querySelectorAll('.container-room').forEach(ele=>{
+                ele.classList.remove('selected')
+            })
+        },
+        addRoom(unique_id,room_code,room_number){
+            console.log(unique_id,room_code,room_number);
+            this.calendarOptions.events=this.calendarOptions.events.filter(item=>{
+                if(item.Unique_identify_number==unique_id){
+                    item.titles.room_number=room_number
+                    item.titles.room_code=room_code
+                }
+                return item
+            })
+            this.selectedSlotId=null
+        },
+        addLecturer(unique_id,lecturer_name){
+            console.log(unique_id,lecturer_name);
+            this.calendarOptions.events=this.calendarOptions.events.filter(item=>{
+                if(item.Unique_identify_number==unique_id){
+                    item.titles.lecturer=lecturer_name
+                }
+                return item
+            })
+            this.selectedSlotId=null
+        },
         handleSlotEventMovement(e) {
 
         },
@@ -336,8 +383,15 @@ export default {
             let type=e.draggedEl.children[0].dataset.coursetype
             course.type=type;
             this.calendarOptions.events = [...this.calendarOptions.events, {
-
-                titles: [course.name_en,course.type],
+                Unique_identify_number:randomId(15,'aA0'),
+                titles: {
+                    course_name:course.name_en,
+                    course_type:course.type,
+                    lecturer:null,
+                    group_code:this.selectedGroupText,
+                    room_number:null,
+                    room_code:null
+                },
                 start: e.date,
                 // end: this.addHours(e.date, 1)
             }];    
@@ -457,25 +511,35 @@ export default {
             const events = eventInfo.event;
             // console.log(events.extendedProps.titles);
             const titles = events.extendedProps.titles || [];
-            // Split titles into different sections //5
-            const course_data = titles.slice(0, 1);
-            const courseName = titles.slice(1, 2);
-            const courseType = titles.slice(2, 3);
-            const lecturer = titles.slice(3, 4);
-            const roomName = titles.slice(4, 5);
-            const roomNumber = titles.slice(5, 6);
+            let tmpid = events.extendedProps.Unique_identify_number || [];
+ 
+            // Split titles into different sections //
+            
+            const course_data = titles;
+            const courseName = titles.course_name;
+            const courseType = titles.course_type;
+            const lecturer = titles.lecturer;
+            const roomName = titles.room_code;
+            const roomNumber = titles.room_number;
+            const group_code = titles.group_code;
+            // const courseNameHtml = courseName.map(title => `<div class="courseName">${title}</div>`).join('');
+            // const courseTypeHtml = courseType.map(title => `<div class="courseType">${title}</div>`).join('');
+            // const lecturerHtml = lecturer.map(title => `<p class="lecturer">${title}</p>`).join(''); // Use .join() to join multiple lecturers
 
-            const courseNameHtml = courseName.map(title => `<div class="courseName">${title}</div>`).join('');
-            const courseTypeHtml = courseType.map(title => `<div class="courseType">${title}</div>`).join('');
-            const lecturerHtml = lecturer.map(title => `<p class="lecturer">${title}</p>`).join(''); // Use .join() to join multiple lecturers
+            // const roomNameHtml = roomName.map(title => `<div class="roomName">${title}</div>`).join('');
+            // const roomNumberHtml = roomNumber.map(title => `<div class="roomNumber">${title}</div>`).join('');
+            
+            const courseNameHtml = `<div class="courseName" >${courseName ?? ''}</div>`
+            const courseTypeHtml =`<div class="courseType">${courseType ?? ''}</div>`
+            const lecturerHtml =`<p class="lecturer" >${lecturer ?? ''}</p>`// Use .join() to join multiple lecturers
 
-            const roomNameHtml = roomName.map(title => `<div class="roomName">${title}</div>`).join('');
-            const roomNumberHtml = roomNumber.map(title => `<div class="roomNumber">${title}</div>`).join('');
-
+            const roomNameHtml = `<span class="roomName" >${roomName ?? ''}</span>`
+            const roomNumberHtml =`<span class="roomNumber">${roomNumber ?? ''}</span>`
+            const group=`<div class="courseType">${group_code ?? ''}</div>`
             return {
                 html: `
-                    <div class="container-room" >
-                        <div class="delete" data-event-id="${events.id}"><h1>x</h1></div>
+                    <div class="container-room" data-id="${tmpid}" >
+                        <div class="delete" data-id="${tmpid}" data-event-id="${tmpid}"><h1>x</h1></div>
                         <div class="sideCourse">
                             <div class="courseName">
                                 <div class="courseNameText text-stale-700">
@@ -491,21 +555,24 @@ export default {
                         </div>
         
                         <div class="sideRoom">
-                            <div class="roomName">
-                                ${roomNameHtml}
-                            </div>    
-                            <p class="roomGroup">
-                                ${roomNumberHtml}
-                            </p>
+                            <div>
+                                <span class="roomGroup">
+                                    ${roomNumberHtml}
+                                </span>
+                                <span class="roomName">
+                                    ${roomNameHtml}
+                                </span>    
+                                </div>
+                            <div>${group}</div>
                         </div>
-                        <div class="delete"  data-event-id="${course_data?.[0]?.id}">x</div>
+                        <div class="delete" data-id="${tmpid}"  data-event-id="${tmpid}">x</div>
                     </div>
                 `,
             };
         },
 
         // @sweetalert2
-        async confirmDelete(eventId) {
+        async confirmDelete(ele_id,eventId) {
             console.log('confirmDelete function called with eventId:', eventId);
             console.log()
             const result = await Swal.fire({
@@ -516,14 +583,16 @@ export default {
                 cancelButtonText: 'No',
             });
             if (result.isConfirmed) {
+
                 this.deleteEvent(eventId);
             }
         },
         deleteEvent(eventId) {
             console.log('deleteEvent function called with eventId:', eventId);
-            const index = this.calendarOptions.events.findIndex((events) => {
-                return events.titles?.[0].id == eventId
-            });
+            // const index = this.calendarOptions.events.findIndex((events) => {
+            //     return events.titles?.[0].id == eventId
+            // });
+            this.calendarOptions.events=this.calendarOptions.events.filter(item=> item.Unique_identify_number!=eventId)
             axios.post(import.meta.env.VITE_APP_URL +"/delete/"+eventId).then(response=>{
                 this.calendarOptions.events.splice(index, 1);
             })
@@ -593,7 +662,9 @@ export default {
             this.fetchGroups();
         },
         emitSelectedGroup() {
-            this.$emit('group-selected', this.selectedGroup);
+
+            this.$emit('group-selected', this.fetchedGroups[this.selectedGroup].id);
+            this.selectedGroupText+=this.fetchedGroups[this.selectedGroup].code? "-"+this.fetchedGroups[this.selectedGroup].code :""
             this.$emit("refreshCalendar", true)
         },
         fetchGroups() {
@@ -614,6 +685,8 @@ export default {
                 });
         },
         fetchTimeTable() {
+            this.selectedGroupText=`${this.selectedDegreeText ?? "I"}${this.selectedGrade ?? '1'}${this.selectedDepartmentText ? this.selectedDepartmentText : ""}`;
+            console.log(this.selectedGroupText);
             const requestData = {
                 academic_year_id: this.selectedAcademyYear,
                 department_id: this.selectedDepartment,
@@ -621,7 +694,7 @@ export default {
                 department_option_id: this.selectedDepOption,
                 grade_id: this.selectedGrade,
                 semester_id: this.selectedSemester,
-                group_id: this.selectedGroup,
+                group_id: null,
                 week_id: this.selectedWeek,
                 created_uid: 250,
                 updated_uid: 250,
@@ -688,8 +761,18 @@ export default {
             this.fetchGroups();
             this.fetchTimeTable();
         },
+        Room: function(){
+            if(!this.selectedSlotId) return
+            this.addRoom(this.selectedSlotId,this?.Room?.name,this.Room?.building?.code)
+        },
+        Lecturer: function(){
+            if(!this.selectedSlotId) return
+      
+            this.addLecturer(this.selectedSlotId,this?.Lecturer?.name_latin)
+        },
         selectedDepartment: function () {
             if (this.firstInitialize) return;
+            
             this.fetchGroups();
             this.fetchTimeTable();
         },
@@ -902,6 +985,9 @@ a.fc-event {
 }
 
 .container-room:hover .sideCourse {
+    background-color: #FFF6E0;
+}
+.container-room.selected .sideCourse{
     background-color: #FFF6E0;
 }
 

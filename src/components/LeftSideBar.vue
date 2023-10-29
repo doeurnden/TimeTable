@@ -33,7 +33,7 @@
         </svg>
       </div>
       <select v-model="selectedDepartment" class="form-select" @change="emitDepartmentSelected">
-        <option v-for="dept in fetchedDepartments" :key="dept.id" :value="dept.id">{{ dept.code }}</option>
+        <option v-for="(dept,index) in fetchedDepartments" :key="dept.id" :value="index">{{ dept.code }}</option>
       </select>
 
       <!-- Degrees -->
@@ -50,7 +50,7 @@
         </svg>
       </div>
       <select v-model="selectedDegree" class="form-select" @change="emitDegreeSelected">
-        <option v-for="degree in fetchedDegrees" :key="degree.id" :value="degree.id">{{ degree.name_en }}</option>
+        <option v-for="(degree,index) in fetchedDegrees" :key="degree.id" :value="index">{{ degree.name_en }}</option>
       </select>
 
       <!-- Department Options -->
@@ -206,11 +206,11 @@ export default defineComponent({
     },
     emitDepartmentSelected() {
       this.$emit("refreshCalendar", true)
-      this.$emit('department-selected', this.selectedDepartment);
+      this.$emit('department-selected', this.fetchedDepartments[this.selectedDepartment].id,this.fetchedDepartments[this.selectedDepartment].code);
     },
     emitDegreeSelected() {
       this.$emit("refreshCalendar", true)
-      this.$emit('degree-selected', this.selectedDegree);
+      this.$emit('degree-selected', this.fetchedDegrees[this.selectedDegree].id,this.fetchedDegrees[this.selectedDegree].code);
     },
     emitDepOptionSelected() {
       this.$emit("refreshCalendar", true)

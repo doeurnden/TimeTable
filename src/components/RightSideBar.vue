@@ -234,10 +234,13 @@ export default {
             // console.log(room1.building.code);
             console.log(room1.building.code, '-', room1.name);
             // console.log(this.rooms[0]);
+
+            this.$emit('roomChoosed',room)
         },
         checkLecturer(lecturer) {
             console.log(lecturer);
             console.log(lecturer.name_latin);
+            this.$emit('lecturerChoosed',lecturer)
         },
         insertDataToApp(courseFake){
             console.log(courseFake)
