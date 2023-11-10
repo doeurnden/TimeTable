@@ -257,7 +257,7 @@ export default {
 
         },
         clickActive(ev) {
-            if (ev.getAttribute("id-slot")) {
+            if (ev?.getAttribute("id-slot")) {
                 let evId = ev.getAttribute("id-slot");
                 this.calendarOptions.events = [...this.calendarOptions.events.map(el => {
                     if (el.titles?.[0]?.id == evId) {
