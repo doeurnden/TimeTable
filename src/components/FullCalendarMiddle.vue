@@ -332,7 +332,7 @@ export default {
                 })
                 axios.post(import.meta.env.VITE_APP_URL + "/createSlot", data).then(response => {
                     this.calendarOptions.events = [...this.calendarOptions.events, {
-                        titles: [{}, course.name_en, type],
+                        titles: [response.data?.data, course.name_en, type],
                         start: e.date,
                         // end: this.addHours(e.date, 1)
                     }];
